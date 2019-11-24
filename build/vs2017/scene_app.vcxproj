@@ -30,7 +30,7 @@
     <ProjectGuid>{E10EAFBA-8040-483F-BCE8-D31D2545AC1B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>scene_app</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -207,6 +207,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\load_json.cpp" />
     <ClCompile Include="..\..\load_texture.cpp" />
     <ClCompile Include="..\..\main_d3d11.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|PSVita'">true</ExcludedFromBuild>
@@ -221,10 +222,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="JSONParser.cpp" />
+    <ClCompile Include="SpriteBasedAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\load_json.h" />
     <ClInclude Include="..\..\load_texture.h" />
     <ClInclude Include="..\..\scene_app.h" />
+    <ClInclude Include="AnimationData.h" />
+    <ClInclude Include="JSONParser.h" />
+    <ClInclude Include="SpriteBasedAnimation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

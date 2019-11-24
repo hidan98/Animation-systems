@@ -33,6 +33,9 @@ void SceneApp::Init()
 	sprite_.set_position(gef::Vector4(platform_.width()*0.5f, platform_.height()*0.5f, -0.99f));
 	sprite_.set_height(128.0f);
 	sprite_.set_width(128.0f);
+
+	anim = new SpriteBasedAnimation();
+	anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
 }
 
 void SceneApp::CleanUp()
@@ -56,6 +59,8 @@ bool SceneApp::Update(float frame_time)
 
 	input_manager_->Update();
 
+	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+
 	return true;
 }
 
@@ -67,7 +72,7 @@ void SceneApp::Render()
 	sprite_renderer_->Begin();
 
 	// Render button icon
-	sprite_renderer_->DrawSprite(sprite_);
+	sprite_renderer_->DrawSprite(*anim->getSprite());
 
 	DrawHUD();
 	sprite_renderer_->End();

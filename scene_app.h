@@ -5,6 +5,7 @@
 #include <maths/vector2.h>
 #include <graphics/sprite.h>
 #include <input/input_manager.h>
+#include "SpriteBasedAnimation.h"
 
 
 // FRAMEWORK FORWARD DECLARATIONS
@@ -36,6 +37,8 @@ private:
 
 	gef::Texture* sprite_texture_;
 	gef::Sprite sprite_;
+
+	SpriteBasedAnimation* anim;
 
 	float fps_;
 
