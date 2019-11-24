@@ -29,20 +29,20 @@ struct TextureAtlas
 	gef::Matrix33 baseTransform;
 };
 
+struct Trans {
+	float x = 0;
+	float y = 0;
+	float sk = 0;
 
-
-struct SpriteSkin {
-
-	std::vector<std::string> display_name;
 };
 
-
-struct SkinSlotDisplay {
-public:
-
+struct SkinSlot {
 	std::string name = "";
-
+	std::string display_name = "";
+	Trans transform;
+	gef::Matrix33 transformMatrix;
 };
+
 
 struct Display
 {
@@ -68,9 +68,53 @@ struct SpriteAnimation : Animation {
 	std::vector<float> displayFrame;
 };
 
+struct BoneAnimation : Animation
+{
+	
+
+	struct AnimationBoneData {
+		struct rotateFrameData
+		{
+			int duration = 0;
+			float rotate = 0;
+		};
+
+		struct translationFrameData {
+
+			int duration = 0;
+			gef::Vector2 XY = gef::Vector2(0, 0);
+
+		};
+
+		int current;
+		std::string name = "";
+		std::vector<translationFrameData> translations;
+		int translationFramePos = 0;
+		float translationFrameTime = 0;
+		std::vector<rotateFrameData> rotations;
+		int rotationFramePos = 0;
+		float rotationFrameTime = 0;
+	};
+
+	std::vector<AnimationBoneData*> animation_bone_data;
+};
 
 
 
+
+struct Bone {
+	std::string name = "";
+	std::string parent = "";
+	gef::Matrix33 transformMatrix;
+	gef::Matrix33 local_transform;
+	gef::Matrix33 worldBoneMatrix;
+	Trans transform;
+	unsigned int parentPos;
+};
+struct Slot {
+	std::string name = "";
+	std::string parent = "";
+};
 
 
 struct Armature
@@ -88,11 +132,28 @@ struct SpriteArmature : Armature {
 	Skin* skin = nullptr;
 };
 
+struct BoneArmature : Armature {
+	std::vector<Bone*> bones;
+	std::vector<SkinSlot*> skin;
+	std::vector<Slot*> slot;
+	std::vector<BoneAnimation*> animation;
+
+};
+
 
 struct SpriteJSONData {
 
 	SpriteArmature* armiture = nullptr;
 	TextureAtlas* texture_atlas = nullptr;
+};
+
+struct BoneJSONData {
+
+	TextureAtlas* texture_atlas = nullptr;
+	BoneArmature* bone_armiture = nullptr;
+
+
+
 };
 
 

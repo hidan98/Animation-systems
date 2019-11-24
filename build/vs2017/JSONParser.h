@@ -12,7 +12,7 @@ public:
 	JSONParser();
 	~JSONParser();
 	static SpriteJSONData* setUpSpriteAnimation(const char* tex, const char* ske);
-
+	static BoneJSONData* setUpBoneAnimation(const char* tex, const char* ske);
 
 private:
 
@@ -24,7 +24,12 @@ private:
 
 	static Skin* ReadSkinFromJSON(const rapidjson::Value& arm, const char* type);
 	static SpriteAnimation* ReadSpriteAnimationFromJSON(const rapidjson::Value& arm, const char* type);
-
+	static std::vector<Bone*> ReadBoneFromJSON(const rapidjson::Value& arm);
+	static Trans ReadTransformFromJSON(const rapidjson::Value& trans);
+	static gef::Matrix33 calculateSkinSlotMatrix(Trans transform_);
+	static std::vector<SkinSlot*> ReadSkinArmitureFromJSON(const rapidjson::Value& arm);
+	static std::vector<Slot*> ReadSlotFromJSON(const rapidjson::Value& arm);
+	static std::vector<BoneAnimation*> ReadAnimationDataFromJSON(const rapidjson::Value& arm);
 
 	
 
