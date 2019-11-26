@@ -30,6 +30,9 @@ private:
 	void InitFont();
 	void CleanUpFont();
 	void DrawHUD();
+
+	void UpdateImGuiIO();
+	void ImGuiRender();
     
 	gef::SpriteRenderer* sprite_renderer_;
 	gef::Font* font_;

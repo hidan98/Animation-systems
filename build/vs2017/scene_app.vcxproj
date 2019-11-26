@@ -130,7 +130,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\..\gef_abertay</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\..\gef_abertay;..\..\..\imgui-node-editor\ThirdParty\imgui;..\..\..\imgui-node-editor\NodeEditor\Source;..\..\..\imgui-node-editor\NodeEditor\Include;..\..\..\imgui-node-editor\ThirdParty\stb_image;..\..\..\imgui-node-editor\Examples\Common\Application\Include;..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11;..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Include;..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -208,12 +208,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\BasicInteraction\BasicInteraction.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Blueprints\Blueprints.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Canvas\Canvas.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Builders.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Drawing.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Widgets.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Simple\Simple.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_api.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\..\load_json.cpp" />
     <ClCompile Include="..\..\load_texture.cpp" />
     <ClCompile Include="..\..\main_d3d11.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|PSVita'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|PSVita'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\motion_clip_player.cpp" />
     <ClCompile Include="..\..\scene_app.cpp" />
     <ClCompile Include="..\..\main_vita.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -223,18 +247,51 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Animation3D.cpp" />
+    <ClCompile Include="Animation_Utils.cpp" />
+    <ClCompile Include="BlendNode.cpp" />
+    <ClCompile Include="BlendTree.cpp" />
+    <ClCompile Include="ClipNode.cpp" />
     <ClCompile Include="JSONParser.cpp" />
+    <ClCompile Include="LinearBlendNode.cpp" />
+    <ClCompile Include="OutputNode.cpp" />
     <ClCompile Include="SkeletalAnimation2D.cpp" />
     <ClCompile Include="SpriteBasedAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Include\Application.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_extra_math.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="..\..\load_json.h" />
     <ClInclude Include="..\..\load_texture.h" />
+    <ClInclude Include="..\..\motion_clip_player.h" />
     <ClInclude Include="..\..\scene_app.h" />
+    <ClInclude Include="Animation3D.h" />
     <ClInclude Include="AnimationData.h" />
+    <ClInclude Include="Animation_Utils.h" />
+    <ClInclude Include="BlendNode.h" />
+    <ClInclude Include="BlendTree.h" />
     <ClInclude Include="JSONParser.h" />
+    <ClInclude Include="LinearBlendNode.h" />
+    <ClInclude Include="OutputNode.h" />
     <ClInclude Include="SkeletalAnimation2D.h" />
     <ClInclude Include="SpriteBasedAnimation.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.inl" />
+    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_extra_math.inl" />
+    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
