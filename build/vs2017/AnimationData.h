@@ -3,8 +3,8 @@
 #include "maths/matrix44.h"
 #include "maths/matrix33.h"
 #include <vector>
-#include <map>
-
+#include <unordered_map>
+#include "system/string_id.h"
 struct SubTexture {
 	float frameY;
 	float y;
@@ -14,6 +14,7 @@ struct SubTexture {
 	float width;
 	float height;
 	std::string name;
+	gef::StringId nameId;
 	float x;
 	gef::Matrix33 subtextureTransform;
 };
@@ -25,7 +26,7 @@ struct TextureAtlas
 	float height;
 	std::string name;
 	//change from string
-	std::map<std::string, SubTexture> sub_textures;
+	std::unordered_map<gef::StringId, SubTexture*> sub_textures;
 	gef::Matrix33 baseTransform;
 };
 
@@ -38,6 +39,8 @@ struct Trans {
 
 struct SkinSlot {
 	std::string name = "";
+	gef::StringId nameId;
+	gef::StringId displayId;
 	std::string display_name = "";
 	Trans transform;
 	gef::Matrix33 transformMatrix;
@@ -47,6 +50,7 @@ struct SkinSlot {
 struct Display
 {
 	std::vector<std::string> display_name;
+	std::vector<gef::StringId> display_name_id;
 };
 
 
@@ -104,7 +108,9 @@ struct BoneAnimation : Animation
 
 struct Bone {
 	std::string name = "";
+	gef::StringId nameStringId= 0;
 	std::string parent = "";
+	gef::StringId parentStringId = 0;
 	gef::Matrix33 transformMatrix;
 	gef::Matrix33 local_transform;
 	gef::Matrix33 worldBoneMatrix;
@@ -113,7 +119,11 @@ struct Bone {
 };
 struct Slot {
 	std::string name = "";
+	gef::StringId nameStringId;
 	std::string parent = "";
+	gef::StringId parentStringId;
+	gef::Matrix33 finalTransform;
+
 };
 
 
@@ -133,8 +143,10 @@ struct SpriteArmature : Armature {
 };
 
 struct BoneArmature : Armature {
-	std::vector<Bone*> bones;
-	std::vector<SkinSlot*> skin;
+	std::unordered_map<gef::StringId, Bone*> bones;
+	//std::vector<Bone*> bones;
+	std::unordered_map <gef::StringId, SkinSlot*> skin;
+	//std::vector<SkinSlot*> skin;
 	std::vector<Slot*> slot;
 	std::vector<BoneAnimation*> animation;
 

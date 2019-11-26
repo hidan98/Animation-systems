@@ -1,7 +1,7 @@
 #include "JSONParser.h"
 #include "maths/matrix33.h"
 #include "maths/math_utils.h"
-
+#include "system/string_id.h"
 
 
 JSONParser::JSONParser()
@@ -99,8 +99,7 @@ TextureAtlas* JSONParser::ReadTextureAtlasFromJSON(rapidjson::Document& tex_doc)
 		//subtexture->subtextureTransform = subtexture->subtextureTransform * texture_atlas->baseTransform;
 		//may change to store pointers... will nedd to see
 
-		texture_atlas->sub_textures[subtexture->name] = *subtexture;// push_back(*subtexture);
-		delete subtexture;
+		texture_atlas->sub_textures[subtexture->nameId] = subtexture;// push_back(*subtexture);
 	}
 	return texture_atlas;
 
@@ -145,6 +144,7 @@ SubTexture* JSONParser::ReadSubTextureFromJSON(const rapidjson::Value& subTex)
 		subTexture->frameHeight = subTexture->height;
 
 	subTexture->name = subTex["name"].GetString();
+	subTexture->nameId = gef::GetStringId(subTexture->name);
 
 	subTexture->x = subTex["x"].GetFloat();
 	subTexture->y = subTex["y"].GetFloat();
@@ -189,7 +189,7 @@ Armature* JSONParser::ReadArmitureFromJSON(rapidjson::Document& ske_document)
 			armiture_struct->skin = ReadSkinArmitureFromJSON(arm[subtex_num]);
 			armiture_struct->slot = ReadSlotFromJSON(arm[subtex_num]);
 			armiture_struct->animation = ReadAnimationDataFromJSON(arm[subtex_num]);
-
+			return armiture_struct;
 		}
 		else if (type == "Sheet")
 		{
@@ -223,10 +223,12 @@ Skin* JSONParser::ReadSkinFromJSON(const rapidjson::Value& arm, const char* type
 			Display* display = new Display();
 			skin_struct->display = display;
 
+
 			for (int i = 0; i < (int)display_JSON.Size(); i++)
 			{
 				std::string temp = display_JSON[i]["name"].GetString();
 				skin_struct->display->display_name.push_back(temp);
+				skin_struct->display->display_name_id.push_back(gef::GetStringId(temp));
 			}
 		}
 	}
@@ -276,9 +278,9 @@ SpriteAnimation* JSONParser::ReadSpriteAnimationFromJSON(const rapidjson::Value&
 	return animiation_struct;
 }
 
-std::vector<Bone*> JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
+std::unordered_map<gef::StringId, Bone*> JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
 {
-	std::vector<Bone*> bone_vec;
+	std::unordered_map<gef::StringId, Bone*> bone_map;
 
 	const rapidjson::Value& bones = val["bone"];
 
@@ -287,10 +289,15 @@ std::vector<Bone*> JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
 		Bone* tempBone = new Bone;
 
 		tempBone->name = bones[i]["name"].GetString();
+		tempBone->nameStringId = gef::GetStringId(tempBone->name);
 
 
 		if (bones[i].HasMember("parent"))
+		{
 			tempBone->parent = bones[i]["parent"].GetString();
+			tempBone->parentStringId = gef::GetStringId(tempBone->parent);	
+		}
+			
 
 
 		if (bones[i].HasMember("transform"))
@@ -300,9 +307,12 @@ std::vector<Bone*> JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
 
 		tempBone->local_transform = calculateSkinSlotMatrix(tempBone->transform);
 
-		bone_vec.push_back(tempBone);
+		bone_map[tempBone->nameStringId] = tempBone;
+		//bone_vec.push_back(tempBone);
 	}
-	return bone_vec;
+
+
+	return bone_map;
 
 }
 
@@ -333,9 +343,9 @@ gef::Matrix33 JSONParser::calculateSkinSlotMatrix(Trans transform_)
 	return rotate * pos;
 
 }
-std::vector<SkinSlot*> JSONParser::ReadSkinArmitureFromJSON(const rapidjson::Value& arm)
+std::unordered_map<gef::StringId, SkinSlot*> JSONParser::ReadSkinArmitureFromJSON(const rapidjson::Value& arm)
 {
-	std::vector<SkinSlot*>  skinSlotVec;
+	std::unordered_map<gef::StringId, SkinSlot*>  skinSlotMap;
 
 	const rapidjson::Value& skin_data = arm["skin"];
 
@@ -347,18 +357,21 @@ std::vector<SkinSlot*> JSONParser::ReadSkinArmitureFromJSON(const rapidjson::Val
 		{
 			SkinSlot* skin_slot_struct = new SkinSlot;
 			skin_slot_struct->name = slot_data[j]["name"].GetString();
+			skin_slot_struct->nameId = gef::GetStringId(skin_slot_struct->name);
+
 			const rapidjson::Value& display_data = slot_data[j]["display"];
 
 			for (int k = 0; k < (int)display_data.Size(); k++)
 			{
 				skin_slot_struct->display_name = display_data[k]["name"].GetString();
+				skin_slot_struct->displayId = gef::GetStringId(skin_slot_struct->display_name);
 				skin_slot_struct->transform = ReadTransformFromJSON(display_data[k]["transform"]);
 				skin_slot_struct->transformMatrix = calculateSkinSlotMatrix(skin_slot_struct->transform);
-				skinSlotVec.push_back(skin_slot_struct);
+				skinSlotMap[skin_slot_struct->nameId] = skin_slot_struct;//				skinSlotMap.push_back(skin_slot_struct);
 			}
 		}
 	}
-	return skinSlotVec;
+	return skinSlotMap;
 }
 
 std::vector<Slot*> JSONParser::ReadSlotFromJSON(const rapidjson::Value& arm)
@@ -371,10 +384,19 @@ std::vector<Slot*> JSONParser::ReadSlotFromJSON(const rapidjson::Value& arm)
 	{
 		Slot* temp_slot = new Slot;
 		if (slot[i].HasMember("name"))
+		{
 			temp_slot->name = slot[i]["name"].GetString();
+			temp_slot->nameStringId = gef::GetStringId(temp_slot->name);
+		}
+			
 
 		if (slot[i].HasMember("parent"))
+		{
 			temp_slot->parent = slot[i]["parent"].GetString();
+			temp_slot->parentStringId = gef::GetStringId(temp_slot->parent);
+
+		}
+			
 
 		slot_vec.push_back(temp_slot);
 	}

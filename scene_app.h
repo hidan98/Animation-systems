@@ -6,7 +6,7 @@
 #include <graphics/sprite.h>
 #include <input/input_manager.h>
 #include "SpriteBasedAnimation.h"
-
+#include "SkeletalAnimation2D.h"
 
 // FRAMEWORK FORWARD DECLARATIONS
 namespace gef
@@ -39,6 +39,7 @@ private:
 	gef::Sprite sprite_;
 
 	SpriteBasedAnimation* anim;
+	SkeletalAnimation2D* bone_;
 
 	float fps_;
 

@@ -2,6 +2,7 @@
 #include "AnimationData.h"
 #include "JSONParser.h"
 #include "graphics/sprite.h"
+
 class SpriteBasedAnimation
 {
 public:

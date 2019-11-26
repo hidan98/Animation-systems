@@ -36,6 +36,9 @@ void SceneApp::Init()
 
 	anim = new SpriteBasedAnimation();
 	anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
+
+	bone_ = new SkeletalAnimation2D();
+	bone_->init("Dragon_tex.json", "Dragon_ske.json", "Dragon_tex.png", platform_);
 }
 
 void SceneApp::CleanUp()

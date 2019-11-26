@@ -37,8 +37,8 @@ void SpriteBasedAnimation::update(float dt, gef::Vector2 screenPos)
 				current_frame = 0;
 				time = 0;
 				//std::string name = armature_->skin->display_name[0];
-				std::string name = json_data_->armiture->skin->display->display_name[0];
-				spriteSetup(&json_data_->texture_atlas->sub_textures[name], screenPos);
+				gef::StringId id = json_data_->armiture->skin->display->display_name_id[0];
+				spriteSetup(json_data_->texture_atlas->sub_textures[id], screenPos);
 			}
 			else
 			{
@@ -46,8 +46,9 @@ void SpriteBasedAnimation::update(float dt, gef::Vector2 screenPos)
 				current_frame++;
 
 				int pos = json_data_->armiture->animation->displayFrame[current_frame];
-				std::string name = json_data_->armiture->skin->display->display_name[pos];// armature_->skin->display_name[pos];
-				spriteSetup(&json_data_->texture_atlas->sub_textures[name], screenPos);
+				gef::StringId id = json_data_->armiture->skin->display->display_name_id[pos];
+				//std::string name = json_data_->armiture->skin->display->display_name[pos];// armature_->skin->display_name[pos];
+				spriteSetup(json_data_->texture_atlas->sub_textures[id], screenPos);
 				//return sprite_ = spriteSetup(*texture_atlas_, sprite_, screen_pos, name);
 
 			}
