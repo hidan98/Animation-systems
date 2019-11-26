@@ -72,34 +72,35 @@ struct SpriteAnimation : Animation {
 	std::vector<float> displayFrame;
 };
 
+
+struct rotateFrameData
+{
+	int duration = 0;
+	float rotate = 0;
+};
+
+struct translationFrameData {
+
+	int duration = 0;
+	gef::Vector2 XY = gef::Vector2(0, 0);
+
+};
+struct AnimationBoneData {	
+
+	int current;
+	std::string name = "";
+	gef::StringId nameId;
+	std::vector<translationFrameData> translations;
+	int translationFramePos = 0;
+	float translationFrameTime = 0;
+	std::vector<rotateFrameData> rotations;
+	int rotationFramePos = 0;
+	float rotationFrameTime = 0;
+};
+
+
 struct BoneAnimation : Animation
 {
-	
-
-	struct AnimationBoneData {
-		struct rotateFrameData
-		{
-			int duration = 0;
-			float rotate = 0;
-		};
-
-		struct translationFrameData {
-
-			int duration = 0;
-			gef::Vector2 XY = gef::Vector2(0, 0);
-
-		};
-
-		int current;
-		std::string name = "";
-		std::vector<translationFrameData> translations;
-		int translationFramePos = 0;
-		float translationFrameTime = 0;
-		std::vector<rotateFrameData> rotations;
-		int rotationFramePos = 0;
-		float rotationFrameTime = 0;
-	};
-
 	std::vector<AnimationBoneData*> animation_bone_data;
 };
 
@@ -117,6 +118,8 @@ struct Bone {
 	Trans transform;
 	unsigned int parentPos;
 };
+
+
 struct Slot {
 	std::string name = "";
 	gef::StringId nameStringId;
@@ -142,8 +145,13 @@ struct SpriteArmature : Armature {
 	Skin* skin = nullptr;
 };
 
+struct BoneDataStruct {
+	std::unordered_map<gef::StringId, Bone*> bonesMap;
+	std::vector<Bone*> bonesVec;
+};
+
 struct BoneArmature : Armature {
-	std::unordered_map<gef::StringId, Bone*> bones;
+	BoneDataStruct boneData;
 	//std::vector<Bone*> bones;
 	std::unordered_map <gef::StringId, SkinSlot*> skin;
 	//std::vector<SkinSlot*> skin;

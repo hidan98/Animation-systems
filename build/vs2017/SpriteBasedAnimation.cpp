@@ -65,8 +65,6 @@ void SpriteBasedAnimation::update(float dt, gef::Vector2 screenPos)
 
 void SpriteBasedAnimation::spriteSetup(SubTexture* sub, gef::Vector2 screenPos)
 {
-
-
 	
 
 	float posX = screenPos.x + (sub->width * 0.5f - (sub->frameWidth * 0.5f + sub->frameX));

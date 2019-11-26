@@ -64,6 +64,8 @@ bool SceneApp::Update(float frame_time)
 
 	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
+	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+
 	return true;
 }
 
@@ -76,6 +78,7 @@ void SceneApp::Render()
 
 	// Render button icon
 	sprite_renderer_->DrawSprite(*anim->getSprite());
+	bone_->render(sprite_renderer_);
 
 	DrawHUD();
 	sprite_renderer_->End();

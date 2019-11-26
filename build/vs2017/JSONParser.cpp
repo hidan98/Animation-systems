@@ -34,7 +34,7 @@ SpriteJSONData* JSONParser::setUpSpriteAnimation(const char* tex, const char* sk
 
 	rapidjson::Document tex_Doc;
 	tex_Doc = ReadFiles(tex);
-	data->texture_atlas = ReadTextureAtlasFromJSON(tex_Doc);
+	data->texture_atlas = ReadTextureAtlasFromJSON(tex_Doc, gef::Vector2(0,0));
 
 	//free(JSON);
 
@@ -49,13 +49,13 @@ SpriteJSONData* JSONParser::setUpSpriteAnimation(const char* tex, const char* sk
 
 }
 
-BoneJSONData* JSONParser::setUpBoneAnimation(const char* tex, const char* ske)
+BoneJSONData* JSONParser::setUpBoneAnimation(const char* tex, const char* ske, gef::Vector2 screenPos)
 {
 	BoneJSONData* data = new BoneJSONData;
 	rapidjson::Document tex_Doc;
 	tex_Doc = ReadFiles(tex);
 
-	data ->texture_atlas = ReadTextureAtlasFromJSON(tex_Doc);
+	data ->texture_atlas = ReadTextureAtlasFromJSON(tex_Doc, screenPos);
 
 	tex_Doc = ReadFiles(ske);
 	data->bone_armiture = static_cast<BoneArmature*>(ReadArmitureFromJSON(tex_Doc));
@@ -66,7 +66,7 @@ BoneJSONData* JSONParser::setUpBoneAnimation(const char* tex, const char* ske)
 
 }
 
-TextureAtlas* JSONParser::ReadTextureAtlasFromJSON(rapidjson::Document& tex_doc)
+TextureAtlas* JSONParser::ReadTextureAtlasFromJSON(rapidjson::Document& tex_doc, gef::Vector2 screenPos)
 {
 
 	TextureAtlas* texture_atlas = new TextureAtlas();
@@ -83,11 +83,11 @@ TextureAtlas* JSONParser::ReadTextureAtlasFromJSON(rapidjson::Document& tex_doc)
 	scale.SetIdentity();
 	scale.Scale(gef::Vector2(0.50f, 0.50f));
 
-	/*gef::Matrix33 transform;
+	gef::Matrix33 transform;
 	transform.SetIdentity();
 	transform.SetTranslation(screenPos);
 
-	texture_atlas->baseTransform = scale * transform;*/
+	texture_atlas->baseTransform = scale * transform;
 
 	
 	const rapidjson::Value& subtexture_array = tex_doc["SubTexture"];
@@ -185,7 +185,7 @@ Armature* JSONParser::ReadArmitureFromJSON(rapidjson::Document& ske_document)
 			armiture_struct->type = arm[subtex_num]["type"].GetString();
 			armiture_struct->name = arm[subtex_num]["name"].GetString();
 			armiture_struct->frameRate = arm[subtex_num]["frameRate"].GetFloat();
-			armiture_struct->bones = ReadBoneFromJSON(arm[subtex_num]);
+			armiture_struct->boneData = ReadBoneFromJSON(arm[subtex_num]);
 			armiture_struct->skin = ReadSkinArmitureFromJSON(arm[subtex_num]);
 			armiture_struct->slot = ReadSlotFromJSON(arm[subtex_num]);
 			armiture_struct->animation = ReadAnimationDataFromJSON(arm[subtex_num]);
@@ -278,9 +278,10 @@ SpriteAnimation* JSONParser::ReadSpriteAnimationFromJSON(const rapidjson::Value&
 	return animiation_struct;
 }
 
-std::unordered_map<gef::StringId, Bone*> JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
+BoneDataStruct JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
 {
 	std::unordered_map<gef::StringId, Bone*> bone_map;
+	std::vector<Bone*> bone_vec;
 
 	const rapidjson::Value& bones = val["bone"];
 
@@ -308,11 +309,13 @@ std::unordered_map<gef::StringId, Bone*> JSONParser::ReadBoneFromJSON(const rapi
 		tempBone->local_transform = calculateSkinSlotMatrix(tempBone->transform);
 
 		bone_map[tempBone->nameStringId] = tempBone;
-		//bone_vec.push_back(tempBone);
+		bone_vec.push_back(tempBone);
 	}
 
-
-	return bone_map;
+	BoneDataStruct temp;
+	temp.bonesMap = bone_map;
+	temp.bonesVec = bone_vec;
+	return temp;
 
 }
 
@@ -422,8 +425,9 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 
 		for (int j = 0; j < (int)animationBone.Size(); j++)
 		{
-			BoneAnimation::AnimationBoneData* temp_animation_bone_data = new BoneAnimation::AnimationBoneData;
+			AnimationBoneData* temp_animation_bone_data = new AnimationBoneData;
 			temp_animation_bone_data->name = animationBone[j]["name"].GetString();
+			temp_animation_bone_data->nameId = gef::GetStringId(temp_animation_bone_data->name);
 
 			if (animationBone[j].HasMember("translateFrame"))
 			{
@@ -431,7 +435,7 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 
 				for (int k = 0; k < (int)translateFrame.Size(); k++)
 				{
-					BoneAnimation::AnimationBoneData::translationFrameData tempFrameData ;
+					translationFrameData tempFrameData ;
 					if (translateFrame[k].HasMember("duration"))
 						tempFrameData.duration = translateFrame[k]["duration"].GetFloat();
 
@@ -445,7 +449,7 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 				}
 			}
 			else
-				temp_animation_bone_data->translations.push_back(BoneAnimation::AnimationBoneData::translationFrameData());
+				temp_animation_bone_data->translations.push_back(translationFrameData());
 
 			if (animationBone[j].HasMember("rotateFrame"))
 			{
@@ -454,7 +458,7 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 
 				for (int k = 0; k < (int)rotateFrame.Size(); k++)
 				{
-					BoneAnimation::AnimationBoneData::rotateFrameData tempRotateData;
+					rotateFrameData tempRotateData;
 
 					if (rotateFrame[k].HasMember("duration"))
 						tempRotateData.duration = rotateFrame[k]["duration"].GetFloat();
@@ -467,7 +471,7 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 				}
 			}
 			else
-				temp_animation_bone_data->rotations.push_back(BoneAnimation::AnimationBoneData::rotateFrameData());
+				temp_animation_bone_data->rotations.push_back(rotateFrameData());
 
 			tempAnimationData->animation_bone_data.push_back(temp_animation_bone_data);
 		}
