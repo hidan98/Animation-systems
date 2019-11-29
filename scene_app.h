@@ -8,6 +8,7 @@
 #include "SpriteBasedAnimation.h"
 #include "SkeletalAnimation2D.h"
 
+
 // FRAMEWORK FORWARD DECLARATIONS
 namespace gef
 {
@@ -43,6 +44,7 @@ private:
 
 	SpriteBasedAnimation* anim;
 	SkeletalAnimation2D* bone_;
+
 
 	float fps_;
 

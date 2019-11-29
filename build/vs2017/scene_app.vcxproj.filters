@@ -129,6 +129,9 @@
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Simple\Simple.cpp">
       <Filter>imgui-node-editor_examples</Filter>
     </ClCompile>
+    <ClCompile Include="CustomeBluePrints.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\scene_app.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Include\Application.h">
       <Filter>imgui-node-editor_examples</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomeBluePrints.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

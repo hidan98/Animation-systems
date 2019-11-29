@@ -212,7 +212,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Blueprints\Blueprints.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Canvas\Canvas.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -254,6 +254,7 @@
     <ClCompile Include="BlendNode.cpp" />
     <ClCompile Include="BlendTree.cpp" />
     <ClCompile Include="ClipNode.cpp" />
+    <ClCompile Include="CustomeBluePrints.cpp" />
     <ClCompile Include="JSONParser.cpp" />
     <ClCompile Include="LinearBlendNode.cpp" />
     <ClCompile Include="OutputNode.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="Animation_Utils.h" />
     <ClInclude Include="BlendNode.h" />
     <ClInclude Include="BlendTree.h" />
+    <ClInclude Include="CustomeBluePrints.h" />
     <ClInclude Include="JSONParser.h" />
     <ClInclude Include="LinearBlendNode.h" />
     <ClInclude Include="OutputNode.h" />

@@ -109,7 +109,7 @@ void SceneApp::Init()
 
 void SceneApp::CleanUp()
 {
-	Application_Finalize();
+	//Application_Finalize();
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
@@ -223,7 +223,7 @@ void SceneApp::ImGuiRender()
 	ImGui::SetNextWindowSize(io.DisplaySize);
 
 	ImGui::Begin("Content", nullptr,
-		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+		 ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_NoBringToFrontOnFocus);
 
