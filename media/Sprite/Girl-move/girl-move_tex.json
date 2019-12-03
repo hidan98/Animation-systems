@@ -1,0 +1,74 @@
+{
+    "width": 512,
+    "imagePath": "2D/girl-move_tex.png",
+    "height": 256,
+    "name": "girl-move",
+    "SubTexture": [
+        {
+            "y": 1,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 96,
+            "name": "7_move_0",
+            "x": 1
+        },
+        {
+            "y": 99,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 96,
+            "name": "7_move_2",
+            "x": 1
+        },
+        {
+            "y": 1,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 96,
+            "name": "7_move_3",
+            "x": 185
+        },
+        {
+            "y": 1,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 96,
+            "name": "7_move_4",
+            "x": 93
+        },
+        {
+            "y": 99,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 96,
+            "name": "7_move_5",
+            "x": 93
+        },
+        {
+            "y": 99,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 96,
+            "name": "7_move_1",
+            "x": 185
+        }
+    ]
+}

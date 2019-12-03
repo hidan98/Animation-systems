@@ -1,0 +1,63 @@
+{
+    "width": 256,
+    "imagePath": "2D/girl-attack_tex.png",
+    "height": 512,
+    "name": "girl-attack",
+    "SubTexture": [
+        {
+            "y": 188,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 75,
+            "frameX": -42,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "7_attack_1",
+            "x": 1
+        },
+        {
+            "y": 93,
+            "frameY": -45,
+            "frameWidth": 150,
+            "width": 75,
+            "frameX": -39,
+            "frameHeight": 150,
+            "height": 93,
+            "name": "7_attack_0",
+            "x": 105
+        },
+        {
+            "y": 1,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 117,
+            "frameX": -6,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "7_attack_3",
+            "x": 126
+        },
+        {
+            "y": 93,
+            "frameY": -45,
+            "frameWidth": 150,
+            "width": 102,
+            "frameX": -12,
+            "frameHeight": 150,
+            "height": 93,
+            "name": "7_attack_4",
+            "x": 1
+        },
+        {
+            "y": 1,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 123,
+            "frameX": -6,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "7_attack_2",
+            "x": 1
+        }
+    ]
+}

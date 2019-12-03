@@ -1,0 +1,63 @@
+{
+    "width": 256,
+    "imagePath": "2D/boy-win_tex.png",
+    "height": 256,
+    "name": "boy-win",
+    "SubTexture": [
+        {
+            "y": 1,
+            "frameY": -30,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -39,
+            "frameHeight": 150,
+            "height": 105,
+            "name": "4_win_2",
+            "x": 75
+        },
+        {
+            "y": 111,
+            "frameY": -27,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -39,
+            "frameHeight": 150,
+            "height": 108,
+            "name": "4_win_4",
+            "x": 1
+        },
+        {
+            "y": 1,
+            "frameY": -45,
+            "frameWidth": 150,
+            "width": 75,
+            "frameX": -36,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "4_win_0",
+            "x": 149
+        },
+        {
+            "y": 108,
+            "frameY": -30,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -39,
+            "frameHeight": 150,
+            "height": 105,
+            "name": "4_win_5",
+            "x": 75
+        },
+        {
+            "y": 1,
+            "frameY": -27,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -39,
+            "frameHeight": 150,
+            "height": 108,
+            "name": "4_win_1",
+            "x": 1
+        }
+    ]
+}

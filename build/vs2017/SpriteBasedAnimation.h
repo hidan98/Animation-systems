@@ -14,6 +14,8 @@ public:
 
 	gef::Sprite* getSprite() { return sprite; }
 
+	void cleanUp();
+
 
 private:
 

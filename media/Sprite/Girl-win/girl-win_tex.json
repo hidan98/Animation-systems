@@ -1,0 +1,74 @@
+{
+    "width": 256,
+    "imagePath": "2D/girl-win_tex.png",
+    "height": 256,
+    "name": "girl-win",
+    "SubTexture": [
+        {
+            "y": 105,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 81,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "7_win_0",
+            "x": 158
+        },
+        {
+            "y": 1,
+            "frameY": -36,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -36,
+            "frameHeight": 150,
+            "height": 102,
+            "name": "7_win_1",
+            "x": 149
+        },
+        {
+            "y": 1,
+            "frameY": -36,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -36,
+            "frameHeight": 150,
+            "height": 102,
+            "name": "7_win_4",
+            "x": 75
+        },
+        {
+            "y": 108,
+            "frameY": -33,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -36,
+            "frameHeight": 150,
+            "height": 105,
+            "name": "7_win_5",
+            "x": 1
+        },
+        {
+            "y": 1,
+            "frameY": -33,
+            "frameWidth": 150,
+            "width": 72,
+            "frameX": -36,
+            "frameHeight": 150,
+            "height": 105,
+            "name": "7_win_2",
+            "x": 1
+        },
+        {
+            "y": 105,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 81,
+            "frameX": -33,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "7_win_3",
+            "x": 75
+        }
+    ]
+}

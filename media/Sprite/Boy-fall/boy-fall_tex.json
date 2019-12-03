@@ -1,0 +1,85 @@
+{
+    "width": 512,
+    "imagePath": "2D/boy-fall_tex.png",
+    "height": 256,
+    "name": "boy-fall",
+    "SubTexture": [
+        {
+            "y": 108,
+            "frameY": -33,
+            "frameWidth": 150,
+            "width": 87,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 102,
+            "name": "4_fall_3",
+            "x": 96
+        },
+        {
+            "y": 1,
+            "frameY": -42,
+            "frameWidth": 150,
+            "width": 78,
+            "frameX": -27,
+            "frameHeight": 150,
+            "height": 93,
+            "name": "4_fall_0",
+            "x": 179
+        },
+        {
+            "y": 1,
+            "frameY": -27,
+            "frameWidth": 150,
+            "width": 87,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 108,
+            "name": "4_fall_5",
+            "x": 1
+        },
+        {
+            "y": 111,
+            "frameY": -36,
+            "frameWidth": 150,
+            "width": 93,
+            "frameX": -12,
+            "frameHeight": 150,
+            "height": 99,
+            "name": "4_fall_2",
+            "x": 1
+        },
+        {
+            "y": 1,
+            "frameY": -30,
+            "frameWidth": 150,
+            "width": 87,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 105,
+            "name": "4_fall_4",
+            "x": 90
+        },
+        {
+            "y": 96,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 81,
+            "frameX": -24,
+            "frameHeight": 150,
+            "height": 87,
+            "name": "4_fall_1",
+            "x": 185
+        },
+        {
+            "y": 185,
+            "frameY": -81,
+            "frameWidth": 150,
+            "width": 87,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 54,
+            "name": "4_fall_6",
+            "x": 259
+        }
+    ]
+}

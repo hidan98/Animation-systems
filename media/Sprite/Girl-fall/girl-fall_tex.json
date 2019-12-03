@@ -1,0 +1,85 @@
+{
+    "width": 512,
+    "imagePath": "2D/girl-fall_tex.png",
+    "height": 256,
+    "name": "girl-fall",
+    "SubTexture": [
+        {
+            "y": 1,
+            "frameY": -27,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 111,
+            "name": "7_fall_5",
+            "x": 1
+        },
+        {
+            "y": 111,
+            "frameY": -51,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -24,
+            "frameHeight": 150,
+            "height": 87,
+            "name": "7_fall_1",
+            "x": 271
+        },
+        {
+            "y": 114,
+            "frameY": -27,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 111,
+            "name": "7_fall_4",
+            "x": 1
+        },
+        {
+            "y": 1,
+            "frameY": -30,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 108,
+            "name": "7_fall_3",
+            "x": 93
+        },
+        {
+            "y": 111,
+            "frameY": -78,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -18,
+            "frameHeight": 150,
+            "height": 60,
+            "name": "7_fall_6",
+            "x": 363
+        },
+        {
+            "y": 111,
+            "frameY": -48,
+            "frameWidth": 150,
+            "width": 90,
+            "frameX": -27,
+            "frameHeight": 150,
+            "height": 90,
+            "name": "7_fall_0",
+            "x": 179
+        },
+        {
+            "y": 111,
+            "frameY": -33,
+            "frameWidth": 150,
+            "width": 84,
+            "frameX": -24,
+            "frameHeight": 150,
+            "height": 105,
+            "name": "7_fall_2",
+            "x": 93
+        }
+    ]
+}

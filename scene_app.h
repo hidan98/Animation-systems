@@ -7,6 +7,7 @@
 #include <input/input_manager.h>
 #include "SpriteBasedAnimation.h"
 #include "SkeletalAnimation2D.h"
+#include <map>
 
 
 // FRAMEWORK FORWARD DECLARATIONS
@@ -45,6 +46,16 @@ private:
 	SpriteBasedAnimation* anim;
 	SkeletalAnimation2D* bone_;
 
+	void getSpiteFile();
+
+
+	std::map<gef::StringId, std::vector<std::string>> sprites;
+
+	std::map<gef::StringId, std::string> lookUp;
+
+
+
+	bool active;
 
 	float fps_;
 

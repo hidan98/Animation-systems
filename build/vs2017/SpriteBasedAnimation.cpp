@@ -88,3 +88,38 @@ void SpriteBasedAnimation::spriteSetup(SubTexture* sub, gef::Vector2 screenPos)
 
 }
 
+void SpriteBasedAnimation::cleanUp()
+{
+	for (auto& it : json_data_->texture_atlas->sub_textures)
+	{
+		delete it.second;
+		it.second = nullptr;
+	}
+
+	delete json_data_->texture_atlas;
+	json_data_->texture_atlas = nullptr;
+
+
+	delete json_data_->armiture->animation;
+	json_data_->armiture->animation = nullptr;
+
+	delete json_data_->armiture->skin->display;
+	json_data_->armiture->skin->display = nullptr;
+
+
+	delete json_data_->armiture->skin;
+	json_data_->armiture->skin = nullptr;
+
+	delete json_data_->armiture;
+	json_data_->armiture = nullptr;
+	delete json_data_;
+	json_data_ = nullptr;
+
+	delete sprite;
+	sprite = nullptr;
+
+	delete sprite_texture_;
+	sprite_texture_ = nullptr;
+
+}
+

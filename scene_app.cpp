@@ -18,7 +18,9 @@
 #include <platform/d3d11/system/platform_d3d11.h>
 #include <platform\d3d11\input\keyboard_d3d11.h>
 
-
+#include <experimental\filesystem>
+#include <vector>
+#include <string>
 
 ImTextureID Application_LoadTexture(const char* path)
 {
@@ -74,6 +76,9 @@ void SceneApp::Init()
 	sprite_.set_height(128.0f);
 	sprite_.set_width(128.0f);
 
+
+
+
 	anim = new SpriteBasedAnimation();
 	anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
 
@@ -85,6 +90,8 @@ void SceneApp::Init()
 
 	// initialise input manager
 	input_manager_ = gef::InputManager::Create(platform_);
+
+	active = false;
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -103,8 +110,8 @@ void SceneApp::Init()
 	ImGui_ImplWin32_Init(platform_d3d.hwnd());
 	ImGui_ImplDX11_Init(platform_d3d.device(), platform_d3d.device_context());
 
-	Application_Initialize();
-
+	//Application_Initialize();
+	getSpiteFile();
 }
 
 void SceneApp::CleanUp()
@@ -180,7 +187,8 @@ void SceneApp::Render()
 
 	// Render button icon
 	sprite_renderer_->DrawSprite(*anim->getSprite());
-	bone_->render(sprite_renderer_);
+	if(active)
+		bone_->render(sprite_renderer_);
 
 	DrawHUD();
 	sprite_renderer_->End();
@@ -222,12 +230,68 @@ void SceneApp::ImGuiRender()
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::SetNextWindowSize(io.DisplaySize);
 
-	ImGui::Begin("Content", nullptr,
-		 ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoSavedSettings |
-		ImGuiWindowFlags_NoBringToFrontOnFocus);
+	if (ImGui::BeginMainMenuBar())
+	{
 
-	Application_Frame();
+		if (ImGui::BeginMenu("2D"))
+		{
+			if (ImGui::BeginMenu("Sprite based animation"))
+			{
+				for (auto it : sprites)
+				{
+					if (ImGui::MenuItem(lookUp[it.first].c_str()))
+					{
+						std::string png, tex, ske;
+						for (int i = 0; i < it.second.size(); i++)
+						{
+							if (it.second[i].find(".png") != std::string::npos)
+							{
+								png = it.second[i];
+							}
+							else if (it.second[i].find("ske.json") != std::string::npos)
+							{
+								ske = it.second[i];
+							}
+							else if (it.second[i].find("tex.json") != std::string::npos)
+							{
+								tex = it.second[i];
+							}
+						}
+						anim->cleanUp();
+
+						anim->init(tex.c_str(), ske.c_str(), png.c_str(), platform());
+					}
+				}
+				ImGui::EndMenu();
+			}
+			if (ImGui::MenuItem("Bone Animation"))
+			{
+
+			}
+			ImGui::EndMenu();
+		}
+
+
+
+
+
+
+
+
+
+		if (ImGui::BeginMenu("3D"))
+		{
+			if (ImGui::MenuItem("test"))
+			{
+				active = !active;
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+	
+
+	//Application_Frame();
 
 	ImGui::End();
 
@@ -265,4 +329,52 @@ void SceneApp::UpdateImGuiIO()
 			io.AddInputCharacter(vk_code);
 		}
 	}
+}
+
+void SceneApp::getSpiteFile()
+{
+	namespace fs = std::experimental::filesystem;
+	std::vector<std::string> tempStrings;
+
+	for (auto entry : fs::directory_iterator("Sprite"))
+	{
+		std::string temp = entry.path().string();
+		for (int i = 0; i < temp.size(); i++)
+		{
+			if (temp[i] == '\\')
+			{
+				temp[i] = '/';
+			}
+		}
+		tempStrings.push_back(temp);
+
+	}
+		//tempStrings.push_back();
+	
+
+	for (int i = 0; i < tempStrings.size(); i++)
+	{
+		std::vector<std::string> folder;
+		for (auto entry : fs::directory_iterator(tempStrings[i]))
+		{
+			std::string tempString = entry.path().string();
+			for (int i = 0; i < tempString.size(); i++)
+			{
+				if (tempString[i] == '\\')
+				{
+					tempString[i] = '/';
+				}
+			}
+			folder.push_back(tempString);
+			
+		}
+		lookUp.insert({ gef::GetStringId(tempStrings[i]), tempStrings[i] });
+		sprites.insert({ gef::GetStringId(tempStrings[i]), folder });
+
+		//sprite_files.push_back(folder);
+
+	}
+		
+
+
 }
