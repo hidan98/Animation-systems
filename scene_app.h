@@ -35,6 +35,9 @@ private:
 
 	void UpdateImGuiIO();
 	void ImGuiRender();
+
+	void graph();
+//	ImGui::NodeGraphEditor nge;
     
 	gef::SpriteRenderer* sprite_renderer_;
 	gef::Font* font_;
@@ -54,7 +57,7 @@ private:
 	std::map<gef::StringId, std::string> lookUp;
 
 
-
+	bool active_graph;
 	bool active;
 
 	float fps_;

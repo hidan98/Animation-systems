@@ -34,7 +34,4 @@ void Animation3D::init(gef::Platform* plat, std::string path)
 	bind_pose = skinned_mesh->bind_pose();
 
 
-
-
-
 }

@@ -132,6 +132,12 @@
     <ClCompile Include="CustomeBluePrints.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp">
+      <Filter>imgui\thirdparty</Filter>
+    </ClCompile>
+    <ClCompile Include="nodeGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\scene_app.h">
@@ -221,6 +227,15 @@
     <ClInclude Include="CustomeBluePrints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imgui_user.h">
+      <Filter>imgui\thirdparty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.h">
+      <Filter>imgui\thirdparty</Filter>
+    </ClInclude>
+    <ClInclude Include="nodeGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main_d3d11.cpp">
@@ -242,6 +257,9 @@
     </None>
     <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.inl">
       <Filter>imgui-node-editor</Filter>
+    </None>
+    <None Include="..\..\..\imgui\imgui_user.inl">
+      <Filter>imgui\thirdparty</Filter>
     </None>
   </ItemGroup>
 </Project>

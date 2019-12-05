@@ -17,10 +17,12 @@
 #include "Application.h"
 #include <platform/d3d11/system/platform_d3d11.h>
 #include <platform\d3d11\input\keyboard_d3d11.h>
+#include "imgui_user.h"
 
 #include <experimental\filesystem>
 #include <vector>
 #include <string>
+
 
 ImTextureID Application_LoadTexture(const char* path)
 {
@@ -112,6 +114,9 @@ void SceneApp::Init()
 
 	//Application_Initialize();
 	getSpiteFile();
+
+
+	active_graph = false;
 }
 
 void SceneApp::CleanUp()
@@ -144,6 +149,7 @@ bool SceneApp::Update(float frame_time)
 		ImGuiIO& io = ImGui::GetIO();
 		io.MouseDown[0] = input_manager_->touch_manager()->is_button_down(0);
 		io.MouseDown[1] = input_manager_->touch_manager()->is_button_down(1);
+		io.MouseDown[2] = input_manager_->touch_manager()->is_button_down(2);
 		io.MouseWheel += input_manager_->touch_manager()->mouse_rel().z() / WHEEL_DELTA;
 
 		gef::KeyboardD3D11* keyboard_d3d11 = (gef::KeyboardD3D11*)input_manager_->keyboard();
@@ -288,15 +294,28 @@ void SceneApp::ImGuiRender()
 
 		if (ImGui::BeginMenu("3D"))
 		{
-			if (ImGui::MenuItem("test"))
+			if (ImGui::MenuItem("Graph"))
 			{
-				active = !active;
+				active_graph = !active_graph;
 			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
 	
+
+	if (active_graph) {
+		//if (ImGui::Begin("Example: Custom Node Graph", &show_node_graph_editor_window,ImVec2(700,600),0.95f,ImGuiWindowFlags_NoScrollbar))    // Old API
+		ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowBgAlpha(0.95f);
+		if (ImGui::Begin("Example: Custom Node Graph", &active_graph, ImGuiWindowFlags_NoScrollbar))
+		{
+#           ifndef IMGUINODEGRAPHEDITOR_NOTESTDEMO
+			ImGui::TestNodeGraphEditor();   // see its code for further info
+#           endif //IMGUINODEGRAPHEDITOR_NOTESTDEMO            
+		}
+		ImGui::End();
+	}
 
 	//Application_Frame();
 
@@ -382,6 +401,12 @@ void SceneApp::getSpiteFile()
 
 	}
 		
+
+
+}
+
+void SceneApp::graph()
+{
 
 
 }
