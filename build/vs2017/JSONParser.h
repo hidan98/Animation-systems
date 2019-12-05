@@ -11,8 +11,8 @@ class JSONParser
 public:
 	JSONParser();
 	~JSONParser();
-	static SpriteJSONData* setUpSpriteAnimation(const char* tex, const char* ske);
-	static BoneJSONData* setUpBoneAnimation(const char* tex, const char* ske, gef::Vector2 screenPos);
+	static SpriteJSONData* setUpSpriteAnimation(const std::string tex, const std::string ske);
+	static BoneJSONData* setUpBoneAnimation(const std::string tex, const std::string ske, gef::Vector2 screenPos);
 
 private:
 

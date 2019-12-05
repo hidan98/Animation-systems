@@ -19,8 +19,9 @@ public:
 	void init(const char* tex, const char* ske, const char* image, gef::Platform& plat);
 	void update(float dt, gef::Vector2 screenPos);
 
-
+	inline BoneJSONData* getData() { return json_data_; }
 	void render(gef::SpriteRenderer* renderer);
+	inline void setAnimationNum(int num) { animationNum = num; }
 
 private:
 
@@ -42,6 +43,8 @@ private:
 
 
 	gef::Texture* sprite_texture;
+
+	int animationNum;
 
 };
 

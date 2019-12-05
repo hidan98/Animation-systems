@@ -28,17 +28,17 @@ rapidjson::Document JSONParser::ReadFiles(const char* JSONFileName)
 
 }
 
-SpriteJSONData* JSONParser::setUpSpriteAnimation(const char* tex, const char* ske)
+SpriteJSONData* JSONParser::setUpSpriteAnimation(const std::string tex, const std::string ske)
 {
 	SpriteJSONData* data = new SpriteJSONData;
 
 	rapidjson::Document tex_Doc;
-	tex_Doc = ReadFiles(tex);
+	tex_Doc = ReadFiles(tex.c_str());
 	data->texture_atlas = ReadTextureAtlasFromJSON(tex_Doc, gef::Vector2(0,0));
 
 	//free(JSON);
 
-	tex_Doc = ReadFiles(ske);
+	tex_Doc = ReadFiles(ske.c_str());
 	data->armiture = static_cast<SpriteArmature*>(ReadArmitureFromJSON(tex_Doc));
 
 	//free(JSON);
@@ -49,20 +49,19 @@ SpriteJSONData* JSONParser::setUpSpriteAnimation(const char* tex, const char* sk
 
 }
 
-BoneJSONData* JSONParser::setUpBoneAnimation(const char* tex, const char* ske, gef::Vector2 screenPos)
+BoneJSONData* JSONParser::setUpBoneAnimation(const std::string tex, const std::string ske, gef::Vector2 screenPos)
 {
 	BoneJSONData* data = new BoneJSONData;
 	rapidjson::Document tex_Doc;
-	tex_Doc = ReadFiles(tex);
+	tex_Doc = ReadFiles(tex.c_str());
 
 	data ->texture_atlas = ReadTextureAtlasFromJSON(tex_Doc, screenPos);
 
-	tex_Doc = ReadFiles(ske);
+	tex_Doc = ReadFiles(ske.c_str());
 	data->bone_armiture = static_cast<BoneArmature*>(ReadArmitureFromJSON(tex_Doc));
 
 
 	return data;
-
 
 }
 

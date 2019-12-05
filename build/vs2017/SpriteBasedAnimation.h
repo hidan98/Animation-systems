@@ -8,7 +8,7 @@ class SpriteBasedAnimation
 public:
 	SpriteBasedAnimation();
 	~SpriteBasedAnimation();
-	void init(const char* tex, const char* ske, const char* image, gef::Platform& plat);
+	void init(const std::string tex, const std::string ske, const std::string image, gef::Platform& plat);
 
 	void update(float dt, gef::Vector2 screenPos);
 

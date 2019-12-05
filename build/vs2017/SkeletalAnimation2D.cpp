@@ -14,7 +14,7 @@ SkeletalAnimation2D::~SkeletalAnimation2D()
 
 void SkeletalAnimation2D::init(const char* tex, const char* ske, const char* image, gef::Platform& plat)
 {
-
+	animationNum = 0;
 	json_data_ = JSONParser::setUpBoneAnimation(tex, ske, gef::Vector2(plat.width()/2, plat.height()/2));
 
 	updateBoneTransform(json_data_->bone_armiture->boneData);
@@ -143,22 +143,22 @@ void SkeletalAnimation2D::spriteSetup(SubTexture* sub, gef::Vector2 screenPos, g
 
 void SkeletalAnimation2D::updateBones(std::vector<BoneAnimation*> animation, std::unordered_map<gef::StringId, Bone*> bones, float dt)
 {
-	int val = 2;
-	for (unsigned i = 0; i < animation[val]->animation_bone_data.size(); i++)
+	
+	for (unsigned i = 0; i < animation[animationNum]->animation_bone_data.size(); i++)
 	{
-		gef::StringId id = animation[val]->animation_bone_data[i]->nameId;
+		gef::StringId id = animation[animationNum]->animation_bone_data[i]->nameId;
 
 
 		Bone* bone = bones[id];
 
-		float rotate = getRotLerp(animation[val]->animation_bone_data[i], dt);
+		float rotate = getRotLerp(animation[animationNum]->animation_bone_data[i], dt);
 
 		float newAngle = bone->transform.sk + rotate;
 
 		bone->local_transform.Rotate(gef::DegToRad(newAngle));
 
 
-		gef::Vector2 lerpPos = getTransLerp(animation[val]->animation_bone_data[i], dt);
+		gef::Vector2 lerpPos = getTransLerp(animation[animationNum]->animation_bone_data[i], dt);
 
 
 		gef::Vector2 tempVec2 = gef::Vector2(bone->transform.x, bone->transform.y);

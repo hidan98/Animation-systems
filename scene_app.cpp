@@ -264,9 +264,16 @@ void SceneApp::ImGuiRender()
 				}
 				ImGui::EndMenu();
 			}
-			if (ImGui::MenuItem("Bone Animation"))
+			if (ImGui::BeginMenu("Bone Animation"))
 			{
-
+				for (int i = 0; i < bone_->getData()->bone_armiture->animation.size(); i++)
+				{
+					if (ImGui::MenuItem(bone_->getData()->bone_armiture->animation[i]->name.c_str()))
+					{
+						bone_->setAnimationNum(i);
+					}
+				}
+				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
 		}

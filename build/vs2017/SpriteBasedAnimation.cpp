@@ -11,12 +11,12 @@ SpriteBasedAnimation::~SpriteBasedAnimation()
 {
 }
 
-void SpriteBasedAnimation::init(const char* tex, const char* ske, const char* image, gef::Platform& plat)
+void SpriteBasedAnimation::init(const std::string tex, const std::string ske, const std::string image, gef::Platform& plat)
 {
 
 	json_data_ = JSONParser::setUpSpriteAnimation(tex, ske);
 
-	sprite_texture_ = CreateTextureFromPNG(image, plat);
+	sprite_texture_ = CreateTextureFromPNG(image.c_str(), plat);
 
 	sprite = new gef::Sprite();
 	sprite->set_texture(sprite_texture_);
