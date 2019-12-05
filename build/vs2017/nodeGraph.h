@@ -6,32 +6,26 @@
 #include <platform/d3d11/system/platform_d3d11.h>
 #include <platform\d3d11\input\keyboard_d3d11.h>
 
+#include "OutputNodeGraph.h"
+#include "ClipNodeGraph.h"
 
-
-
-enum MyNodeTypes {
-	MNT_COLOR_NODE = 0,
-	MNT_COMBINE_NODE,
-	MNT_COMMENT_NODE,
-	MNT_COMPLEX_NODE,
-#   ifdef IMGUI_USE_AUTO_BINDING
-	MNT_TEXTURE_NODE,
-#   endif
-	MNT_OUTPUT_NODE,    // One problem here when adding new values is backward compatibility with old saved files: they rely on the previously used int values (it should be OK only if we append new values at the end).
-	MNT_COUNT
-};
+#include "graphics\skinned_mesh_instance.h"
 
 
 class nodeGraph
 {
 public:
-	nodeGraph();
+	nodeGraph(gef::SkeletonPose pose);
 	~nodeGraph();
 
 	
-	void update();
-
+	void update(float dt);
+	CustomeNode* output;
 private:
+	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
+
+	gef::SkeletonPose bind_pose;
+	
 	
 };
 

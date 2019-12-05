@@ -22,7 +22,7 @@
 #include <experimental\filesystem>
 #include <vector>
 #include <string>
-
+#include <graphics/scene.h>
 
 ImTextureID Application_LoadTexture(const char* path)
 {
@@ -116,7 +116,57 @@ void SceneApp::Init()
 	getSpiteFile();
 
 
+	model_scene = new gef::Scene();
+	model_scene->ReadSceneFromFile(platform_, "ybot.scn");
+
+	model_scene->CreateMaterials(platform_);
+	mesh_ = GetFirstMesh(model_scene);
+
+
+	gef::Skeleton* skeleton = GetFirstSkeleton(model_scene);
+
+	if (skeleton)
+	{
+		player_ = new gef::SkinnedMeshInstance(*skeleton);
+		//anim_player_.Init(player_->bind_pose());
+		player_->set_mesh(mesh_);
+
+
+	}
+
+
+	graph = new nodeGraph(player_->bind_pose());
+
 	active_graph = false;
+}
+
+gef::Skeleton* SceneApp::GetFirstSkeleton(gef::Scene* scene)
+{
+	gef::Skeleton* skeleton = NULL;
+	if (scene)
+	{
+		// check to see if there is a skeleton in the the scene file
+		// if so, pull out the bind pose and create an array of matrices
+		// that wil be used to store the bone transformations
+		if (scene->skeletons.size() > 0)
+			skeleton = scene->skeletons.front();
+	}
+
+	return skeleton;
+}
+
+gef::Mesh* SceneApp::GetFirstMesh(gef::Scene* scene)
+{
+	gef::Mesh* mesh = NULL;
+
+	if (scene)
+	{
+		// now check to see if there is any mesh data in the file, if so lets create a mesh from it
+		if (scene->mesh_data.size() > 0)
+			mesh = model_scene->CreateMesh(platform_, scene->mesh_data.front());
+	}
+
+	return mesh;
 }
 
 void SceneApp::CleanUp()
@@ -142,7 +192,7 @@ void SceneApp::CleanUp()
 bool SceneApp::Update(float frame_time)
 {
 	fps_ = 1.0f / frame_time;
-
+	time = frame_time;
 
 	input_manager_->Update();
 	{
@@ -180,6 +230,7 @@ bool SceneApp::Update(float frame_time)
 	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
 	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+
 
 	return true;
 }
@@ -311,7 +362,8 @@ void SceneApp::ImGuiRender()
 		if (ImGui::Begin("Example: Custom Node Graph", &active_graph, ImGuiWindowFlags_NoScrollbar))
 		{
 #           ifndef IMGUINODEGRAPHEDITOR_NOTESTDEMO
-			ImGui::TestNodeGraphEditor();   // see its code for further info
+			graph->update(time);   // see its code for further info
+//			ImGui::TestNodeGraphEditor();
 #           endif //IMGUINODEGRAPHEDITOR_NOTESTDEMO            
 		}
 		ImGui::End();
@@ -401,12 +453,6 @@ void SceneApp::getSpiteFile()
 
 	}
 		
-
-
-}
-
-void SceneApp::graph()
-{
 
 
 }
