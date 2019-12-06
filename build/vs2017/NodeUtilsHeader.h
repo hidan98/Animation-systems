@@ -3,7 +3,7 @@
 enum MyNodeTypes {
 	MNT_COLOR_NODE = 0,
 	LinearBlendNode,
-	MNT_COMMENT_NODE,
+	ragDoll,
 	clipNode,
 #   ifdef IMGUI_USE_AUTO_BINDING
 	MNT_TEXTURE_NODE,

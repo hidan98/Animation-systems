@@ -10,19 +10,21 @@
 #include "ClipNodeGraph.h"
 
 #include "graphics\skinned_mesh_instance.h"
+#include "btBulletDynamicsCommon.h"
 
 struct animationData
 {
 	std::string name;
 	gef::Scene* scene_;
 	gef::Animation* animation_;
+	std::string bulletPath;
 
 };
 
 class nodeGraph
 {
 public:
-	nodeGraph(gef::SkeletonPose pose, gef::Platform* plat);
+	nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world);
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
@@ -30,7 +32,7 @@ public:
 	void update(float dt);
 
 	CustomeNode* output;
-
+	void updateOut(float dt) { output->update(dt, temp_); }
 	
 private:
 	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
@@ -47,5 +49,8 @@ private:
 	std::vector<std::vector<animationData*>> animations;
 
 	animationData* loadAnimation(std::string path);
+
+	btDiscreteDynamicsWorld* world_;
+	std::string bulletPath;
 };
 

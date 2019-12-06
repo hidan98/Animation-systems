@@ -17,6 +17,8 @@
 #include "btBulletDynamicsCommon.h"
 #include "ragdoll.h"
 
+#include "Physics.h"
+
 // FRAMEWORK FORWARD DECLARATIONS
 namespace gef
 {
@@ -98,7 +100,7 @@ private:
 
 	gef::SkinnedMeshInstance* player_;
 
-
+	Physics* worldPhysics;
 
 
 

@@ -23,6 +23,7 @@
 #include <vector>
 #include <string>
 #include <graphics/scene.h>
+#include "Animation_Utils.h"
 
 ImTextureID Application_LoadTexture(const char* path)
 {
@@ -60,7 +61,8 @@ SceneApp::SceneApp(gef::Platform& platform) :
 	input_manager_(NULL),
 	font_(NULL),
 	sprite_texture_(NULL),
-	renderer_3d_(NULL)
+	renderer_3d_(NULL),
+	worldPhysics(nullptr)
 {
 }
 
@@ -122,13 +124,13 @@ void SceneApp::Init()
 
 
 	model_scene = new gef::Scene();
-	model_scene->ReadSceneFromFile(platform_, "ybot.scn");
+	model_scene->ReadSceneFromFile(platform_, "xbot.scn");
 
 	model_scene->CreateMaterials(platform_);
-	mesh_ = GetFirstMesh(model_scene);
+	mesh_ = Animation_Utils::GetFirstMesh(model_scene, platform_);
 
 
-	gef::Skeleton* skeleton = GetFirstSkeleton(model_scene);
+	gef::Skeleton* skeleton = Animation_Utils::GetFirstSkeleton(model_scene);
 
 	if (skeleton)
 	{
@@ -140,10 +142,17 @@ void SceneApp::Init()
 	}
 
 
-	graph = new nodeGraph(player_->bind_pose(), &platform_);
+	
 
 	active_graph = false;
 	done = false;
+
+
+	worldPhysics = new Physics();
+	worldPhysics->init(&platform_, renderer_3d_);
+
+
+	graph = new nodeGraph(player_->bind_pose(), &platform_, worldPhysics->getWorld());
 }
 
 gef::Skeleton* SceneApp::GetFirstSkeleton(gef::Scene* scene)
@@ -197,6 +206,10 @@ void SceneApp::CleanUp()
 
 	delete renderer_3d_;
 	renderer_3d_ = NULL;
+	
+	worldPhysics->cleanUp();
+	delete worldPhysics;
+	worldPhysics = nullptr;
 
 }
 
@@ -238,12 +251,15 @@ bool SceneApp::Update(float frame_time)
 		}
 	}
 
+
+
 	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
 	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
 	if (graph->output)
 	{
+		graph->updateOut(frame_time);
 		if (done)
 		{
 			gef::Matrix44 player_trans;
@@ -256,6 +272,7 @@ bool SceneApp::Update(float frame_time)
 		}
 		
 	}
+	worldPhysics->update(frame_time);
 
 	return true;
 }
@@ -276,6 +293,10 @@ void SceneApp::Render()
 	renderer_3d_->Begin();
 	if (graph->output)
 		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
+
+
+	if (worldPhysics)
+		worldPhysics->render(renderer_3d_);
 
 	renderer_3d_->End();
 	sprite_renderer_->Begin(false);

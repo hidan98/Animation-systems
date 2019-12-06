@@ -4,12 +4,15 @@
 #include "NodeUtilsHeader.h"
 #include "BlendNodeGraph.h"
 #include <experimental/filesystem>
+#include "RagDollNode.h"
 
-nodeGraph::nodeGraph(gef::SkeletonPose pose, gef::Platform* plat) : output(NULL),  platform(nullptr)
+nodeGraph::nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world) : output(NULL),  platform(nullptr)
 {
 	bind_pose = pose;
 	platform = plat;
 	setUpAnimations();
+
+	world_ = world;
 	//animation = Animation_Utils::LoadAnimation("ybot@dance.scn", "", platform);
 
 	//gef::Scene anim_scene;
@@ -35,7 +38,7 @@ nodeGraph::~nodeGraph()
 {
 }
 
-static const char* MyNodeTypeNames[MNT_COUNT] = { "Combine", "Linear Blend", "Comment","Clip"
+static const char* MyNodeTypeNames[MNT_COUNT] = { "Colour", "Linear Blend", "Rag doll","Clip"
 #						ifdef IMGUI_USE_AUTO_BINDING
 ,"Texture"
 #						endif
@@ -51,8 +54,8 @@ static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGr
 		
 		return temp; }
 	case LinearBlendNode: return BlendNodeGraph::create(pos);
-	/*case MNT_COMPLEX_NODE: return ComplexNode::Create(pos);
-	case MNT_OUTPUT_NODE: return OutputNode::Create(pos);*/
+	case ragDoll : return RagDollNode::create(pos);
+	/*case MNT_OUTPUT_NODE: return OutputNode::Create(pos);*/
 #   ifdef IMGUI_USE_AUTO_BINDING
 	case MNT_TEXTURE_NODE: return TextureNode::Create(pos);
 #   endif //IMGUI_USE_AUTO_BINDING
@@ -79,6 +82,10 @@ void nodeGraph::setUpAnimations()
 		{
 			std::string tempString = it.path().string();
 			std::replace(tempString.begin(), tempString.end(), '\\', '/');
+			if (tempString.find(".bullet") != std::string::npos)
+			{
+				bulletPath = tempString;
+			}
 
 			if (tempString.find("@") != std::string::npos)
 			{
@@ -124,32 +131,41 @@ void nodeGraph::update(float dt)
 	CustomeNode* active = static_cast<CustomeNode*>(nge.getActiveNode());
 	if (active)
 	{
-		if (active->getType() == clipNode)
+		switch (active->getType())
 		{
-			ImGui::Begin("aye");
+		case clipNode:
+			ImGui::Begin("Animation Selection");
 			//active->setup(platform, &bind_pose, animation);
 
 			for (int i = 0; i < animations[0].size(); i++)
 			{
-							
+
 				if (ImGui::Button(animations[0][i]->name.c_str()))
 				{
 					ClipNodeGraph* clipGraph = static_cast<ClipNodeGraph*>(active);
 					clipGraph->setClip(animations[0][i]->animation_, &bind_pose);
 				}
-				
+
 			}
-			
+
 
 			ImGui::End();
-
-
-		}
-		else if (active->getType() == MNT_OUTPUT_NODE)
+			break;
+		case MNT_OUTPUT_NODE:
+			active->setup(platform, &bind_pose);
+			break;
+		case ragDoll:
 		{
-			
+			RagDollNode* node = static_cast<RagDollNode*>(active);
+			node->setup(platform, &bind_pose, world_, bulletPath);
+			break;
 		}
-		active->setup(platform, &bind_pose);
+			
+		default:
+			break;
+		}
+		
+		
 	}
 	
 	ImVector<ImGui::Node*> yes;
@@ -159,7 +175,7 @@ void nodeGraph::update(float dt)
 	nge.getAllNodesOfType(MNT_OUTPUT_NODE, &yes);
 	CustomeNode* temp = static_cast<CustomeNode*>(yes[0]);
 	output = temp;
-	temp->update(dt, temp_);
+	//temp->update(dt, temp_);
 	
 	nge.render();
 	

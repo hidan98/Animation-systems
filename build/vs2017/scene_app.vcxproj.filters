@@ -85,6 +85,12 @@
     <Filter Include="Bullet\LinearMath">
       <UniqueIdentifier>{a4f9ea66-8639-4de0-b5d3-c97e8d5f9ae5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\2d">
+      <UniqueIdentifier>{a8f11040-3b45-4249-a2db-4f3aa3c09647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\nodeThings">
+      <UniqueIdentifier>{cfe84f1e-42d0-4bd0-8582-6d7f4be4328b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main_d3d11.cpp">
@@ -118,21 +124,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\motion_clip_player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OutputNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LinearBlendNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ClipNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlendNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlendTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.cpp">
@@ -191,24 +182,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp">
       <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="nodeGraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OutputNodeGraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ClipNodeGraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomeNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlendNodeGraph.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bullet3\src\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp">
       <Filter>Bullet\BulletCollision\BroadphaseCollision</Filter>
@@ -688,6 +661,48 @@
       <Filter>Bullet\Extras\Serialize\BulletFileLoader</Filter>
     </ClCompile>
     <ClCompile Include="..\..\primitive_builder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTree.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendNodeGraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipNodeGraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="nodeGraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputNodeGraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomeNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearBlendNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RagDollNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1530,6 +1545,15 @@
       <Filter>Bullet\Extras\Serialize\BulletFileLoader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\primitive_builder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RagDollNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

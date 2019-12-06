@@ -425,6 +425,9 @@
     <ClCompile Include="nodeGraph.cpp" />
     <ClCompile Include="OutputNode.cpp" />
     <ClCompile Include="OutputNodeGraph.cpp" />
+    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="RagDollNode.cpp" />
+    <ClCompile Include="RigidBodies.cpp" />
     <ClCompile Include="SkeletalAnimation2D.cpp" />
     <ClCompile Include="SpriteBasedAnimation.cpp" />
   </ItemGroup>
@@ -707,6 +710,9 @@
     <ClInclude Include="NodeUtilsHeader.h" />
     <ClInclude Include="OutputNode.h" />
     <ClInclude Include="OutputNodeGraph.h" />
+    <ClInclude Include="Physics.h" />
+    <ClInclude Include="RagDollNode.h" />
+    <ClInclude Include="RigidBodies.h" />
     <ClInclude Include="SkeletalAnimation2D.h" />
     <ClInclude Include="SpriteBasedAnimation.h" />
   </ItemGroup>
