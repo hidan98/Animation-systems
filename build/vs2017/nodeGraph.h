@@ -11,11 +11,18 @@
 
 #include "graphics\skinned_mesh_instance.h"
 
+struct animationData
+{
+	std::string name;
+	gef::Scene* scene_;
+	gef::Animation* animation_;
+
+};
 
 class nodeGraph
 {
 public:
-	nodeGraph(gef::SkeletonPose pose);
+	nodeGraph(gef::SkeletonPose pose, gef::Platform* plat);
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
@@ -24,14 +31,21 @@ public:
 
 	CustomeNode* output;
 
-	gef::Platform* plat;
+	
 private:
 	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
 
+	void setUpAnimations();
 	gef::SkeletonPose bind_pose;
 	
 	ImGui::NodeGraphEditor* temp_;
-
 	
+
+	gef::Platform* platform;
+
+	std::vector<animationData> animations_;
+	std::vector<std::vector<animationData*>> animations;
+
+	animationData* loadAnimation(std::string path);
 };
 

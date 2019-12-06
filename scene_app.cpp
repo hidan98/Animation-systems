@@ -140,7 +140,7 @@ void SceneApp::Init()
 	}
 
 
-	graph = new nodeGraph(player_->bind_pose());
+	graph = new nodeGraph(player_->bind_pose(), &platform_);
 
 	active_graph = false;
 	done = false;
@@ -251,7 +251,7 @@ bool SceneApp::Update(float frame_time)
 
 			gef::Matrix44 scale;
 			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
-			player_->UpdateBoneMatrices(*graph->output->getOutput());
+			player_->UpdateBoneMatrices(graph->output->getOutput());
 			player_->set_transform(scale * player_trans);
 		}
 		

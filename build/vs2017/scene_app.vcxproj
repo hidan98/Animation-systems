@@ -253,6 +253,7 @@
     <ClCompile Include="Animation3D.cpp" />
     <ClCompile Include="Animation_Utils.cpp" />
     <ClCompile Include="BlendNode.cpp" />
+    <ClCompile Include="BlendNodeGraph.cpp" />
     <ClCompile Include="BlendTree.cpp" />
     <ClCompile Include="ClipNode.cpp" />
     <ClCompile Include="ClipNodeGraph.cpp" />
@@ -292,6 +293,7 @@
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="Animation_Utils.h" />
     <ClInclude Include="BlendNode.h" />
+    <ClInclude Include="BlendNodeGraph.h" />
     <ClInclude Include="BlendTree.h" />
     <ClInclude Include="ClipNodeGraph.h" />
     <ClInclude Include="CustomeBluePrints.h" />

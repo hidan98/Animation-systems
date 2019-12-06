@@ -23,9 +23,11 @@ protected:
 	}
 	virtual bool canBeCopied() const { return false; }
 
-	bool process(float dt);
+	bool process(float dt, ImGui::NodeGraphEditor* editor);
 
 	bool temp;
+
+	void setup(gef::Platform* plat, gef::SkeletonPose* bind, void* = nullptr);
 
 public:
 	static ThisClass* create(const ImVec2& pos);

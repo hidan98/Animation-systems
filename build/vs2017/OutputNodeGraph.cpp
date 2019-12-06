@@ -4,6 +4,7 @@
 
 OutputNodeGraph::OutputNodeGraph() : CustomeNode()
 {
+	active = false;
 }
 
 
@@ -11,28 +12,41 @@ OutputNodeGraph::~OutputNodeGraph()
 {
 }
 
+void OutputNodeGraph::setup(gef::Platform* plat, gef::SkeletonPose* bind, void* data)
+{
+	if (!active)
+	{
+		platform_ = plat;
+		bindPose = bind;
+		active = true;
+		output_ = *bindPose;
+	}
+	
+}
+
 OutputNodeGraph* OutputNodeGraph::create(const ImVec2& pos)
 {
 	OutputNodeGraph* node = (ThisClass*)ImGui::MemAlloc(sizeof(ThisClass)); IM_PLACEMENT_NEW(node) ThisClass();
 
-	node->init("Ouput node", pos, "ch1;","", MNT_OUTPUT_NODE);
+	node->init("Ouput node", pos, "ch1","", MNT_OUTPUT_NODE);
 
 
 	//node->fields.add
 	return node;
 }
 
-bool OutputNodeGraph::process(float dt)
+bool OutputNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
-	ImGui::NodeGraphEditor editor = getNodeGraphEditor();	
-	CustomeNode* input = static_cast<CustomeNode*>(editor.getInputNodeForNodeAndSlot(this, 0));
+	
+	CustomeNode* input = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, 0));
 	if (input)
 	{
 		output_ = input->getOutput();
-		if (!output_)
-			output_ = bindPose;
+		return true;
 
 	}
-	return true;
+	else
+		output_ = *bindPose;
+	return false;
 
 }

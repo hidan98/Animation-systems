@@ -24,7 +24,7 @@ protected:
 	}*/
 	//virtual bool canBeCopied() const { return false; }
 
-
+	virtual void onEdited() {}
 	float speed;
 
 	ClipNode* node_;
@@ -35,11 +35,30 @@ protected:
 	bool looping;
 	float playBackSpeed_;
 
+	bool active;
+
+	void setup(gef::Platform* plat, gef::SkeletonPose* bind, void* = nullptr);
+
+	
+	//void onEditField(ImGui::FieldInfo& /*f*/, int widgetIndex) {
+	//	//fprintf(stderr,"TextureNode::onEditField(\"%s\",%i);\n",f.label,widgetIndex);
+	//	if (widgetIndex == 1)         startBrowseDialogNextFrame = true;  // browsing button pressed
+	//	else if (widgetIndex == 0)    processPath(imagePath);             // text edited (= "return" pressed in our case)
+
+
+	//}
+
+	//static void StaticEditFieldCallback(ImGui::FieldInfo& f, int widgetIndex) {
+	//	reinterpret_cast<ThisClass*>(f.userData)->onEditField(f, widgetIndex);
+	//}
+
+
+
 public:
 	static ThisClass* create(const ImVec2& pos);
-	bool update(float dt);
-	bool process(float dt);
-	
+	bool update(float dt, ImGui::NodeGraphEditor* editor);
+	bool process(float dt, ImGui::NodeGraphEditor* editor);
+	inline void setClip(gef::Animation* anim, gef::SkeletonPose* bind) { clip_ = anim; setBind(bind); }
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
