@@ -22,10 +22,13 @@ static const char* MyNodeTypeNames[MNT_COUNT] = { "Color","Combine","Comment","C
 };
 
 
-static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor& /*nge*/) {
+static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor& nge) {
 	switch (nt) {
 	case MNT_OUTPUT_NODE: return OutputNodeGraph::create(pos);
-	case clipNode: return ClipNodeGraph::create(pos);
+	case clipNode: {ClipNodeGraph* temp = ClipNodeGraph::create(pos);
+		//temp->setPlatform()
+		
+		return temp; }
 	/*case MNT_COMMENT_NODE: return CommentNode::Create(pos);
 	case MNT_COMPLEX_NODE: return ComplexNode::Create(pos);
 	case MNT_OUTPUT_NODE: return OutputNode::Create(pos);*/
@@ -52,15 +55,21 @@ void nodeGraph::update(float dt)
 		nge.registerNodeTypes(MyNodeTypeNames, MNT_COUNT, MyNodeFactory, NULL, -1);
 
 		nge.registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
-		output = static_cast<CustomeNode*>(nge.addNode(MNT_OUTPUT_NODE, ImVec2(40, 50)));
+		output =  static_cast<OutputNodeGraph*>(nge.addNode(MNT_OUTPUT_NODE, ImVec2(40, 50)));
 		output->setBind(&bind_pose);
 		/*nge.show_style_editor = true;
 		nge.show_load_save_buttons = true;*/
-
-
 	}
-	static_cast<CustomeNode*>(nge.getNode(0))->update(dt);
 	
+	
+	ImVector<ImGui::Node*> yes;
+	nge.getAllNodesOfType(clipNode, &yes);
+
+
+	nge.getAllNodesOfType(MNT_OUTPUT_NODE, &yes);
+	CustomeNode* temp = static_cast<CustomeNode*>(yes[0]);
+	temp->update(dt, &nge);
+	temp_ = &nge;
 	nge.render();
-	//output->update(dt);
+	
 }

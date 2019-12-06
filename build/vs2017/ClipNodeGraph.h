@@ -2,9 +2,10 @@
 #include "imgui.h"
 #include "imguinodegrapheditor.h"
 #include "NodeUtilsHeader.h"
-
+#include <animation/animation.h>
 #include "ClipNode.h"
-class ClipNodeGraph : public ImGui::Node
+#include"CustomeNode.h"
+class ClipNodeGraph : public CustomeNode
 {
 protected:
 
@@ -28,10 +29,17 @@ protected:
 
 	ClipNode* node_;
 
+	gef::Animation* clip_;
+
+	float animTime_;
+	bool looping;
+	float playBackSpeed_;
+
 public:
 	static ThisClass* create(const ImVec2& pos);
-	void update();
-
+	bool update(float dt);
+	bool process(float dt);
+	
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }

@@ -59,19 +59,24 @@ SceneApp::SceneApp(gef::Platform& platform) :
 	sprite_renderer_(NULL),
 	input_manager_(NULL),
 	font_(NULL),
-	sprite_texture_(NULL)
+	sprite_texture_(NULL),
+	renderer_3d_(NULL)
 {
 }
 
 void SceneApp::Init()
 {
 	sprite_renderer_ = gef::SpriteRenderer::Create(platform_);
-	InitFont();
 
+	renderer_3d_ = gef::Renderer3D::Create(platform_);
+	InitFont();
+	SetupCamera();
+	SetupLights();
 	// initialise input manager
 	input_manager_ = gef::InputManager::Create(platform_);
 
 	sprite_texture_ = CreateTextureFromPNG("Idle (1).png", platform_);
+
 
 	sprite_.set_texture(sprite_texture_);
 	sprite_.set_position(gef::Vector4(platform_.width()*0.5f, platform_.height()*0.5f, -0.99f));
@@ -138,6 +143,7 @@ void SceneApp::Init()
 	graph = new nodeGraph(player_->bind_pose());
 
 	active_graph = false;
+	done = false;
 }
 
 gef::Skeleton* SceneApp::GetFirstSkeleton(gef::Scene* scene)
@@ -187,6 +193,11 @@ void SceneApp::CleanUp()
 
 	delete sprite_renderer_;
 	sprite_renderer_ = NULL;
+
+
+	delete renderer_3d_;
+	renderer_3d_ = NULL;
+
 }
 
 bool SceneApp::Update(float frame_time)
@@ -231,6 +242,20 @@ bool SceneApp::Update(float frame_time)
 
 	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
+	if (graph->output)
+	{
+		if (done)
+		{
+			gef::Matrix44 player_trans;
+			player_trans.SetIdentity();
+
+			gef::Matrix44 scale;
+			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+			player_->UpdateBoneMatrices(*graph->output->getOutput());
+			player_->set_transform(scale * player_trans);
+		}
+		
+	}
 
 	return true;
 }
@@ -240,12 +265,28 @@ bool SceneApp::Update(float frame_time)
 
 void SceneApp::Render()
 {
-	sprite_renderer_->Begin();
+	gef::Matrix44 projection_matrix;
+	gef::Matrix44 view_matrix;
+	projection_matrix = platform_.PerspectiveProjectionFov(camera_fov_, (float)platform_.width() / (float)platform_.height(), near_plane_, far_plane_);
+	view_matrix.LookAt(camera_eye_, camera_lookat_, camera_up_);
+	renderer_3d_->set_projection_matrix(projection_matrix);
+	renderer_3d_->set_view_matrix(view_matrix);
+
+	// draw meshes here
+	renderer_3d_->Begin();
+	if (graph->output)
+		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
+
+	renderer_3d_->End();
+	sprite_renderer_->Begin(false);
 
 	// Render button icon
 	sprite_renderer_->DrawSprite(*anim->getSprite());
 	if(active)
 		bone_->render(sprite_renderer_);
+
+	
+		
 
 	DrawHUD();
 	sprite_renderer_->End();
@@ -363,6 +404,7 @@ void SceneApp::ImGuiRender()
 		{
 #           ifndef IMGUINODEGRAPHEDITOR_NOTESTDEMO
 			graph->update(time);   // see its code for further info
+			done = true;
 //			ImGui::TestNodeGraphEditor();
 #           endif //IMGUINODEGRAPHEDITOR_NOTESTDEMO            
 		}
@@ -455,4 +497,27 @@ void SceneApp::getSpiteFile()
 		
 
 
+}
+
+void SceneApp::SetupCamera()
+{
+	// initialise the camera settings
+	camera_eye_ = gef::Vector4(-1.0f, 1.0f, 4.0f);
+	camera_lookat_ = gef::Vector4(0.0f, 1.0f, 0.0f);
+	camera_up_ = gef::Vector4(0.0f, 1.0f, 0.0f);
+	camera_fov_ = gef::DegToRad(45.0f);
+	near_plane_ = 0.01f;
+	far_plane_ = 100.f;
+
+}
+
+void SceneApp::SetupLights()
+{
+	gef::PointLight default_point_light;
+	default_point_light.set_colour(gef::Colour(0.7f, 0.7f, 1.0f, 1.0f));
+	default_point_light.set_position(gef::Vector4(-300.0f, -500.0f, 100.0f));
+
+	gef::Default3DShaderData& default_shader_data = renderer_3d_->default_shader_data();
+	default_shader_data.set_ambient_light_colour(gef::Colour(0.5f, 0.5f, 0.5f, 1.0f));
+	default_shader_data.AddPointLight(default_point_light);
 }

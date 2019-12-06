@@ -41,6 +41,7 @@ private:
 //	ImGui::NodeGraphEditor nge;
     
 	gef::SpriteRenderer* sprite_renderer_;
+	gef::Renderer3D* renderer_3d_;
 	gef::Font* font_;
 	gef::InputManager* input_manager_;
 
@@ -70,10 +71,18 @@ private:
 	void FrontendUpdate(float frame_time);
 	void FrontendRender();
 
+	void SetupLights();
+	void SetupCamera();
+	gef::Vector4 camera_eye_;
+	gef::Vector4 camera_lookat_;
+	gef::Vector4 camera_up_;
+	float camera_fov_;
+	float near_plane_;
+	float far_plane_;
 
 	float time;
 
-
+	bool done;
 
 	gef::Scene* model_scene;
 	class gef::Mesh* mesh_;

@@ -29,6 +29,8 @@ bool OutputNodeGraph::process(float dt)
 	if (input)
 	{
 		output_ = input->getOutput();
+		if (!output_)
+			output_ = bindPose;
 
 	}
 	return true;

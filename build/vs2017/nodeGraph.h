@@ -18,14 +18,20 @@ public:
 	nodeGraph(gef::SkeletonPose pose);
 	~nodeGraph();
 
+	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
 	
 	void update(float dt);
+
 	CustomeNode* output;
+
+	gef::Platform* plat;
 private:
 	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
 
 	gef::SkeletonPose bind_pose;
 	
+	ImGui::NodeGraphEditor* temp_;
+
 	
 };
 
