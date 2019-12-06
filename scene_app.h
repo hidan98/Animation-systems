@@ -11,6 +11,12 @@
 #include "nodeGraph.h"
 #include "graphics\skinned_mesh_instance.h"
 
+#include "primitive_renderer.h"
+#include "gef_debug_drawer.h"
+
+#include "btBulletDynamicsCommon.h"
+#include "ragdoll.h"
+
 // FRAMEWORK FORWARD DECLARATIONS
 namespace gef
 {
@@ -91,6 +97,9 @@ private:
 	gef::Skeleton* GetFirstSkeleton(gef::Scene* scene);
 
 	gef::SkinnedMeshInstance* player_;
+
+
+
 
 
 };
