@@ -12,7 +12,7 @@ OutputNodeGraph::~OutputNodeGraph()
 {
 }
 
-void OutputNodeGraph::setup(gef::Platform* plat, gef::SkeletonPose* bind, void* data)
+void OutputNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* data)
 {
 	if (!active)
 	{

@@ -27,7 +27,7 @@ protected:
 
 	bool temp;
 
-	void setup(gef::Platform* plat, gef::SkeletonPose* bind, void* = nullptr);
+	void setup(gef::Platform* plat, const  gef::SkeletonPose* bind, void* = nullptr);
 
 public:
 	static ThisClass* create(const ImVec2& pos);

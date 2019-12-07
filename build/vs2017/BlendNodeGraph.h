@@ -35,7 +35,7 @@ protected:
 
 	float blendVal;
 
-	void setup(gef::Platform* plat, gef::SkeletonPose* bind, void* = nullptr);
+	void setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* = nullptr);
 	//void onEditField(ImGui::FieldInfo& /*f*/, int widgetIndex) {
 	//	//fprintf(stderr,"TextureNode::onEditField(\"%s\",%i);\n",f.label,widgetIndex);
 	//	if (widgetIndex == 1)         startBrowseDialogNextFrame = true;  // browsing button pressed

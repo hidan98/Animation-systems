@@ -157,13 +157,15 @@ void SceneApp::Init()
 	worldPhysics = new Physics();
 	worldPhysics->init(&platform_, renderer_3d_);
 
+	bind_pose = &player_->bind_pose();
+	graph = new nodeGraph(bind_pose, &platform_, worldPhysics->getWorld(), player_);
+	effector_position_ = new gef::Vector4(0, 0, 0);
 
-	graph = new nodeGraph(player_->bind_pose(), &platform_, worldPhysics->getWorld(), player_);
-	graph->init();
+	graph->init(effector_position_);
 	graph->current.model = model_scene;
 	graph->current.skel = skeleton;
 
-	effector_position_ = gef::Vector4(0, 0, 0);
+	
 }
 
 
@@ -270,31 +272,31 @@ bool SceneApp::Update(float frame_time)
 		//mouse_position = gef::Vector2(600, 300);
 		GetScreenPosRay(mouse_pos, renderer_3d_->projection_matrix(), renderer_3d_->view_matrix(), mouse_ray_start_point, mouse_ray_direction, (float)platform_.width(), (float)platform_.height(), ndc_zmin_);
 
-		RayPlaneIntersect(mouse_ray_start_point, mouse_ray_direction, gef::Vector4(0.0f, 0.0f, 0.0f), gef::Vector4(0.0f, 0.0f, 1.0f), effector_position_);
+		RayPlaneIntersect(mouse_ray_start_point, mouse_ray_direction, gef::Vector4(0.0f, 0.0f, 0.0f), gef::Vector4(0.0f, 0.0f, 1.0f), *effector_position_);
 		
 			
 		
 
 	}
 
-	if (done)
-	{
-		gef::Matrix44 player_trans;
-		player_trans.SetIdentity();
+	//if (done)
+	//{
+	//	gef::Matrix44 player_trans;
+	//	player_trans.SetIdentity();
 
-		gef::Matrix44 scale;
-		scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+	//	gef::Matrix44 scale;
+	//	scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
 
-		std::vector<int> bone_indices;
-		bone_indices.push_back(16); // left shoulder
-		bone_indices.push_back(17); // left elbow
-		bone_indices.push_back(18); // left wrist
-		ik_pose = graph->output->getOutput();
-		CalculateCCD(ik_pose, *player_, effector_position_, bone_indices);
+	//	std::vector<int> bone_indices;
+	//	bone_indices.push_back(16); // left shoulder
+	//	bone_indices.push_back(17); // left elbow
+	//	bone_indices.push_back(18); // left wrist
+	//	ik_pose = graph->output->getOutput();
+	//	CalculateCCD(ik_pose, *player_, *effector_position_, bone_indices);
 
-		player_->UpdateBoneMatrices(ik_pose);
-		graph->output->SetOutput(&ik_pose);
-	}
+	//	player_->UpdateBoneMatrices(ik_pose);
+	//	graph->output->SetOutput(&ik_pose);
+	//}
 
 
 	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
@@ -605,10 +607,10 @@ void SceneApp::SetupLights()
 
 void SceneApp::RenderEndEffector()
 {
-	const float effector_half_line_length = 20.0f;
+	/*const float effector_half_line_length = 20.0f;
 	const gef::Colour effector_colour(0.0f, 1.0f, 0.0f);
 
-	primitive_renderer_->AddLine(effector_position_ - gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), effector_position_ + gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), effector_colour);
-	primitive_renderer_->AddLine(effector_position_ - gef::Vector4(0.0f, -effector_half_line_length, 0.0f), effector_position_ + gef::Vector4(0.0f, -effector_half_line_length, 0.0f), effector_colour);
-	primitive_renderer_->AddLine(effector_position_ - gef::Vector4(0.0f, 0.0f, -effector_half_line_length), effector_position_ + gef::Vector4(0.0f, 0.0f, -effector_half_line_length), effector_colour);
+	primitive_renderer_->AddLine(*effector_position_ - gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), *effector_position_ + gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), effector_colour);
+	primitive_renderer_->AddLine(*effector_position_ - gef::Vector4(0.0f, -effector_half_line_length, 0.0f), *effector_position_ + gef::Vector4(0.0f, -effector_half_line_length, 0.0f), effector_colour);
+	primitive_renderer_->AddLine(*effector_position_ - gef::Vector4(0.0f, 0.0f, -effector_half_line_length), *effector_position_ + gef::Vector4(0.0f, 0.0f, -effector_half_line_length), effector_colour);*/
 }

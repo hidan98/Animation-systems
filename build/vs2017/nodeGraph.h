@@ -34,11 +34,11 @@ struct currentData {
 class nodeGraph
 {
 public:
-	nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh);
+	nodeGraph(const gef::SkeletonPose* pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh);
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
-	void init();
+	void init(gef::Vector4* pos);
 	void update(float dt);
 
 	CustomeNode* output;
@@ -48,8 +48,9 @@ public:
 private:
 	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
 
+	void getParent(int pos);
 	//void setUpAnimations();
-	gef::SkeletonPose bind_pose;
+	const gef::SkeletonPose* bind_pose;
 	
 	ImGui::NodeGraphEditor* temp_;
 	
@@ -67,10 +68,13 @@ private:
 	std::string bulletPath;
 
 	gef::SkinnedMeshInstance* skinned_mesh_player;
+	gef::Vector4* effector;
 
 	std::map<gef::StringId, std::string> stringTable;
 
 	gef::Scene* current_model;
+	int bonePos;
+	
 	
 };
 

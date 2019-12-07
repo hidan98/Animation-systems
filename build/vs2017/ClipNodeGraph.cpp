@@ -41,7 +41,7 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 	return node;
 }
 
-void ClipNodeGraph::setup(gef::Platform* plat, gef::SkeletonPose* bind, void* clip)
+void ClipNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* clip)
 {
 	if (!active)
 	{

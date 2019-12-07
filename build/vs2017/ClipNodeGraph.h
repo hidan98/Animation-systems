@@ -37,7 +37,7 @@ protected:
 
 	bool active;
 
-	void setup(gef::Platform* plat, gef::SkeletonPose* bind, void* = nullptr);
+	void setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* = nullptr);
 
 	
 	//void onEditField(ImGui::FieldInfo& /*f*/, int widgetIndex) {
@@ -58,7 +58,7 @@ public:
 	static ThisClass* create(const ImVec2& pos);
 	bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
-	inline void setClip(gef::Animation* anim, gef::SkeletonPose* bind) { clip_ = anim; setBind(bind); }
+	inline void setClip(gef::Animation* anim, const gef::SkeletonPose* bind) { clip_ = anim; setBind(bind); }
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }

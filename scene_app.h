@@ -107,10 +107,12 @@ private:
 	Physics* worldPhysics;
 
 	gef::SkeletonPose ik_pose;
-	gef::Vector4 effector_position_;
+	gef::Vector4* effector_position_;
 	float ndc_zmin_;
 
 	PrimitiveRenderer* primitive_renderer_;
+
+	const gef::SkeletonPose* bind_pose;
 
 };
 

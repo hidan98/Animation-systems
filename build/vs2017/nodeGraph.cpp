@@ -7,7 +7,8 @@
 #include "RagDollNode.h"
 #include "ikNodeGraph.h"
 
-nodeGraph::nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh) : output(NULL),  platform(nullptr), skinned_mesh_player(nullptr)
+
+nodeGraph::nodeGraph(const gef::SkeletonPose* pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh) : output(NULL),  platform(nullptr), skinned_mesh_player(nullptr)
 {
 	bind_pose = pose;
 	platform = plat;
@@ -18,8 +19,10 @@ nodeGraph::nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDyna
 	skinned_mesh_player = mesh;
 }
 
-void nodeGraph::init()
+void nodeGraph::init(gef::Vector4* pos)
 {
+	effector = pos;
+
 	std::vector<std::string> temp = Animation_Utils::ReadFiles("3DModels");
 	for (int i = 0; i < temp.size(); i++)
 	{
@@ -101,7 +104,7 @@ void nodeGraph::update(float dt)
 
 		nge.registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
 		output =  static_cast<OutputNodeGraph*>(nge.addNode(MNT_OUTPUT_NODE, ImVec2(40, 50)));
-		output->setBind(&bind_pose);
+		output->setBind(bind_pose);
 		/*nge.show_style_editor = true;
 		nge.show_load_save_buttons = true;*/
 	}
@@ -122,55 +125,60 @@ void nodeGraph::update(float dt)
 				if (ImGui::Button(stringTable[it.first].c_str()))
 				{
 					ClipNodeGraph* clipGraph = static_cast<ClipNodeGraph*>(active);
-					clipGraph->setClip(it.second, &bind_pose);
+					clipGraph->setClip(it.second, bind_pose);
 				}
 			}
-				
-
-			
-
 
 			ImGui::End();
 			break;
 		case MNT_OUTPUT_NODE:
-			active->setup(platform, &bind_pose);
+			active->setup(platform, bind_pose);
 			break;
 		case ragDoll:
 		{
 			RagDollNode* node = static_cast<RagDollNode*>(active);
-			node->setup(platform, &bind_pose, world_, bulletPath);
+			node->setup(platform, bind_pose, world_, bulletPath);
 			break;
 		}
 		case ikNode:
+			
 			ImGui::Begin("bone selection");
+			
 
 			for (int joint_num = 0; joint_num < current.skel->joints().size(); ++joint_num)
 			{
 				std::string bone_name;
 				current.model->string_id_table.Find(current.skel->joint(joint_num).name_id, bone_name);
 				if (ImGui::Button(bone_name.c_str()))
-					ImGui::OpenPopup("pop");
-				if (ImGui::BeginPopup("another popup"))
 				{
-					
-					if (ImGui::BeginMenu("Sub-menu"))
-					{
-						ImGui::MenuItem("Click me");
-						if (ImGui::Button("Stacked Popup"))
-							ImGui::OpenPopup("another popup");
-						if (ImGui::BeginPopup("another popup"))
-						{
-							ImGui::Text("I am the last one here.");
-							ImGui::EndPopup();
-						}
-						ImGui::EndMenu();
-					}
-					ImGui::EndPopup();
-				}
-				ImGui::EndPopup();
+					ImGui::OpenPopup("pop");
+					bonePos = joint_num;
+					break;
+				}			
 				//model_scene_->string_id_table.Find(skeleton->joint(joint_num).name_id, bone_name);
 				//gef::DebugOut("%d: %s\n", joint_num, bone_name.c_str());
 			}
+			if (ImGui::BeginPopup("pop"))
+			{
+				std::vector<int>positions;
+				int parent = bonePos;
+				while (parent > -1) {
+
+					std::string beginBone;
+					current.model->string_id_table.Find(current.skel->joint(parent).name_id, beginBone);
+					positions.push_back(parent);
+					if (ImGui::Button(beginBone.c_str()))
+					{
+						ikNodeGraph* node = static_cast<ikNodeGraph*>(active);
+						std::reverse(positions.begin(), positions.end());
+						node->setPositions(positions);
+						node->setup(platform, bind_pose, skinned_mesh_player, effector);
+					}
+					parent = current.skel->joint(parent).parent;
+				}
+				ImGui::EndPopup();
+			}
+
 
 			ImGui::End();
 		default:
@@ -192,4 +200,7 @@ void nodeGraph::update(float dt)
 	nge.render();
 	
 }
+
+
+
 

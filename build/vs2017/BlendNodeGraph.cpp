@@ -47,12 +47,13 @@ BlendNodeGraph* BlendNodeGraph::create(const ImVec2& pos)
 	return node;
 }
 
-void BlendNodeGraph::setup(gef::Platform* plat, gef::SkeletonPose* bind, void* data)
+void BlendNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* data)
 {
 	if (!active)
 	{
 		setBind(bind);
-		SetOutput(bind);
+
+		//SetOutput(bind);
 		active = true;
 	}
 	

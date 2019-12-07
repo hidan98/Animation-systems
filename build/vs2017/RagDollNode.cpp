@@ -46,7 +46,7 @@ bool RagDollNode::process(float dt, ImGui::NodeGraphEditor* editor)
 
 	return false;
 }
-void RagDollNode::setup(gef::Platform* plat, gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path)
+void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path)
 {
 	if (!active)
 	{
@@ -58,13 +58,13 @@ void RagDollNode::setup(gef::Platform* plat, gef::SkeletonPose* bind, btDiscrete
 
 			ragdoll_->Init(*bind, world, path.c_str());
 			setBind(bind);
-			SetOutput(bind);
+			//SetOutput(bind);
 			active = true;
 		}
 		
 	}
 }
-void RagDollNode::setup(gef::Platform* plat, gef::SkeletonPose* bind, void* data)
+void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* data)
 {
 	
 

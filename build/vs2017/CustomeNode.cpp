@@ -4,7 +4,7 @@
 
 CustomeNode::CustomeNode() : ImGui::Node(), bindPose(nullptr)
 {
-	//output_ = *bindPose;
+	active = false;
 }
 
 
