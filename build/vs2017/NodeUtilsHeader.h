@@ -1,7 +1,7 @@
 #pragma once
 
 enum MyNodeTypes {
-	MNT_COLOR_NODE = 0,
+	ikNode = 0,
 	LinearBlendNode,
 	ragDoll,
 	clipNode,

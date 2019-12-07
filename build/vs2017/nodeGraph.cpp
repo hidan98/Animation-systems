@@ -5,32 +5,52 @@
 #include "BlendNodeGraph.h"
 #include <experimental/filesystem>
 #include "RagDollNode.h"
+#include "ikNodeGraph.h"
 
-nodeGraph::nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world) : output(NULL),  platform(nullptr)
+nodeGraph::nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh) : output(NULL),  platform(nullptr), skinned_mesh_player(nullptr)
 {
 	bind_pose = pose;
 	platform = plat;
-	setUpAnimations();
+	//setUpAnimations();
 
 	world_ = world;
-	//animation = Animation_Utils::LoadAnimation("ybot@dance.scn", "", platform);
 
-	//gef::Scene anim_scene;
-	//if (anim_scene.ReadSceneFromFile(*platform, "ybot@jump.scn"))
-	//{
-	//	// if the animation name is specified then try and find the named anim
-	//	// otherwise return the first animation if there is one
-	//	std::map<gef::StringId, gef::Animation*>::const_iterator anim_node_iter;
-	//	if ("")
-	//		anim_node_iter = anim_scene.animations.find(gef::GetStringId(""));
-	//	else
-	//		anim_node_iter = anim_scene.animations.begin();
+	skinned_mesh_player = mesh;
+}
 
-	//	if (anim_node_iter != anim_scene.animations.end())
-	//		animation = new gef::Animation(*anim_node_iter->second);
+void nodeGraph::init()
+{
+	std::vector<std::string> temp = Animation_Utils::ReadFiles("3DModels");
+	for (int i = 0; i < temp.size(); i++)
+	{
+		modelData* data = new modelData;
+		std::vector<std::string> models = Animation_Utils::ReadFiles(temp[i]);
+
+		for (int j = 0; j < models.size(); j++)
+		{
+			std::string path = models[j];
+			if (path.find(".bullet") != std::string::npos)
+			{
+				data->bulletPath = path;
+			}
+			else if (models[j].find("@") != std::string::npos)
+			{
+				gef::StringId id = gef::GetStringId(path);
+				gef::Animation* anim = Animation_Utils::LoadAnimation(path.c_str(), "", platform);
+				data->animations_.insert({ id, anim });
+				stringTable.insert({ id, path.substr(temp[i].size()) });
+			}
+			else if (path.find(".scn") != std::string::npos)
+			{
+				data->scene_ = new gef::Scene();
+				data->scene_->ReadSceneFromFile(*platform, path.c_str());
+
+			}
+		}
+		modelData_.push_back(data);
+	}
 
 
-	//}
 }
 
 
@@ -38,7 +58,7 @@ nodeGraph::~nodeGraph()
 {
 }
 
-static const char* MyNodeTypeNames[MNT_COUNT] = { "Colour", "Linear Blend", "Rag doll","Clip"
+static const char* MyNodeTypeNames[MNT_COUNT] = { "IKNode", "Linear Blend", "Rag doll","Clip"
 #						ifdef IMGUI_USE_AUTO_BINDING
 ,"Texture"
 #						endif
@@ -55,6 +75,7 @@ static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGr
 		return temp; }
 	case LinearBlendNode: return BlendNodeGraph::create(pos);
 	case ragDoll : return RagDollNode::create(pos);
+	case ikNode: return ikNodeGraph::create(pos);
 	/*case MNT_OUTPUT_NODE: return OutputNode::Create(pos);*/
 #   ifdef IMGUI_USE_AUTO_BINDING
 	case MNT_TEXTURE_NODE: return TextureNode::Create(pos);
@@ -67,52 +88,10 @@ static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGr
 	return NULL;
 }
 
-void nodeGraph::setUpAnimations()
-{
-	namespace fs = std::experimental::filesystem;
-
-	std::vector<std::string> tempStrings;
-
-	for (auto entry : fs::directory_iterator("3DModels"))
-	{
-		std::vector<animationData*> data;
-
-		std::string temp = entry.path().string();
-		for (auto it : fs::directory_iterator(temp))
-		{
-			std::string tempString = it.path().string();
-			std::replace(tempString.begin(), tempString.end(), '\\', '/');
-			if (tempString.find(".bullet") != std::string::npos)
-			{
-				bulletPath = tempString;
-			}
-
-			if (tempString.find("@") != std::string::npos)
-			{
-				animationData* tempData = loadAnimation(tempString);
-				std::replace(temp.begin(), temp.end(), '\\', '/');
-				
-				
-				if (tempData)
-				{
-					tempData->name = tempString.substr(temp.size());
-					data.push_back(tempData);
-				}
-					
-			}
-
-			tempStrings.push_back(tempString);
-		}
-		animations.push_back(data);
-
-	}
-
-
-}
 
 void nodeGraph::update(float dt)
 {
-
+	//ImGui::BeginMenuBar()
 	static ImGui::NodeGraphEditor nge;
 	temp_ = &nge;
 	if (nge.isInited())
@@ -137,16 +116,18 @@ void nodeGraph::update(float dt)
 			ImGui::Begin("Animation Selection");
 			//active->setup(platform, &bind_pose, animation);
 
-			for (int i = 0; i < animations[0].size(); i++)
+			
+			for(auto it : modelData_[0]->animations_)
 			{
-
-				if (ImGui::Button(animations[0][i]->name.c_str()))
+				if (ImGui::Button(stringTable[it.first].c_str()))
 				{
 					ClipNodeGraph* clipGraph = static_cast<ClipNodeGraph*>(active);
-					clipGraph->setClip(animations[0][i]->animation_, &bind_pose);
+					clipGraph->setClip(it.second, &bind_pose);
 				}
-
 			}
+				
+
+			
 
 
 			ImGui::End();
@@ -160,7 +141,38 @@ void nodeGraph::update(float dt)
 			node->setup(platform, &bind_pose, world_, bulletPath);
 			break;
 		}
-			
+		case ikNode:
+			ImGui::Begin("bone selection");
+
+			for (int joint_num = 0; joint_num < current.skel->joints().size(); ++joint_num)
+			{
+				std::string bone_name;
+				current.model->string_id_table.Find(current.skel->joint(joint_num).name_id, bone_name);
+				if (ImGui::Button(bone_name.c_str()))
+					ImGui::OpenPopup("pop");
+				if (ImGui::BeginPopup("another popup"))
+				{
+					
+					if (ImGui::BeginMenu("Sub-menu"))
+					{
+						ImGui::MenuItem("Click me");
+						if (ImGui::Button("Stacked Popup"))
+							ImGui::OpenPopup("another popup");
+						if (ImGui::BeginPopup("another popup"))
+						{
+							ImGui::Text("I am the last one here.");
+							ImGui::EndPopup();
+						}
+						ImGui::EndMenu();
+					}
+					ImGui::EndPopup();
+				}
+				ImGui::EndPopup();
+				//model_scene_->string_id_table.Find(skeleton->joint(joint_num).name_id, bone_name);
+				//gef::DebugOut("%d: %s\n", joint_num, bone_name.c_str());
+			}
+
+			ImGui::End();
 		default:
 			break;
 		}
@@ -181,43 +193,3 @@ void nodeGraph::update(float dt)
 	
 }
 
-
-animationData* nodeGraph::loadAnimation(std::string path)
-{
-
-	gef::Scene* anim_scene = new gef::Scene();
-	gef::Animation* animation = nullptr;
-	if (anim_scene->ReadSceneFromFile(*platform, path.c_str()))
-	{
-		// if the animation name is specified then try and find the named anim
-		// otherwise return the first animation if there is one
-		std::map<gef::StringId, gef::Animation*>::const_iterator anim_node_iter;
-		if ("")
-			anim_node_iter = anim_scene->animations.find(gef::GetStringId(""));
-		else
-			anim_node_iter = anim_scene->animations.begin();
-
-		if (anim_node_iter != anim_scene->animations.end())
-		{
-			animation = new gef::Animation(*anim_node_iter->second);
-
-			animationData* data = new animationData;
-			
-			data->animation_ = animation;
-			data->scene_ = anim_scene;
-			return data;
-
-		}
-		else
-		{
-			delete anim_scene;
-			anim_scene = nullptr;
-		}
-			
-	}
-	else
-	{
-		
-	}
-	return nullptr;
-}

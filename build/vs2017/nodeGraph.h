@@ -12,32 +12,43 @@
 #include "graphics\skinned_mesh_instance.h"
 #include "btBulletDynamicsCommon.h"
 
-struct animationData
+#include <map>
+
+struct modelData
 {
 	std::string name;
-	gef::Scene* scene_;
-	gef::Animation* animation_;
+	gef::Scene* scene_ = nullptr;
+	std::map<gef::StringId, gef::Animation*> animations_;
+	// std::vector<gef::Animation*> animations_;
+	//gef::Animation* animation_;
 	std::string bulletPath;
+
+};
+
+struct currentData {
+	gef::Scene* model;
+	gef::Skeleton* skel;
 
 };
 
 class nodeGraph
 {
 public:
-	nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world);
+	nodeGraph(gef::SkeletonPose pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh);
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
-	
+	void init();
 	void update(float dt);
 
 	CustomeNode* output;
 	void updateOut(float dt) { output->update(dt, temp_); }
 	
+	currentData current;
 private:
 	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
 
-	void setUpAnimations();
+	//void setUpAnimations();
 	gef::SkeletonPose bind_pose;
 	
 	ImGui::NodeGraphEditor* temp_;
@@ -45,12 +56,21 @@ private:
 
 	gef::Platform* platform;
 
-	std::vector<animationData> animations_;
+	/*std::vector<animationData> animations_;
 	std::vector<std::vector<animationData*>> animations;
 
-	animationData* loadAnimation(std::string path);
+	animationData* loadAnimation(std::string path);*/
+
+	std::vector<modelData*> modelData_;
 
 	btDiscreteDynamicsWorld* world_;
 	std::string bulletPath;
+
+	gef::SkinnedMeshInstance* skinned_mesh_player;
+
+	std::map<gef::StringId, std::string> stringTable;
+
+	gef::Scene* current_model;
+	
 };
 

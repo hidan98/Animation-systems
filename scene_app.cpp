@@ -158,7 +158,10 @@ void SceneApp::Init()
 	worldPhysics->init(&platform_, renderer_3d_);
 
 
-	graph = new nodeGraph(player_->bind_pose(), &platform_, worldPhysics->getWorld());
+	graph = new nodeGraph(player_->bind_pose(), &platform_, worldPhysics->getWorld(), player_);
+	graph->init();
+	graph->current.model = model_scene;
+	graph->current.skel = skeleton;
 
 	effector_position_ = gef::Vector4(0, 0, 0);
 }
@@ -276,6 +279,12 @@ bool SceneApp::Update(float frame_time)
 
 	if (done)
 	{
+		gef::Matrix44 player_trans;
+		player_trans.SetIdentity();
+
+		gef::Matrix44 scale;
+		scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+
 		std::vector<int> bone_indices;
 		bone_indices.push_back(16); // left shoulder
 		bone_indices.push_back(17); // left elbow
@@ -456,7 +465,8 @@ void SceneApp::ImGuiRender()
 		}
 		ImGui::EndMenuBar();
 	}
-	
+
+	//ImGui::End();
 
 	if (active_graph) {
 		//if (ImGui::Begin("Example: Custom Node Graph", &show_node_graph_editor_window,ImVec2(700,600),0.95f,ImGuiWindowFlags_NoScrollbar))    // Old API
@@ -464,6 +474,14 @@ void SceneApp::ImGuiRender()
 		ImGui::SetNextWindowBgAlpha(0.95f);
 		if (ImGui::Begin("Example: Custom Node Graph", &active_graph, ImGuiWindowFlags_NoScrollbar))
 		{
+			if (ImGui::BeginMenuBar())
+			{
+				/*if (ImGui::BeginMenu("model"))
+				{
+					ImGui::EndMenu;
+				}*/
+				ImGui::EndMenuBar;
+			}
 #           ifndef IMGUINODEGRAPHEDITOR_NOTESTDEMO
 			graph->update(time);   // see its code for further info
 			done = true;

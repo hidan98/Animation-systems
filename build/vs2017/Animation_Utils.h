@@ -16,5 +16,7 @@ public:
 	static gef::Mesh* GetFirstMesh(gef::Scene* model_scene, gef::Platform& platform_);
 	static gef::Skeleton* GetFirstSkeleton(gef::Scene* scene);
 	static gef::Animation* LoadAnimation(const char* anim_scene_filename, const char* anim_name, gef::Platform* platform_);
+
+	static std::vector<std::string> ReadFiles(std::string path);
 };
 

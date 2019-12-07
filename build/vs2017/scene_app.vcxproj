@@ -422,6 +422,7 @@
     <ClCompile Include="CustomeBluePrints.cpp" />
     <ClCompile Include="CustomeNode.cpp" />
     <ClCompile Include="GraphNode.cpp" />
+    <ClCompile Include="ikNodeGraph.cpp" />
     <ClCompile Include="JSONParser.cpp" />
     <ClCompile Include="LinearBlendNode.cpp" />
     <ClCompile Include="nodeGraph.cpp" />
@@ -708,6 +709,7 @@
     <ClInclude Include="CustomeBluePrints.h" />
     <ClInclude Include="CustomeNode.h" />
     <ClInclude Include="GraphNode.h" />
+    <ClInclude Include="ikNodeGraph.h" />
     <ClInclude Include="JSONParser.h" />
     <ClInclude Include="LinearBlendNode.h" />
     <ClInclude Include="nodeGraph.h" />

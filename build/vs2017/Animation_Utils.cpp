@@ -1,5 +1,5 @@
 #include "Animation_Utils.h"
-#
+#include <experimental/filesystem>
 
 
 Animation_Utils::Animation_Utils()
@@ -64,4 +64,18 @@ gef::Animation* Animation_Utils::LoadAnimation(const char* anim_scene_filename, 
 	}
 
 	return anim;
+}
+
+std::vector<std::string> Animation_Utils::ReadFiles(std::string path)
+{
+	namespace fs = std::experimental::filesystem;
+	std::vector<std::string> files;
+	for (auto entry : fs::directory_iterator(path))
+	{
+		std::string output = entry.path().string();
+		std::replace(output.begin(), output.end(), '\\', '/');
+		files.push_back(output);
+	}
+	return files;
+
 }
