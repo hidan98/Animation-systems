@@ -26,8 +26,8 @@ void Ragdoll::Init(const gef::SkeletonPose & bind_pose, btDiscreteDynamicsWorld*
 
 	btBulletWorldImporter* fileLoader = new btBulletWorldImporter(dynamics_world);
 
-	std::string ragdoll_filename = model_name + "/ragdoll.bullet";
-	fileLoader->loadFile(ragdoll_filename.c_str());
+	//std::string ragdoll_filename = model_name + "/ragdoll.bullet";
+	fileLoader->loadFile(physics_filename);
 
 	int numRigidBodies = fileLoader->getNumRigidBodies();
 	for (int i = 0; i < fileLoader->getNumRigidBodies(); i++)
