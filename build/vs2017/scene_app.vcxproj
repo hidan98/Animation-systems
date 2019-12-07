@@ -389,6 +389,7 @@
     <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp" />
+    <ClCompile Include="..\..\ccd.cpp" />
     <ClCompile Include="..\..\gef_debug_drawer.cpp" />
     <ClCompile Include="..\..\load_json.cpp" />
     <ClCompile Include="..\..\load_texture.cpp" />
@@ -397,6 +398,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|PSVita'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\motion_clip_player.cpp" />
+    <ClCompile Include="..\..\picking.cpp" />
     <ClCompile Include="..\..\primitive_builder.cpp" />
     <ClCompile Include="..\..\primitive_renderer.cpp" />
     <ClCompile Include="..\..\ragdoll.cpp" />
@@ -685,10 +687,12 @@
     <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.h" />
     <ClInclude Include="..\..\..\imgui\imgui_user.h" />
+    <ClInclude Include="..\..\ccd.h" />
     <ClInclude Include="..\..\gef_debug_drawer.h" />
     <ClInclude Include="..\..\load_json.h" />
     <ClInclude Include="..\..\load_texture.h" />
     <ClInclude Include="..\..\motion_clip_player.h" />
+    <ClInclude Include="..\..\picking.h" />
     <ClInclude Include="..\..\primitive_builder.h" />
     <ClInclude Include="..\..\primitive_renderer.h" />
     <ClInclude Include="..\..\ragdoll.h" />

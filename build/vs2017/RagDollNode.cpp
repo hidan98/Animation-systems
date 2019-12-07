@@ -9,6 +9,8 @@ RagDollNode::RagDollNode() : CustomeNode(), ragdoll_(nullptr)
 
 RagDollNode::~RagDollNode()
 {
+	delete ragdoll_;
+	ragdoll_ = nullptr;
 }
 
 

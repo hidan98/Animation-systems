@@ -25,6 +25,9 @@
 #include <graphics/scene.h>
 #include "Animation_Utils.h"
 
+#include "picking.h"
+#include "ccd.h"
+
 ImTextureID Application_LoadTexture(const char* path)
 {
 	return ImGui_LoadTexture(path);
@@ -137,11 +140,14 @@ void SceneApp::Init()
 		player_ = new gef::SkinnedMeshInstance(*skeleton);
 		//anim_player_.Init(player_->bind_pose());
 		player_->set_mesh(mesh_);
+		player_->UpdateBoneMatrices(player_->bind_pose());
+		ik_pose = player_->bind_pose();
+
 
 
 	}
 
-
+	primitive_renderer_ = new PrimitiveRenderer(platform_);
 	
 
 	active_graph = false;
@@ -153,36 +159,10 @@ void SceneApp::Init()
 
 
 	graph = new nodeGraph(player_->bind_pose(), &platform_, worldPhysics->getWorld());
+
+	effector_position_ = gef::Vector4(0, 0, 0);
 }
 
-gef::Skeleton* SceneApp::GetFirstSkeleton(gef::Scene* scene)
-{
-	gef::Skeleton* skeleton = NULL;
-	if (scene)
-	{
-		// check to see if there is a skeleton in the the scene file
-		// if so, pull out the bind pose and create an array of matrices
-		// that wil be used to store the bone transformations
-		if (scene->skeletons.size() > 0)
-			skeleton = scene->skeletons.front();
-	}
-
-	return skeleton;
-}
-
-gef::Mesh* SceneApp::GetFirstMesh(gef::Scene* scene)
-{
-	gef::Mesh* mesh = NULL;
-
-	if (scene)
-	{
-		// now check to see if there is any mesh data in the file, if so lets create a mesh from it
-		if (scene->mesh_data.size() > 0)
-			mesh = model_scene->CreateMesh(platform_, scene->mesh_data.front());
-	}
-
-	return mesh;
-}
 
 void SceneApp::CleanUp()
 {
@@ -252,11 +232,6 @@ bool SceneApp::Update(float frame_time)
 	}
 
 
-
-	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
-
-	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
-
 	if (graph->output)
 	{
 		graph->updateOut(frame_time);
@@ -268,10 +243,56 @@ bool SceneApp::Update(float frame_time)
 			gef::Matrix44 scale;
 			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
 			player_->UpdateBoneMatrices(graph->output->getOutput());
+			
 			player_->set_transform(scale * player_trans);
 		}
-		
+
 	}
+
+
+
+	gef::Vector2 mouse_pos(gef::Vector2::kZero);
+	bool mb_down = false;
+
+	if (input_manager_)
+	{
+
+		mouse_pos = input_manager_->touch_manager()->mouse_position();
+		mb_down = input_manager_->touch_manager()->is_button_down(1);
+	}
+
+	if (mb_down)
+	{
+		gef::Vector4 mouse_ray_start_point, mouse_ray_direction;
+		//mouse_position = gef::Vector2(600, 300);
+		GetScreenPosRay(mouse_pos, renderer_3d_->projection_matrix(), renderer_3d_->view_matrix(), mouse_ray_start_point, mouse_ray_direction, (float)platform_.width(), (float)platform_.height(), ndc_zmin_);
+
+		RayPlaneIntersect(mouse_ray_start_point, mouse_ray_direction, gef::Vector4(0.0f, 0.0f, 0.0f), gef::Vector4(0.0f, 0.0f, 1.0f), effector_position_);
+		
+			
+		
+
+	}
+
+	if (done)
+	{
+		std::vector<int> bone_indices;
+		bone_indices.push_back(16); // left shoulder
+		bone_indices.push_back(17); // left elbow
+		bone_indices.push_back(18); // left wrist
+		ik_pose = graph->output->getOutput();
+		CalculateCCD(ik_pose, *player_, effector_position_, bone_indices);
+
+		player_->UpdateBoneMatrices(ik_pose);
+		graph->output->SetOutput(&ik_pose);
+	}
+
+
+	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+
+	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+
+	
 	worldPhysics->update(frame_time);
 
 	return true;
@@ -282,29 +303,36 @@ bool SceneApp::Update(float frame_time)
 
 void SceneApp::Render()
 {
-	gef::Matrix44 projection_matrix;
-	gef::Matrix44 view_matrix;
-	projection_matrix = platform_.PerspectiveProjectionFov(camera_fov_, (float)platform_.width() / (float)platform_.height(), near_plane_, far_plane_);
-	view_matrix.LookAt(camera_eye_, camera_lookat_, camera_up_);
-	renderer_3d_->set_projection_matrix(projection_matrix);
-	renderer_3d_->set_view_matrix(view_matrix);
 
+
+	SetCameraMatrices();
 	// draw meshes here
 	renderer_3d_->Begin();
-	if (graph->output)
+	/*if (graph->output)
 		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
 
 
 	if (worldPhysics)
-		worldPhysics->render(renderer_3d_);
+		worldPhysics->render(renderer_3d_);*/
+
+	if (player_)
+	{
+		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
+	}
+
+	primitive_renderer_->Reset();
+
+	RenderEndEffector();
+
+	primitive_renderer_->Render(*renderer_3d_);
 
 	renderer_3d_->End();
 	sprite_renderer_->Begin(false);
 
 	// Render button icon
-	sprite_renderer_->DrawSprite(*anim->getSprite());
+	/*sprite_renderer_->DrawSprite(*anim->getSprite());
 	if(active)
-		bone_->render(sprite_renderer_);
+		bone_->render(sprite_renderer_);*/
 
 	
 		
@@ -335,7 +363,20 @@ void SceneApp::DrawHUD()
 		font_->RenderText(sprite_renderer_, gef::Vector4(850.0f, 510.0f, -0.9f), 1.0f, 0xffffffff, gef::TJ_LEFT, "FPS: %.1f", fps_);
 	}
 }
+void SceneApp::SetCameraMatrices()
+{
+	// setup view and projection matrices
+	gef::Matrix44 projection_matrix;
+	gef::Matrix44 view_matrix;
+	projection_matrix = platform_.PerspectiveProjectionFov(camera_fov_, (float)platform_.width() / (float)platform_.height(), near_plane_, far_plane_);
+	view_matrix.LookAt(camera_eye_, camera_lookat_, camera_up_);
 
+	if (renderer_3d_)
+	{
+		renderer_3d_->set_projection_matrix(projection_matrix);
+		renderer_3d_->set_view_matrix(view_matrix);
+	}
+}
 
 void SceneApp::ImGuiRender()
 {
@@ -529,6 +570,7 @@ void SceneApp::SetupCamera()
 	camera_fov_ = gef::DegToRad(45.0f);
 	near_plane_ = 0.01f;
 	far_plane_ = 100.f;
+	SetCameraMatrices();
 
 }
 
@@ -541,4 +583,14 @@ void SceneApp::SetupLights()
 	gef::Default3DShaderData& default_shader_data = renderer_3d_->default_shader_data();
 	default_shader_data.set_ambient_light_colour(gef::Colour(0.5f, 0.5f, 0.5f, 1.0f));
 	default_shader_data.AddPointLight(default_point_light);
+}
+
+void SceneApp::RenderEndEffector()
+{
+	const float effector_half_line_length = 20.0f;
+	const gef::Colour effector_colour(0.0f, 1.0f, 0.0f);
+
+	primitive_renderer_->AddLine(effector_position_ - gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), effector_position_ + gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), effector_colour);
+	primitive_renderer_->AddLine(effector_position_ - gef::Vector4(0.0f, -effector_half_line_length, 0.0f), effector_position_ + gef::Vector4(0.0f, -effector_half_line_length, 0.0f), effector_colour);
+	primitive_renderer_->AddLine(effector_position_ - gef::Vector4(0.0f, 0.0f, -effector_half_line_length), effector_position_ + gef::Vector4(0.0f, 0.0f, -effector_half_line_length), effector_colour);
 }

@@ -705,6 +705,12 @@
     <ClCompile Include="RagDollNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ccd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\picking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\scene_app.h">
@@ -1554,6 +1560,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RagDollNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ccd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\picking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

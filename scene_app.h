@@ -18,6 +18,7 @@
 #include "ragdoll.h"
 
 #include "Physics.h"
+#include "primitive_renderer.h"
 
 // FRAMEWORK FORWARD DECLARATIONS
 namespace gef
@@ -74,6 +75,9 @@ private:
 
 	nodeGraph* graph;
 
+	void RenderEndEffector();
+	void SetCameraMatrices();
+
 	void FrontendInit();
 	void FrontendRelease();
 	void FrontendUpdate(float frame_time);
@@ -102,7 +106,11 @@ private:
 
 	Physics* worldPhysics;
 
+	gef::SkeletonPose ik_pose;
+	gef::Vector4 effector_position_;
+	float ndc_zmin_;
 
+	PrimitiveRenderer* primitive_renderer_;
 
 };
 
