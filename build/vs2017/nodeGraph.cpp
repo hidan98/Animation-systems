@@ -137,7 +137,7 @@ void nodeGraph::update(float dt)
 		case ragDoll:
 		{
 			RagDollNode* node = static_cast<RagDollNode*>(active);
-			node->setup(platform, bind_pose, world_, bulletPath);
+			node->setup(platform, bind_pose, world_, modelData_[0]->bulletPath);
 			break;
 		}
 		case ikNode:

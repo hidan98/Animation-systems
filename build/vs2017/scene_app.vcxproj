@@ -419,7 +419,6 @@
     <ClCompile Include="BlendTree.cpp" />
     <ClCompile Include="ClipNode.cpp" />
     <ClCompile Include="ClipNodeGraph.cpp" />
-    <ClCompile Include="CustomeBluePrints.cpp" />
     <ClCompile Include="CustomeNode.cpp" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="ikNodeGraph.cpp" />
@@ -706,7 +705,6 @@
     <ClInclude Include="BlendNodeGraph.h" />
     <ClInclude Include="BlendTree.h" />
     <ClInclude Include="ClipNodeGraph.h" />
-    <ClInclude Include="CustomeBluePrints.h" />
     <ClInclude Include="CustomeNode.h" />
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="ikNodeGraph.h" />

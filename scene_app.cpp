@@ -14,7 +14,7 @@
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
-#include "Application.h"
+
 #include <platform/d3d11/system/platform_d3d11.h>
 #include <platform\d3d11\input\keyboard_d3d11.h>
 #include "imgui_user.h"
@@ -28,30 +28,7 @@
 #include "picking.h"
 #include "ccd.h"
 
-ImTextureID Application_LoadTexture(const char* path)
-{
-	return ImGui_LoadTexture(path);
-}
 
-ImTextureID Application_CreateTexture(const void* data, int width, int height)
-{
-	return ImGui_CreateTexture(data, width, height);
-}
-
-void Application_DestroyTexture(ImTextureID texture)
-{
-	ImGui_DestroyTexture(texture);
-}
-
-int Application_GetTextureWidth(ImTextureID texture)
-{
-	return ImGui_GetTextureWidth(texture);
-}
-
-int Application_GetTextureHeight(ImTextureID texture)
-{
-	return ImGui_GetTextureHeight(texture);
-}
 
 // Our state
 bool show_demo_window = true;
@@ -279,24 +256,7 @@ bool SceneApp::Update(float frame_time)
 
 	}
 
-	//if (done)
-	//{
-	//	gef::Matrix44 player_trans;
-	//	player_trans.SetIdentity();
-
-	//	gef::Matrix44 scale;
-	//	scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
-
-	//	std::vector<int> bone_indices;
-	//	bone_indices.push_back(16); // left shoulder
-	//	bone_indices.push_back(17); // left elbow
-	//	bone_indices.push_back(18); // left wrist
-	//	ik_pose = graph->output->getOutput();
-	//	CalculateCCD(ik_pose, *player_, *effector_position_, bone_indices);
-
-	//	player_->UpdateBoneMatrices(ik_pose);
-	//	graph->output->SetOutput(&ik_pose);
-	//}
+	
 
 
 	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
@@ -320,11 +280,11 @@ void SceneApp::Render()
 	// draw meshes here
 	renderer_3d_->Begin();
 	/*if (graph->output)
-		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
+		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());*/
 
 
 	if (worldPhysics)
-		worldPhysics->render(renderer_3d_);*/
+		worldPhysics->render(renderer_3d_);
 
 	if (player_)
 	{

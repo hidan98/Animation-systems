@@ -32,12 +32,6 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	{
 		if (active)
 		{
-			
-
-			std::vector<int> bone_indices;
-			bone_indices.push_back(16); // left shoulder
-			bone_indices.push_back(17); // left elbow
-			bone_indices.push_back(18); // left wrist
 			gef::SkeletonPose pose = node->getOutput();
 			//ik_pose = graph->output->getOutput();
 			CalculateCCD(pose, *player_, *effector_position_, positions);
@@ -47,22 +41,7 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 		}
 
 		
-		/*gef::SkeletonPose* ik_pose = &node->getOutput();
-		CalculateCCD(ik_pose, )
 		
-
-		if (!activateRagDoll)
-		{
-			ragdoll_->set_pose(node->getOutput());
-			ragdoll_->UpdateRagdollFromPose();
-			output_ = node->getOutput();
-		}
-		else
-		{
-			ragdoll_->UpdatePoseFromRagdoll();
-			output_ = ragdoll_->pose();
-		}
-		return true;*/
 	}
 
 	return false;

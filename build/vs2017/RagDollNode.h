@@ -2,6 +2,7 @@
 #include"CustomeNode.h"
 #include "NodeUtilsHeader.h"
 #include "ragdoll.h"
+#include "btBulletDynamicsCommon.h"
 class RagDollNode: public CustomeNode
 {
 
@@ -18,6 +19,7 @@ protected:
 	virtual const char* getTooltip() const { return "Clip Node tooltip."; }
 	virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
 	Ragdoll* ragdoll_;
+	btDynamicsWorld* world_;
 
 
 public:

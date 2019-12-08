@@ -1,7 +1,7 @@
 #include "RagDollNode.h"
 
 
-RagDollNode::RagDollNode() : CustomeNode(), ragdoll_(nullptr)
+RagDollNode::RagDollNode() : CustomeNode(), ragdoll_(nullptr), world_(nullptr)
 {
 	active = false;
 }
@@ -9,6 +9,20 @@ RagDollNode::RagDollNode() : CustomeNode(), ragdoll_(nullptr)
 
 RagDollNode::~RagDollNode()
 {
+
+	//// remove the rigidbodies from the dynamics world and delete them
+	//for (int i = world_->getNumCollisionObjects() - 1; i >= 0; i--)
+	//{
+	//	btCollisionObject * obj = world_->getCollisionObjectArray()[i];
+	//	btRigidBody * body = btRigidBody::upcast(obj);
+	//	if (body && body->getMotionState())
+	//	{
+	//		delete body->getMotionState();
+	//	}
+	//	world_->removeCollisionObject(obj);
+	//	delete obj;
+	//}
+
 	delete ragdoll_;
 	ragdoll_ = nullptr;
 }
@@ -60,6 +74,7 @@ void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind, btDi
 			setBind(bind);
 			//SetOutput(bind);
 			active = true;
+			world_ = world;
 		}
 		
 	}
