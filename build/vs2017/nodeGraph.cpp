@@ -6,7 +6,7 @@
 #include <experimental/filesystem>
 #include "RagDollNode.h"
 #include "ikNodeGraph.h"
-
+#include "LerpNode2Dgraph.h"
 
 nodeGraph::nodeGraph(const gef::SkeletonPose* pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh) : output(NULL),  platform(nullptr), skinned_mesh_player(nullptr)
 {
@@ -61,7 +61,7 @@ nodeGraph::~nodeGraph()
 {
 }
 
-static const char* MyNodeTypeNames[MNT_COUNT] = { "IKNode", "Linear Blend", "Rag doll","Clip"
+static const char* MyNodeTypeNames[MNT_COUNT] = { "IKNode", "Linear Blend","2D Blend", "Rag doll","Clip"
 #						ifdef IMGUI_USE_AUTO_BINDING
 ,"Texture"
 #						endif
@@ -79,7 +79,7 @@ static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGr
 	case LinearBlendNode: return BlendNodeGraph::create(pos);
 	case ragDoll : return RagDollNode::create(pos);
 	case ikNode: return ikNodeGraph::create(pos);
-	/*case MNT_OUTPUT_NODE: return OutputNode::Create(pos);*/
+	case BledNode2D: return LerpNode2Dgraph::create(pos);
 #   ifdef IMGUI_USE_AUTO_BINDING
 	case MNT_TEXTURE_NODE: return TextureNode::Create(pos);
 #   endif //IMGUI_USE_AUTO_BINDING
@@ -182,6 +182,7 @@ void nodeGraph::update(float dt)
 
 			ImGui::End();
 		default:
+			active->setup(platform, bind_pose);
 			break;
 		}
 		

@@ -79,7 +79,7 @@ void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind, btDi
 		
 	}
 }
-void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* data)
+void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind)
 {
 	
 

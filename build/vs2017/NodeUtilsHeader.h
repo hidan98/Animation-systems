@@ -3,6 +3,7 @@
 enum MyNodeTypes {
 	ikNode = 0,
 	LinearBlendNode,
+	BledNode2D,
 	ragDoll,
 	clipNode,
 #   ifdef IMGUI_USE_AUTO_BINDING

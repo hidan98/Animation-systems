@@ -47,7 +47,7 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	return false;
 }
 
-void ikNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* data)
+void ikNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind)
 {
 
 }

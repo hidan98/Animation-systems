@@ -669,25 +669,10 @@
     <ClCompile Include="ikNodeGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\BasicInteraction\BasicInteraction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Blueprints\Blueprints.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Canvas\Canvas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Builders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Drawing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Simple\Simple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.cpp">
@@ -700,6 +685,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LerpNode2Dgraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1557,6 +1545,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LerpNode2Dgraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

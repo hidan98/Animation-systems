@@ -363,23 +363,10 @@
     <ClCompile Include="..\..\..\bullet3\src\LinearMath\btSerializer64.cpp" />
     <ClCompile Include="..\..\..\bullet3\src\LinearMath\btThreads.cpp" />
     <ClCompile Include="..\..\..\bullet3\src\LinearMath\btVector3.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\BasicInteraction\BasicInteraction.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Blueprints\Blueprints.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Canvas\Canvas.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Builders.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Drawing.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Widgets.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Simple\Simple.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor.cpp" />
@@ -423,6 +410,7 @@
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="ikNodeGraph.cpp" />
     <ClCompile Include="JSONParser.cpp" />
+    <ClCompile Include="LerpNode2Dgraph.cpp" />
     <ClCompile Include="LinearBlendNode.cpp" />
     <ClCompile Include="nodeGraph.cpp" />
     <ClCompile Include="OutputNode.cpp" />
@@ -709,6 +697,7 @@
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="ikNodeGraph.h" />
     <ClInclude Include="JSONParser.h" />
+    <ClInclude Include="LerpNode2Dgraph.h" />
     <ClInclude Include="LinearBlendNode.h" />
     <ClInclude Include="nodeGraph.h" />
     <ClInclude Include="NodeUtilsHeader.h" />

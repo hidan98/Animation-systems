@@ -250,10 +250,6 @@ bool SceneApp::Update(float frame_time)
 		GetScreenPosRay(mouse_pos, renderer_3d_->projection_matrix(), renderer_3d_->view_matrix(), mouse_ray_start_point, mouse_ray_direction, (float)platform_.width(), (float)platform_.height(), ndc_zmin_);
 
 		RayPlaneIntersect(mouse_ray_start_point, mouse_ray_direction, gef::Vector4(0.0f, 0.0f, 0.0f), gef::Vector4(0.0f, 0.0f, 1.0f), *effector_position_);
-		
-			
-		
-
 	}
 
 	

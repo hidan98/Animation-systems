@@ -11,7 +11,7 @@ public:
 
 	virtual bool update(float dt, ImGui::NodeGraphEditor* temp);
 	virtual bool process(float dt, ImGui::NodeGraphEditor* editor) = 0;
-	virtual void setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* = nullptr) = 0;
+	inline virtual void setup(gef::Platform* plat, const gef::SkeletonPose* bind) { if (!active) { platform_ = plat; bindPose = bind;  active = true; } }
 
 	gef::SkeletonPose getOutput() { return output_; }
 	void SetOutput(gef::SkeletonPose* pose) { output_ = *pose; }
