@@ -37,8 +37,8 @@ protected:
 
 	bool active;
 
-	void setup(gef::Platform* plat, const gef::SkeletonPose* bind, void* = nullptr);
-
+	void setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table);
+	std::string animation_name;
 	
 	//void onEditField(ImGui::FieldInfo& /*f*/, int widgetIndex) {
 	//	//fprintf(stderr,"TextureNode::onEditField(\"%s\",%i);\n",f.label,widgetIndex);
@@ -52,13 +52,14 @@ protected:
 	//	reinterpret_cast<ThisClass*>(f.userData)->onEditField(f, widgetIndex);
 	//}
 
+	
 
 
 public:
 	static ThisClass* create(const ImVec2& pos);
 	bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
-	inline void setClip(gef::Animation* anim, const gef::SkeletonPose* bind) { clip_ = anim; setBind(bind); }
+	inline void setClip(gef::Animation* anim, const gef::SkeletonPose* bind, std::string name);
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }

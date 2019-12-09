@@ -143,64 +143,73 @@ void SkeletalAnimation2D::spriteSetup(SubTexture* sub, gef::Vector2 screenPos, g
 
 void SkeletalAnimation2D::updateBones(std::vector<BoneAnimation*> animation, std::unordered_map<gef::StringId, Bone*> bones, float dt)
 {
-	
+	int temp = animation[animationNum]->animation_bone_data.size();
 	for (unsigned i = 0; i < animation[animationNum]->animation_bone_data.size(); i++)
 	{
 		gef::StringId id = animation[animationNum]->animation_bone_data[i]->nameId;
-
+		//animation[animationNum]->
 
 		Bone* bone = bones[id];
 
-		float rotate = getRotLerp(animation[animationNum]->animation_bone_data[i], dt);
+		float rotate = getRotLerp(animation[animationNum]->animation_bone_data[i], dt, animation[animationNum]->duration);
 
 		float newAngle = bone->transform.sk + rotate;
 
 		bone->local_transform.Rotate(gef::DegToRad(newAngle));
 
 
-		gef::Vector2 lerpPos = getTransLerp(animation[animationNum]->animation_bone_data[i], dt);
+		gef::Vector2 lerpPos = getTransLerp(animation[animationNum]->animation_bone_data[i], dt, animation[animationNum]->duration);
 
 
 		gef::Vector2 tempVec2 = gef::Vector2(bone->transform.x, bone->transform.y);
 
 
-		gef::Vector2 temp3 = gef::Vector2(tempVec2 + lerpPos);
+		gef::Vector2 temp3 = tempVec2 + lerpPos;
 		bone->local_transform.SetTranslation(temp3);
+		
 	}
-
 	updateBoneTransform(json_data_->bone_armiture->boneData);
+	//updateBoneTransform(json_data_->bone_armiture->boneData);
 }
 
 
-gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt)
+gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt, float duration)
 {
 	int transPos = data->translationFramePos;
 
 	if (data->translations.size() > 1)
 	{
-		if (data->translations[transPos].duration > 0)
-			data->translationFrameTime = data->translationFrameTime + 1 % data->translations[transPos].duration;
-		else
-			data->translationFrameTime = 0;
+		/*if (data->translations[transPos].duration > 0)*/
+		data->translationFrameTime = ((int)(data->translationFrameTime + 1)) % (int)duration;
+		/*else
+			data->translationFrameTime = 0;*/
+		if ((transPos + 1) >= (data->translations.size() - 1))
+		{
+			data->translationFramePos = 0;
+			return data->translations[transPos].XY;
+		}
 
-		if (data->translationFrameTime >= (data->translations[transPos].duration))
+		int next = transPos + 1;
+		translationFrameData start;
+		translationFrameData end;
+		if (data->translationFrameTime >= (data->translations[transPos].startTime) && data->translationFrameTime < data->translations[next].startTime)
 		{
 			//animation_data.translationFrameTime = 0;
+			start = data->translations[transPos];
+			end = data->translations[next];
 
-			if (data->translationFramePos + 1 > data->translations.size() - 1)
-			{
-				data->translationFramePos = 0;
-			}
-
-			else
-			{
-				data->translationFramePos++;				
-			}
-			data->translationFrameTime = 0;
+		}
+		else
+		{
+			data->translationFramePos++;
+			transPos = data->translationFramePos;
+			int next = transPos + 1;
+			start = data->translations[transPos];
+			end = data->translations[next];
 		}
 
 
-		transPos = data->translationFramePos;
+		/*transPos = data->translationFramePos;
 
 		gef::Vector2 temp = data->translations[transPos].XY;
 
@@ -212,11 +221,12 @@ gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt
 
 		float denominator = (float)data->translations[transPos].duration;
 		float time = 0;
-		if (denominator > 0.0f)
-			time = (float)data->translationFrameTime / denominator;
+		if (denominator > 0.0f)*/
+		float time = end.startTime - start.startTime;
+		time = (data->translationFrameTime - start.startTime) / time;
 
-		float X = gef::Lerp(temp.x, temp2.x, time);
-		float Y = gef::Lerp(temp.y, temp2.y, time);
+		float X = gef::Lerp(start.XY.x, end.XY.x, time);
+		float Y = gef::Lerp(start.XY.y, end.XY.y, time);
 		return gef::Vector2(X, Y);
 	}
 
@@ -229,7 +239,7 @@ gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt
 
 
 
-float SkeletalAnimation2D::getRotLerp(AnimationBoneData* data, float dt)
+float SkeletalAnimation2D::getRotLerp(AnimationBoneData* data, float dt, float duration)
 {
 	int rotatePos = data->rotationFramePos;
 
@@ -238,16 +248,42 @@ float SkeletalAnimation2D::getRotLerp(AnimationBoneData* data, float dt)
 	if (data->rotations.size() > 1)
 	{
 		//check to see if the current animation duration is grater than 0, i its 0 its the end of the animation and reset time
-		if (data->rotations[rotatePos].duration > 0)
+		/*if (data->rotations[rotatePos].duration > 0)
+		{*/
+
+		if ((rotatePos + 1) >= (data->rotations.size() - 1))
 		{
-			data->rotationFrameTime = data->rotationFrameTime + 1 % data->rotations[rotatePos].duration;
-		}			
+			data->rotationFramePos = 0;
+			return data->rotations[rotatePos].rotate;
+		}
+		data->rotationFrameTime = ((int)data->rotationFrameTime + 1) % (int)duration;
+
+
+		int next = rotatePos + 1;
+		rotateFrameData start;
+		rotateFrameData end;
+		if (data->rotationFrameTime >= (data->rotations[rotatePos].startTime) && data->translationFrameTime < data->rotations[next].startTime)
+		{
+			//animation_data.translationFrameTime = 0;
+			start = data->rotations[rotatePos];
+			end = data->rotations[next];
+
+		}
 		else
-			data->rotationFrameTime = 0;
+		{
+			data->rotationFramePos++;
+			rotatePos = data->rotationFramePos;
+			next = rotatePos + 1;
+			start = data->rotations[rotatePos];
+			end = data->rotations[next];
+		}
+	/*	}			
+		else
+			data->rotationFrameTime = 0;*/
 
 
 		//if the current animation time is greate than the duration we change the animation frame
-		if (data->rotationFrameTime >= data->rotations[rotatePos].duration)
+		/*if (data->rotationFrameTime >= data->rotations[rotatePos].startTime && data->rotationFrameTime < )
 		{
 			if (data->rotationFramePos + 1 > data->rotations.size() - 1)
 				data->rotationFramePos = 0;
@@ -255,23 +291,23 @@ float SkeletalAnimation2D::getRotLerp(AnimationBoneData* data, float dt)
 				data->rotationFramePos++;
 
 			data->rotationFrameTime = 0;
-		}
+		}*/
 
 		//get the animation key we are working with, may have changed due to time
-		rotatePos = data->rotationFramePos;
+		//rotatePos = data->rotationFramePos;
 
-		//get the current rotation key frame
-		float rotateTemp = data->rotations[rotatePos].rotate;
+		////get the current rotation key frame
+		//float rotateTemp = data->rotations[rotatePos].rotate;
 
-		//get the next key frame rotation
-		float rotateNext;
-		if (rotatePos + 1 > data->rotations.size() - 1)
-			rotateNext = data->rotations[0].rotate;
-		else
-			rotateNext = data->rotations[rotatePos + 1].rotate;
+		////get the next key frame rotation
+		//float rotateNext;
+		//if (rotatePos + 1 > data->rotations.size() - 1)
+		//	rotateNext = data->rotations[0].rotate;
+		//else
+		//	rotateNext = data->rotations[rotatePos + 1].rotate;
 
 		//calculate thr diffrence in rotation
-		float angleDiff = rotateNext - rotateTemp;
+		float angleDiff = end.rotate - start.rotate;
 
 		//get angle between -180 and 180 to get the shortest distance for rotation
 		if (angleDiff > 180)
@@ -280,14 +316,18 @@ float SkeletalAnimation2D::getRotLerp(AnimationBoneData* data, float dt)
 			angleDiff += 360.0f;
 
 
-		float denominator = (float)data->rotations[rotatePos].duration;
-		float time = 0;
+		//float denominator = (float)data->rotations[rotatePos].duration;
+		//float time = 0;
 
-		//the duration might be 0 if its the last frame if this is the case the animation time should be set to 0 as its the begining again
-		if (denominator > 0.0f)
-			time = (float)data->rotationFrameTime / denominator;
 
-		return lerpRot(rotateTemp, angleDiff, time);
+		////the duration might be 0 if its the last frame if this is the case the animation time should be set to 0 as its the begining again
+		//if (denominator > 0.0f)
+		//	time = (float)data->rotationFrameTime / denominator;
+
+		float time = end.startTime - start.startTime;
+		time = (data->rotationFrameTime - start.startTime) / time;
+
+		return lerpRot(start.rotate, angleDiff, time);
 	}
 
 	return data->rotations[rotatePos].rotate;

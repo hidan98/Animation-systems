@@ -25,6 +25,8 @@ protected:
 	gef::SkeletonPose output_;
 	gef::Platform* platform_;
 
+	std::map<std::string, float>* variable_table;
+
 	bool active;
 };
 
