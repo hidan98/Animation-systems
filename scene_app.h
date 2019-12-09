@@ -19,6 +19,7 @@
 
 #include "Physics.h"
 #include "primitive_renderer.h"
+#include <unordered_map>
 
 // FRAMEWORK FORWARD DECLARATIONS
 namespace gef
@@ -113,6 +114,8 @@ private:
 	PrimitiveRenderer* primitive_renderer_;
 
 	const gef::SkeletonPose* bind_pose;
+
+	std::map<std::string, varibaleTable> variable_table;
 
 };
 

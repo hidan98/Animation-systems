@@ -3,7 +3,8 @@
 #include <vector>
 #include "graphics\skinned_mesh_instance.h"
 #include "system/platform.h"
-
+#include <map>
+#include "Animation_Utils.h"
 class CustomeNode : public ImGui::Node
 {
 public:
@@ -12,7 +13,7 @@ public:
 
 	virtual bool update(float dt, ImGui::NodeGraphEditor* temp);
 	virtual bool process(float dt, ImGui::NodeGraphEditor* editor) = 0;
-	inline virtual void setup(gef::Platform* plat, const gef::SkeletonPose* bind) { if (!active) { platform_ = plat; bindPose = bind;  active = true; } }
+	inline virtual void setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, varibaleTable>* table) { if (!active) { platform_ = plat; bindPose = bind; output_ = *bind; variable_table = table; active = true; } }
 
 	gef::SkeletonPose getOutput() { return output_; }
 	void SetOutput(gef::SkeletonPose* pose) { output_ = *pose; }
@@ -25,7 +26,7 @@ protected:
 	gef::SkeletonPose output_;
 	gef::Platform* platform_;
 
-	std::map<std::string, float>* variable_table;
+	std::map<std::string, varibaleTable>* variable_table;
 
 	bool active;
 };

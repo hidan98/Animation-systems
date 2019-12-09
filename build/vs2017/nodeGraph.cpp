@@ -20,10 +20,10 @@ nodeGraph::nodeGraph(const gef::SkeletonPose* pose, gef::Platform* plat, btDiscr
 	skinned_mesh_player = mesh;
 }
 
-void nodeGraph::init(gef::Vector4* pos)
+void nodeGraph::init(gef::Vector4* pos, std::map<std::string, varibaleTable>* table)
 {
 	effector = pos;
-
+	variabe_table = table;
 	std::vector<std::string> temp = Animation_Utils::ReadFiles("3DModels");
 	for (int i = 0; i < temp.size(); i++)
 	{
@@ -126,14 +126,16 @@ void nodeGraph::update(float dt)
 				if (ImGui::Button(stringTable[it.first].c_str()))
 				{
 					ClipNodeGraph* clipGraph = static_cast<ClipNodeGraph*>(active);
-					clipGraph->setClip(it.second, bind_pose);
+					clipGraph->setup(platform, bind_pose, variabe_table);
+					clipGraph->setClip(it.second, bind_pose, stringTable[it.first]);
+					
 				}
 			}
 
 			ImGui::End();
 			break;
 		case MNT_OUTPUT_NODE:
-			active->setup(platform, bind_pose);
+			active->setup(platform, bind_pose, variabe_table);
 			break;
 		case ragDoll:
 		{
@@ -173,7 +175,7 @@ void nodeGraph::update(float dt)
 						ikNodeGraph* node = static_cast<ikNodeGraph*>(active);
 						std::reverse(positions.begin(), positions.end());
 						node->setPositions(positions);
-						node->setup(platform, bind_pose, skinned_mesh_player, effector);
+						node->setup(variabe_table, bind_pose, skinned_mesh_player, effector);
 					}
 					parent = current.skel->joint(parent).parent;
 				}
@@ -222,11 +224,19 @@ void nodeGraph::update(float dt)
 
 			node->setPartalBlends(bones);
 
-	
+			node->setup(variabe_table, bind_pose);
 			ImGui::End();
+			break;
 		}
+		case BledNode2D:
+		{
+			LerpNode2Dgraph* node = static_cast<LerpNode2Dgraph*>(active);
+			node->setUp(variabe_table, bind_pose);
+			break;
+		}	
+
 		default:
-			active->setup(platform, bind_pose);
+			active->setup(platform, bind_pose, variabe_table);
 			break;
 		}
 		

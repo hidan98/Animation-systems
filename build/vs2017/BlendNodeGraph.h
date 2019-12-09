@@ -5,7 +5,7 @@
 namespace gef {
 	class SkeletonPose;
 }
-
+static int idCount = 0;
 class BlendNodeGraph : public CustomeNode
 {
 public:
@@ -40,11 +40,11 @@ protected:
 
 	float blendVal;
 
-	void setup(gef::Platform* plat, const gef::SkeletonPose* bind);
-	
+
+	std::string Nodename;
 
 	std::vector<int> boneInd;
-	void CustomBlend(const gef::SkeletonPose& start_pose, const gef::SkeletonPose& end_pose);
+	//void CustomBlend(const gef::SkeletonPose& start_pose, const gef::SkeletonPose& end_pose);
 
 public:
 	static ThisClass* create(const ImVec2& pos);
@@ -56,6 +56,6 @@ public:
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 
 	void setPartalBlends(std::vector<int>& bones) { boneInd.clear(); boneInd = bones; }
-
+	void setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind);
 };
 

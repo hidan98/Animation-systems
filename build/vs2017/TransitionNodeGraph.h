@@ -1,27 +1,25 @@
 #pragma once
 #include "CustomeNode.h"
 #include "NodeUtilsHeader.h"
-
-static int NodeId2D = 0;
-
-class LerpNode2Dgraph : public CustomeNode
+class TransitionNodeGraph : public CustomeNode
 {
 protected:
 	typedef Node Base;  //Base Class
-	typedef LerpNode2Dgraph ThisClass;
+	typedef TransitionNodeGraph ThisClass;
 
-	LerpNode2Dgraph();
-	~LerpNode2Dgraph();
+	TransitionNodeGraph();
+	~TransitionNodeGraph();
 
 
-	static const int TYPE = BledNode2D;
+	static const int TYPE = transNode;
 
-	virtual const char* getTooltip() const { return "Clip Node tooltip."; }
-	virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
+	virtual const char* getTooltip() const { return "Transition Node."; }
+	virtual const char* getInfo() const { return "Trans Node info.\n\nThis is supposed to display some info about this node."; }
 
 	float blendAB, blendCD, finalBlend;
 
 	std::string nodeName;
+	bool frozen;
 
 public:
 	static ThisClass* create(const ImVec2& pos);
@@ -31,6 +29,5 @@ public:
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
-
 };
 

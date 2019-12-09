@@ -112,8 +112,6 @@ void SkeletalAnimation2D::update(float dt, gef::Vector2 screenPos)
 
 	}
 
-
-
 }
 
 void SkeletalAnimation2D::spriteSetup(SubTexture* sub, gef::Vector2 screenPos, gef::Sprite* sprite)
@@ -123,17 +121,12 @@ void SkeletalAnimation2D::spriteSetup(SubTexture* sub, gef::Vector2 screenPos, g
 	float posX = screenPos.x + (sub->width * 0.5f - (sub->frameWidth * 0.5f + sub->frameX));
 	float posY = screenPos.y + sub->height * 0.5f - (sub->frameHeight * 0.5f + sub->frameY);
 
-
-
 	sprite->set_position(gef::Vector4(posX, posY, 0.0f));
 
 
 	sprite->set_uv_position(gef::Vector2(sub->x / json_data_->texture_atlas->width, sub->y / json_data_->texture_atlas->height));
 	sprite->set_uv_width(sub->width / json_data_->texture_atlas->width);
 	sprite->set_uv_height(sub->height / json_data_->texture_atlas->height);
-
-
-
 
 	sprite->set_width(sub->width);
 	sprite->set_height(sub->height);
@@ -155,17 +148,20 @@ void SkeletalAnimation2D::updateBones(std::vector<BoneAnimation*> animation, std
 
 		float newAngle = bone->transform.sk + rotate;
 
-		bone->local_transform.Rotate(gef::DegToRad(newAngle));
-
+		gef::Matrix33 tempRotate;
+		tempRotate.SetIdentity();
+		tempRotate.Rotate(gef::DegToRad(newAngle));
+		bone->local_transform;
 
 		gef::Vector2 lerpPos = getTransLerp(animation[animationNum]->animation_bone_data[i], dt, animation[animationNum]->duration);
 
 
 		gef::Vector2 tempVec2 = gef::Vector2(bone->transform.x, bone->transform.y);
-
-
 		gef::Vector2 temp3 = tempVec2 + lerpPos;
-		bone->local_transform.SetTranslation(temp3);
+		gef::Matrix33 tempTrans;
+		tempTrans.SetIdentity();
+		tempTrans.SetTranslation(temp3);
+		bone->local_transform = tempRotate * tempTrans;
 		
 	}
 	updateBoneTransform(json_data_->bone_armiture->boneData);
@@ -180,6 +176,7 @@ gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt
 	if (data->translations.size() > 1)
 	{
 		/*if (data->translations[transPos].duration > 0)*/
+
 		data->translationFrameTime = ((int)(data->translationFrameTime + 1)) % (int)duration;
 		/*else
 			data->translationFrameTime = 0;*/
@@ -222,6 +219,7 @@ gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt
 		float denominator = (float)data->translations[transPos].duration;
 		float time = 0;
 		if (denominator > 0.0f)*/
+
 		float time = end.startTime - start.startTime;
 		time = (data->translationFrameTime - start.startTime) / time;
 

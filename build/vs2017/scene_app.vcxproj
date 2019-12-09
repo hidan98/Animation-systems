@@ -419,6 +419,7 @@
     <ClCompile Include="RagDollNode.cpp" />
     <ClCompile Include="SkeletalAnimation2D.cpp" />
     <ClCompile Include="SpriteBasedAnimation.cpp" />
+    <ClCompile Include="TransitionNodeGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\bullet3\Extras\Serialize\BulletFileLoader\bChunk.h" />
@@ -707,6 +708,7 @@
     <ClInclude Include="RigidBodies.h" />
     <ClInclude Include="SkeletalAnimation2D.h" />
     <ClInclude Include="SpriteBasedAnimation.h" />
+    <ClInclude Include="TransitionNodeGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.inl" />

@@ -2,8 +2,9 @@
 
 
 
-LerpNode2Dgraph::LerpNode2Dgraph()
+LerpNode2Dgraph::LerpNode2Dgraph() : CustomeNode()
 {
+	active = false;
 }
 
 
@@ -16,7 +17,7 @@ LerpNode2Dgraph* LerpNode2Dgraph::create(const ImVec2& pos)
 
 	LerpNode2Dgraph* node = new LerpNode2Dgraph();
 
-	node->init("Ouput node", pos, "clipA;clipB;clipC;clipD", "out", TYPE);
+	node->init("2D node lerp", pos, "clipA;clipB;clipC;clipD", "out", TYPE);
 
 	node->fields.addField(&node->blendAB, 1, "Blend Value", "How much should it blend between clip A and B");
 	node->blendAB = 0.5f;
@@ -26,6 +27,9 @@ LerpNode2Dgraph* LerpNode2Dgraph::create(const ImVec2& pos)
 
 	node->fields.addField(&node->finalBlend, 1, "Blend Value", "How much should it blend between the resulting clips");
 	node->finalBlend = 0.5f;
+
+	node->nodeName = "2dNodeLerp" + std::to_string(NodeId2D);
+
 	//node->fields.add
 	return node;
 
@@ -55,8 +59,12 @@ bool LerpNode2Dgraph::process(float dt, ImGui::NodeGraphEditor* editor)
 			return false;
 	}
 
+
 	gef::SkeletonPose AB;
 	AB = *bindPose;
+	blendAB = variable_table->at(nodeName + ".blendValAB").floatData;
+	blendCD = variable_table->at(nodeName + ".blendValCD").floatData;
+	finalBlend = variable_table->at(nodeName + ".blendValFinal").floatData;
 	AB.Linear2PoseBlend(clipA->getOutput(), clipB->getOutput(), blendAB);
 	gef::SkeletonPose CD;
 	CD = *bindPose;
@@ -64,4 +72,33 @@ bool LerpNode2Dgraph::process(float dt, ImGui::NodeGraphEditor* editor)
 
 	output_.Linear2PoseBlend(AB, CD, finalBlend);
 	return true;
+}
+
+
+
+void LerpNode2Dgraph::setUp(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind)
+{
+
+	if (!active)
+	{
+		variable_table = table;
+
+		varibaleTable name;
+		name.type = dataType::string;
+		name.name = nodeName;
+		variable_table->insert({ nodeName, name });
+
+		varibaleTable blendVal;
+		blendVal.type = dataType::Real;
+		blendVal.floatData = 0.5f;
+		blendVal.max = 1.0f;
+		blendVal.min = 0.0f;
+
+		variable_table->insert({ nodeName + ".blendValAB", blendVal });
+		variable_table->insert({ nodeName + ".blendValCD", blendVal });
+		variable_table->insert({ nodeName + ".blendValFinal", blendVal });
+
+		setBind(bind);
+		active = true;
+	}
 }

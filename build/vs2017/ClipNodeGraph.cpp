@@ -7,13 +7,22 @@ ClipNodeGraph::ClipNodeGraph() : CustomeNode(), clip_(nullptr)
 	//active = true;
 	animTime_ = 0;
 	playBackSpeed_ = 1;
-	looping = true;
+	looping = false;
 	active = false;
 }
 
 
 ClipNodeGraph::~ClipNodeGraph()
 {
+	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
+
+	if (it != variable_table->end())
+	{
+		variable_table->erase(it->first);
+		variable_table->erase(animation_name + ".playBackSpeed");
+		variable_table->erase(animation_name + ".looping");
+
+	}
 }
 
 ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
@@ -40,39 +49,35 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 	return node;
 }
 
-void ClipNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table_)
-{
-	if (!active)
-	{
-		platform_ = plat;
-		//clip_ = static_cast<gef::Animation*>(clip);
-		
-		setBind(bind);
-		active = true;
-		//bindPose = bind;
-		output_ = *bind;
-		table = table_;
-	}
-	
-}
+//void ClipNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table_)
+//{
+//	if (!active)
+//	{
+//		platform_ = plat;
+//		//clip_ = static_cast<gef::Animation*>(clip);
+//		
+//		setBind(bind);
+//		active = true;
+//		//bindPose = bind;
+//		output_ = *bind;
+//		variable_table = table_;
+//	}
+//	
+//}
 
 bool ClipNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
-	//std::string variable_name = this->animation_name + ".playBackSpeed";
-	//playBackSpeed_ = this->tree_->variable_table[variable_name];
-
-	//variable_name = this->animation_name + ".looping";
-	//looping = this->tree_->variable_table[variable_name];
+	
 
 
 	bool finished = false;
 	if (clip_)
 	{
-		std::string tempString = animation_name + ".playBackSpeed";
-		playBackSpeed_ = (bool)variable_table->at(tempString);
+		std::string variable_name = this->animation_name + ".playBackSpeed";
+		playBackSpeed_ = variable_table->at(variable_name).floatData;
 
-		tempString = animation_name + ".looping";
-		looping = variable_table->at(tempString);
+		variable_name = this->animation_name + ".looping";
+		looping = variable_table->at(variable_name).toggle;
 
 		animTime_ += dt * playBackSpeed_;
 		if (animTime_ > clip_->duration())
@@ -107,19 +112,31 @@ bool ClipNodeGraph::update(float dt, ImGui::NodeGraphEditor* editor)
 }
 void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind, std::string name)
 {
-	std::map<std::string, float>::iterator &it = variable_table->find(animation_name);
+	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
 
 	if (it != variable_table->end())
 	{	
-
-		variable_table->erase(it->first + ".playBackSpeed");
-		variable_table->erase(it->first + ".looping");
+		variable_table->erase(it->first);
+		variable_table->erase(animation_name + ".playBackSpeed");
+		variable_table->erase(animation_name + ".looping");
 
 	}
+
+
 	animation_name = name;
-	variable_table->at(name + ".looping") = looping;
-	variable_table->at(name + ".playBackSpeed") = playBackSpeed_;
-	
+	varibaleTable temp;
+	temp.type = dataType::string;
+	temp.name = animation_name;
+	variable_table->insert({ animation_name, temp});// (animation_name);
+	temp.type = dataType::boolean;
+	temp.toggle = false;
+	variable_table->insert({ name + ".looping", temp });// = float(looping);
+	temp.type = dataType::Real;
+	temp.floatData = 1.0f;
+	temp.max = 100.f;
+	temp.min = 0.0f;
+	variable_table->insert({ name + ".playBackSpeed", temp });// = playBackSpeed_;
+	clip_ = anim;
 
 
 

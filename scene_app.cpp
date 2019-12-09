@@ -138,7 +138,7 @@ void SceneApp::Init()
 	graph = new nodeGraph(bind_pose, &platform_, worldPhysics->getWorld(), player_);
 	effector_position_ = new gef::Vector4(0, 0, 0);
 
-	graph->init(effector_position_);
+	graph->init(effector_position_, &variable_table);
 	graph->current.model = model_scene;
 	graph->current.skel = skeleton;
 
@@ -181,37 +181,7 @@ bool SceneApp::Update(float frame_time)
 	time = frame_time;
 
 	input_manager_->Update();
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.MouseDown[0] = input_manager_->touch_manager()->is_button_down(0);
-		io.MouseDown[1] = input_manager_->touch_manager()->is_button_down(1);
-		io.MouseDown[2] = input_manager_->touch_manager()->is_button_down(2);
-		io.MouseWheel += input_manager_->touch_manager()->mouse_rel().z() / WHEEL_DELTA;
-
-		gef::KeyboardD3D11* keyboard_d3d11 = (gef::KeyboardD3D11*)input_manager_->keyboard();
-
-
-		io.KeyShift = keyboard_d3d11->IsKeyDown(gef::Keyboard::KC_LSHIFT) || keyboard_d3d11->IsKeyDown(gef::Keyboard::KC_RSHIFT);
-		io.KeyCtrl = keyboard_d3d11->IsKeyDown(gef::Keyboard::KC_LCONTROL) || keyboard_d3d11->IsKeyDown(gef::Keyboard::KC_RCONTROL);
-		io.KeyAlt = keyboard_d3d11->IsKeyDown(gef::Keyboard::KC_LALT) || keyboard_d3d11->IsKeyDown(gef::Keyboard::KC_RALT);
-
-
-		for (int key_code_num = 0; key_code_num < gef::Keyboard::NUM_KEY_CODES; ++key_code_num)
-		{
-			gef::Keyboard::KeyCode key_code = (gef::Keyboard::KeyCode)key_code_num;
-			int scan_code = keyboard_d3d11->GetScanCode(key_code);
-
-			int vk_code = MapVirtualKey(scan_code, MAPVK_VSC_TO_VK_EX);
-
-			io.KeysDown[vk_code] = keyboard_d3d11->IsKeyDown(key_code);
-			if (keyboard_d3d11->IsKeyPrintable(key_code) && keyboard_d3d11->IsKeyPressed(key_code))
-			{
-				if (!io.KeyShift && vk_code >= 'A' && vk_code <= 'Z')
-					vk_code = 'a' + (vk_code - 'A');
-				io.AddInputCharacter(vk_code);
-			}
-		}
-	}
+	UpdateImGuiIO();
 
 
 	if (graph->output)
@@ -252,9 +222,6 @@ bool SceneApp::Update(float frame_time)
 		RayPlaneIntersect(mouse_ray_start_point, mouse_ray_direction, gef::Vector4(0.0f, 0.0f, 0.0f), gef::Vector4(0.0f, 0.0f, 1.0f), *effector_position_);
 	}
 
-	
-
-
 	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
 	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
@@ -284,7 +251,7 @@ void SceneApp::Render()
 
 	if (player_)
 	{
-		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
+		//renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
 	}
 
 	primitive_renderer_->Reset();
@@ -297,7 +264,7 @@ void SceneApp::Render()
 	sprite_renderer_->Begin(false);
 
 	// Render button icon
-	sprite_renderer_->DrawSprite(*anim->getSprite());
+	//sprite_renderer_->DrawSprite(*anim->getSprite());
 	//if(active)
 		bone_->render(sprite_renderer_);
 
@@ -407,12 +374,6 @@ void SceneApp::ImGuiRender()
 
 
 
-
-
-
-
-
-
 		if (ImGui::BeginMenu("3D"))
 		{
 			if (ImGui::MenuItem("Graph"))
@@ -449,9 +410,26 @@ void SceneApp::ImGuiRender()
 		ImGui::End();
 	}
 
+
+
+	ImGui::Begin("variable table");
+
+
+	for (auto& it : variable_table)
+	{
+		if (it.second.type == dataType::Real)
+			ImGui::SliderFloat(it.first.c_str(), &it.second.floatData, it.second.min, it.second.max);
+		else if (it.second.type == dataType::boolean)
+			ImGui::Checkbox(it.first.c_str(), &it.second.toggle);
+		
+	}
+
+	ImGui::End();
+
 	//Application_Frame();
 
 	ImGui::End();
+
 
 	// Rendering
 	ImGui::Render();

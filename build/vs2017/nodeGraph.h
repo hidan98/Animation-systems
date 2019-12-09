@@ -38,7 +38,7 @@ public:
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
-	void init(gef::Vector4* pos);
+	void init(gef::Vector4* pos, std::map<std::string, varibaleTable>* table);
 	void update(float dt);
 
 	CustomeNode* output;
@@ -54,7 +54,6 @@ private:
 	
 	ImGui::NodeGraphEditor* temp_;
 	
-	std::vector<bool> selected;
 	gef::Platform* platform;
 
 	/*std::vector<animationData> animations_;
@@ -71,6 +70,8 @@ private:
 	gef::Vector4* effector;
 
 	std::map<gef::StringId, std::string> stringTable;
+
+	std::map<std::string, varibaleTable>* variabe_table;
 
 	gef::Scene* current_model;
 	int bonePos;

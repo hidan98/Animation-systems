@@ -7,6 +7,23 @@ namespace gef {
 
 	class Skeleton;
 }
+
+enum class dataType {
+	boolean,
+	Real,
+	intiger,
+	string
+};
+
+struct varibaleTable
+{
+	dataType type;
+	float max, min;
+	float floatData;
+	bool toggle;
+	std::string name;
+};
+
 class Animation_Utils
 {
 public:
