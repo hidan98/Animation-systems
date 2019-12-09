@@ -5,7 +5,7 @@ enum MyNodeTypes {
 	LinearBlendNode,
 	BledNode2D,
 	ragDoll,
-	transNode,
+	//transNode,
 	clipNode,
 #   ifdef IMGUI_USE_AUTO_BINDING
 	MNT_TEXTURE_NODE,

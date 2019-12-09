@@ -57,16 +57,6 @@ void SceneApp::Init()
 	// initialise input manager
 	input_manager_ = gef::InputManager::Create(platform_);
 
-	sprite_texture_ = CreateTextureFromPNG("Idle (1).png", platform_);
-
-
-	sprite_.set_texture(sprite_texture_);
-	sprite_.set_position(gef::Vector4(platform_.width()*0.5f, platform_.height()*0.5f, -0.99f));
-	sprite_.set_height(128.0f);
-	sprite_.set_width(128.0f);
-
-
-
 
 	anim = new SpriteBasedAnimation();
 	anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
@@ -102,28 +92,7 @@ void SceneApp::Init()
 	//Application_Initialize();
 	getSpiteFile();
 
-
-	model_scene = new gef::Scene();
-	model_scene->ReadSceneFromFile(platform_, "xbot.scn");
-
-	model_scene->CreateMaterials(platform_);
-	mesh_ = Animation_Utils::GetFirstMesh(model_scene, platform_);
-
-
-	gef::Skeleton* skeleton = Animation_Utils::GetFirstSkeleton(model_scene);
-
-	if (skeleton)
-	{
-		player_ = new gef::SkinnedMeshInstance(*skeleton);
-		//anim_player_.Init(player_->bind_pose());
-		player_->set_mesh(mesh_);
-		player_->UpdateBoneMatrices(player_->bind_pose());
-		ik_pose = player_->bind_pose();
-
-
-
-	}
-
+	
 	primitive_renderer_ = new PrimitiveRenderer(platform_);
 	
 
@@ -131,18 +100,15 @@ void SceneApp::Init()
 	done = false;
 
 
-	worldPhysics = new Physics();
-	worldPhysics->init(&platform_, renderer_3d_);
-
-	bind_pose = &player_->bind_pose();
-	graph = new nodeGraph(bind_pose, &platform_, worldPhysics->getWorld(), player_);
+	modelSelected = false;
 	effector_position_ = new gef::Vector4(0, 0, 0);
 
-	graph->init(effector_position_, &variable_table);
-	graph->current.model = model_scene;
-	graph->current.skel = skeleton;
+	
+
 
 	
+
+	Active3D = false;
 }
 
 
@@ -184,22 +150,27 @@ bool SceneApp::Update(float frame_time)
 	UpdateImGuiIO();
 
 
-	if (graph->output)
+	if (Active3D)
 	{
-		graph->updateOut(frame_time);
-		if (done)
+		if (graph->output)
 		{
-			gef::Matrix44 player_trans;
-			player_trans.SetIdentity();
+			graph->updateOut(frame_time);
+			if (done)
+			{
+				graph->update(time);
+				gef::Matrix44 player_trans;
+				player_trans.SetIdentity();
 
-			gef::Matrix44 scale;
-			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
-			player_->UpdateBoneMatrices(graph->output->getOutput());
-			
-			player_->set_transform(scale * player_trans);
+				gef::Matrix44 scale;
+				scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+				graph->getCurrent()->skinnedMesh->UpdateBoneMatrices(graph->output->getOutput());				
+
+				graph->getCurrent()->skinnedMesh->set_transform(scale * player_trans);
+			}
+
 		}
-
 	}
+	
 
 
 
@@ -222,12 +193,13 @@ bool SceneApp::Update(float frame_time)
 		RayPlaneIntersect(mouse_ray_start_point, mouse_ray_direction, gef::Vector4(0.0f, 0.0f, 0.0f), gef::Vector4(0.0f, 0.0f, 1.0f), *effector_position_);
 	}
 
-	anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+	if(anim)
+		anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
 	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
-	
-	worldPhysics->update(frame_time);
+	if(worldPhysics)
+		worldPhysics->update(frame_time);
 
 	return true;
 }
@@ -242,34 +214,37 @@ void SceneApp::Render()
 	SetCameraMatrices();
 	// draw meshes here
 	renderer_3d_->Begin();
-	/*if (graph->output)
-		renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());*/
 
 
 	if (worldPhysics)
 		worldPhysics->render(renderer_3d_);
 
-	if (player_)
+	if (Active3D)
 	{
-		//renderer_3d_->DrawSkinnedMesh(*player_, player_->bone_matrices());
+		if (graph->getCurrent()->skinnedMesh)
+		{
+			renderer_3d_->DrawSkinnedMesh(*graph->getCurrent()->skinnedMesh, graph->getCurrent()->skinnedMesh->bone_matrices());
+		}
 	}
+	
 
 	primitive_renderer_->Reset();
 
-	RenderEndEffector();
+	//RenderEndEffector();
 
 	primitive_renderer_->Render(*renderer_3d_);
 
 	renderer_3d_->End();
 	sprite_renderer_->Begin(false);
 
-	// Render button icon
-	//sprite_renderer_->DrawSprite(*anim->getSprite());
+
+	if(anim)
+		sprite_renderer_->DrawSprite(*anim->getSprite());
 	//if(active)
-		bone_->render(sprite_renderer_);
+//		bone_->render(sprite_renderer_);
 
 	
-		
+	
 
 	DrawHUD();
 	sprite_renderer_->End();
@@ -351,11 +326,23 @@ void SceneApp::ImGuiRender()
 								tex = it.second[i];
 							}
 						}
-						anim->cleanUp();
+						if (anim)
+							anim->cleanUp();
+						else
+							anim = new SpriteBasedAnimation();
 
 						anim->init(tex.c_str(), ske.c_str(), png.c_str(), platform());
 					}
 				}
+
+				if (ImGui::MenuItem("Stop Sprits"))
+				{
+					anim->cleanUp();
+					delete anim;
+					anim = nullptr;
+				}
+					
+
 				ImGui::EndMenu();
 			}
 			if (ImGui::BeginMenu("Bone Animation"))
@@ -373,43 +360,78 @@ void SceneApp::ImGuiRender()
 		}
 
 
-
 		if (ImGui::BeginMenu("3D"))
 		{
-			if (ImGui::MenuItem("Graph"))
+			//if (modelSelected)
+			//{
+				if (ImGui::MenuItem("Graph"))
+				{
+					active_graph = !active_graph;
+				}
+				
+			//}
+			if (!Active3D)
 			{
-				active_graph = !active_graph;
+
+				worldPhysics = new Physics();
+				worldPhysics->init(&platform_, renderer_3d_);
+				graph = new nodeGraph(&platform_, worldPhysics->getWorld());
+				graph->init(effector_position_, &variable_table);
+
+
+				Active3D = true;
+			}
+
+			if (Active3D)
+			{
+				if (ImGui::BeginMenu("select model"))
+				{
+					for (int i = 0; i < graph->getModels().size(); i++)
+					{
+						if (ImGui::MenuItem(graph->getModels()[i].c_str()))
+						{
+							graph->setUpModel(i);
+							modelSelected = true;
+						}
+					}
+
+					ImGui::EndMenu();
+				}
+
+				if (modelSelected)
+				{
+					if (ImGui::MenuItem("Stop 3D"))
+					{
+						cleanUp3d();
+						Active3D = false;
+						modelSelected = false;
+					}
+				}
+							
 			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
 
-	//ImGui::End();
 
-	if (active_graph) {
-		//if (ImGui::Begin("Example: Custom Node Graph", &show_node_graph_editor_window,ImVec2(700,600),0.95f,ImGuiWindowFlags_NoScrollbar))    // Old API
-		ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_FirstUseEver);
-		ImGui::SetNextWindowBgAlpha(0.95f);
-		if (ImGui::Begin("Example: Custom Node Graph", &active_graph, ImGuiWindowFlags_NoScrollbar))
+	if (graph)
+	{
+		if (active_graph)
 		{
-			if (ImGui::BeginMenuBar())
+			ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowBgAlpha(0.95f);
+			if (ImGui::Begin("Example: Custom Node Graph", &active_graph, ImGuiWindowFlags_NoScrollbar))
 			{
-				/*if (ImGui::BeginMenu("model"))
-				{
-					ImGui::EndMenu;
-				}*/
-				ImGui::EndMenuBar;
-			}
-#           ifndef IMGUINODEGRAPHEDITOR_NOTESTDEMO
-			graph->update(time);   // see its code for further info
-			done = true;
-//			ImGui::TestNodeGraphEditor();
-#           endif //IMGUINODEGRAPHEDITOR_NOTESTDEMO            
-		}
-		ImGui::End();
-	}
 
+				graph->render();
+
+				done = true;
+
+			}
+			ImGui::End();
+		}
+	}
 
 
 	ImGui::Begin("variable table");
@@ -507,11 +529,8 @@ void SceneApp::getSpiteFile()
 		lookUp.insert({ gef::GetStringId(tempStrings[i]), tempStrings[i] });
 		sprites.insert({ gef::GetStringId(tempStrings[i]), folder });
 
-		//sprite_files.push_back(folder);
 
 	}
-		
-
 
 }
 
@@ -539,12 +558,24 @@ void SceneApp::SetupLights()
 	default_shader_data.AddPointLight(default_point_light);
 }
 
-void SceneApp::RenderEndEffector()
+void SceneApp::cleanUp3d()
 {
-	/*const float effector_half_line_length = 20.0f;
-	const gef::Colour effector_colour(0.0f, 1.0f, 0.0f);
+	if (graph)
+	{
+		graph->cleanup();
+		delete graph;
+		graph = nullptr;
+	}
 
-	primitive_renderer_->AddLine(*effector_position_ - gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), *effector_position_ + gef::Vector4(-effector_half_line_length, 0.0f, 0.0f), effector_colour);
-	primitive_renderer_->AddLine(*effector_position_ - gef::Vector4(0.0f, -effector_half_line_length, 0.0f), *effector_position_ + gef::Vector4(0.0f, -effector_half_line_length, 0.0f), effector_colour);
-	primitive_renderer_->AddLine(*effector_position_ - gef::Vector4(0.0f, 0.0f, -effector_half_line_length), *effector_position_ + gef::Vector4(0.0f, 0.0f, -effector_half_line_length), effector_colour);*/
+	if (worldPhysics)
+	{
+		worldPhysics->cleanUp();
+		delete worldPhysics;
+		worldPhysics = nullptr;
+	}
+		
+	
+
+
+
 }

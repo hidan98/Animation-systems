@@ -40,20 +40,6 @@ protected:
 	//void setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table);
 	std::string animation_name;
 	
-	//void onEditField(ImGui::FieldInfo& /*f*/, int widgetIndex) {
-	//	//fprintf(stderr,"TextureNode::onEditField(\"%s\",%i);\n",f.label,widgetIndex);
-	//	if (widgetIndex == 1)         startBrowseDialogNextFrame = true;  // browsing button pressed
-	//	else if (widgetIndex == 0)    processPath(imagePath);             // text edited (= "return" pressed in our case)
-
-
-	//}
-
-	//static void StaticEditFieldCallback(ImGui::FieldInfo& f, int widgetIndex) {
-	//	reinterpret_cast<ThisClass*>(f.userData)->onEditField(f, widgetIndex);
-	//}
-
-	
-
 
 public:
 	static ThisClass* create(const ImVec2& pos);
@@ -63,7 +49,8 @@ public:
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
-
+	inline float getTime() { return animTime_; }
+	inline float getDuration() { return clip_->duration(); }	
 	
 };
 

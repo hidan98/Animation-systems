@@ -14,6 +14,7 @@
 
 #include <map>
 
+
 struct modelData
 {
 	std::string name;
@@ -26,15 +27,17 @@ struct modelData
 };
 
 struct currentData {
-	gef::Scene* model;
-	gef::Skeleton* skel;
+	gef::Scene* model = nullptr;
+	gef::Skeleton* skel = nullptr;
+	class gef::Mesh* mesh_ = nullptr;
+	gef::SkinnedMeshInstance* skinnedMesh = nullptr;
 
 };
 
 class nodeGraph
 {
 public:
-	nodeGraph(const gef::SkeletonPose* pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh);
+	nodeGraph(gef::Platform* plat, btDiscreteDynamicsWorld* world);
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
@@ -42,37 +45,42 @@ public:
 	void update(float dt);
 
 	CustomeNode* output;
-	void updateOut(float dt) { output->update(dt, temp_); }
-	
+	void updateOut(float dt) { output->update(dt, nodeGraphEdit); }
+	currentData* getCurrent() { return &current; }
+
 	currentData current;
+
+	void cleanup();
+
+	void render();
+
+	std::vector<std::string>& getModels() { return modelNames; }
+
+	void setUpModel(int pos);
 private:
 	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
 
 	void getParent(int pos);
+
 	//void setUpAnimations();
-	const gef::SkeletonPose* bind_pose;
-	
-	ImGui::NodeGraphEditor* temp_;
+	const gef::SkeletonPose* bind_pose;	
+	ImGui::NodeGraphEditor* nodeGraphEdit;
 	
 	gef::Platform* platform;
 
-	/*std::vector<animationData> animations_;
-	std::vector<std::vector<animationData*>> animations;
 
-	animationData* loadAnimation(std::string path);*/
-
-	std::vector<modelData*> modelData_;
+	std::vector<modelData> modelData_;
 
 	btDiscreteDynamicsWorld* world_;
 	std::string bulletPath;
 
-	gef::SkinnedMeshInstance* skinned_mesh_player;
+
 	gef::Vector4* effector;
 
 	std::map<gef::StringId, std::string> stringTable;
 
 	std::map<std::string, varibaleTable>* variabe_table;
-
+	std::vector<std::string> modelNames;
 	gef::Scene* current_model;
 	int bonePos;
 	

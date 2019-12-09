@@ -11,7 +11,7 @@ protected:
 	~TransitionNodeGraph();
 
 
-	static const int TYPE = transNode;
+	//static const int TYPE = transNode;
 
 	virtual const char* getTooltip() const { return "Transition Node."; }
 	virtual const char* getInfo() const { return "Trans Node info.\n\nThis is supposed to display some info about this node."; }
@@ -20,6 +20,12 @@ protected:
 
 	std::string nodeName;
 	bool frozen;
+	bool smooth;
+
+	float time;
+
+	float timer;
+	float setTime;
 
 public:
 	static ThisClass* create(const ImVec2& pos);
@@ -27,7 +33,8 @@ public:
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
 	void setUp(std::map<std::string, varibaleTable>* tabel, const gef::SkeletonPose* bind);
 	// casts:
-	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
-	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
+	//inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
+	//inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
+	
 };
 

@@ -47,6 +47,8 @@ private:
 	void UpdateImGuiIO();
 	void ImGuiRender();
 
+	void cleanUp3d();
+
 	//void graph();
 //	ImGui::NodeGraphEditor nge;
     
@@ -79,11 +81,6 @@ private:
 	void RenderEndEffector();
 	void SetCameraMatrices();
 
-	void FrontendInit();
-	void FrontendRelease();
-	void FrontendUpdate(float frame_time);
-	void FrontendRender();
-
 	void SetupLights();
 	void SetupCamera();
 	gef::Vector4 camera_eye_;
@@ -96,6 +93,7 @@ private:
 	float time;
 
 	bool done;
+	bool modelSelected;
 
 	gef::Scene* model_scene;
 	class gef::Mesh* mesh_;
@@ -103,7 +101,6 @@ private:
 	gef::Mesh* GetFirstMesh(gef::Scene* scene);
 	gef::Skeleton* GetFirstSkeleton(gef::Scene* scene);
 
-	gef::SkinnedMeshInstance* player_;
 
 	Physics* worldPhysics;
 
@@ -117,6 +114,8 @@ private:
 
 	std::map<std::string, varibaleTable> variable_table;
 
+
+	bool Active3D;
 };
 
 #endif // _SCENE_APP_H

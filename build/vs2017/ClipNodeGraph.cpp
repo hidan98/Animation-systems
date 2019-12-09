@@ -49,21 +49,6 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 	return node;
 }
 
-//void ClipNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table_)
-//{
-//	if (!active)
-//	{
-//		platform_ = plat;
-//		//clip_ = static_cast<gef::Animation*>(clip);
-//		
-//		setBind(bind);
-//		active = true;
-//		//bindPose = bind;
-//		output_ = *bind;
-//		variable_table = table_;
-//	}
-//	
-//}
 
 bool ClipNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
