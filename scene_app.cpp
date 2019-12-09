@@ -297,9 +297,9 @@ void SceneApp::Render()
 	sprite_renderer_->Begin(false);
 
 	// Render button icon
-	/*sprite_renderer_->DrawSprite(*anim->getSprite());
-	if(active)
-		bone_->render(sprite_renderer_);*/
+	sprite_renderer_->DrawSprite(*anim->getSprite());
+	//if(active)
+		bone_->render(sprite_renderer_);
 
 	
 		

@@ -54,7 +54,7 @@ private:
 	
 	ImGui::NodeGraphEditor* temp_;
 	
-
+	std::vector<bool> selected;
 	gef::Platform* platform;
 
 	/*std::vector<animationData> animations_;

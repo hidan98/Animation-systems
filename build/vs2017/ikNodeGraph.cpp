@@ -26,7 +26,6 @@ ikNodeGraph* ikNodeGraph::create(const ImVec2& pos)
 bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
 
-
 	CustomeNode* node = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, 0));
 	if (node)
 	{
@@ -40,17 +39,11 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 			return true;
 		}
 
-		
-		
 	}
 
 	return false;
 }
 
-void ikNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind)
-{
-
-}
 
 void ikNodeGraph::setup(gef::Platform* plat,  const gef::SkeletonPose* bind, gef::SkinnedMeshInstance* play, gef::Vector4* pos)
 {

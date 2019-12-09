@@ -1,6 +1,11 @@
 #pragma once
 #include "CustomeNode.h"
 #include "NodeUtilsHeader.h"
+#include <unordered_map>
+namespace gef {
+	class SkeletonPose;
+}
+
 class BlendNodeGraph : public CustomeNode
 {
 public:
@@ -30,23 +35,16 @@ protected:
 	
 
 	float animTime_;
-	bool looping;
+	bool partalBlend;
 	float playBackSpeed_;
 
 	float blendVal;
 
 	void setup(gef::Platform* plat, const gef::SkeletonPose* bind);
-	//void onEditField(ImGui::FieldInfo& /*f*/, int widgetIndex) {
-	//	//fprintf(stderr,"TextureNode::onEditField(\"%s\",%i);\n",f.label,widgetIndex);
-	//	if (widgetIndex == 1)         startBrowseDialogNextFrame = true;  // browsing button pressed
-	//	else if (widgetIndex == 0)    processPath(imagePath);             // text edited (= "return" pressed in our case)
+	
 
-
-	//}
-
-	//static void StaticEditFieldCallback(ImGui::FieldInfo& f, int widgetIndex) {
-	//	reinterpret_cast<ThisClass*>(f.userData)->onEditField(f, widgetIndex);
-	//}
+	std::vector<int> boneInd;
+	void CustomBlend(const gef::SkeletonPose& start_pose, const gef::SkeletonPose& end_pose);
 
 public:
 	static ThisClass* create(const ImVec2& pos);
@@ -56,5 +54,8 @@ public:
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
+
+	void setPartalBlends(std::vector<int>& bones) { boneInd.clear(); boneInd = bones; }
+
 };
 

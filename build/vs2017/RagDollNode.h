@@ -26,7 +26,6 @@ public:
 	static ThisClass* create(const ImVec2& pos);
 	//bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
-	void setup(gef::Platform* plat, const gef::SkeletonPose* bind);
 	void setup(gef::Platform* plat, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path);
 
 };

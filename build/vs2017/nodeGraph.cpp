@@ -7,6 +7,7 @@
 #include "RagDollNode.h"
 #include "ikNodeGraph.h"
 #include "LerpNode2Dgraph.h"
+#include <unordered_map>
 
 nodeGraph::nodeGraph(const gef::SkeletonPose* pose, gef::Platform* plat, btDiscreteDynamicsWorld* world, gef::SkinnedMeshInstance* mesh) : output(NULL),  platform(nullptr), skinned_mesh_player(nullptr)
 {
@@ -181,6 +182,49 @@ void nodeGraph::update(float dt)
 
 
 			ImGui::End();
+			break;
+
+		case LinearBlendNode:
+		{
+
+
+			ImGui::Begin("bone selection");
+
+			std::vector<int> bones;
+			static std::vector<bool> temp;
+			
+			for (int i = 0; i < current.skel->joints().size(); i++)
+			{
+				std::string bone_name;
+				current.model->string_id_table.Find(current.skel->joint(i).name_id, bone_name);
+				
+				int size = temp.size() - 1;
+				if (i > (size))
+					temp.push_back(false);
+
+				
+				if(ImGui::Selectable(bone_name.c_str(), temp[i]))
+				{
+					temp[i] = !temp[i];
+					//size = 100;
+				}		
+					
+				
+			}
+
+			for (int i = 0; i < temp.size(); i++)
+			{
+				if (temp[i])
+					bones.push_back(i);
+			}
+
+			BlendNodeGraph* node = static_cast<BlendNodeGraph*>(active);
+
+			node->setPartalBlends(bones);
+
+	
+			ImGui::End();
+		}
 		default:
 			active->setup(platform, bind_pose);
 			break;

@@ -77,8 +77,8 @@ bool CalculateCCD(
 				axis = eb.CrossProduct(db);
 				axis.Normalise();
 
-				float sin_ = sin(angle / 2.0f);
-				gef::Quaternion rotation(sin_ * axis.x(), sin_ * axis.y(), sin_ * axis.z(), cos(angle / 2.0f));
+				float sin_ = sin(angle * 0.5f);
+				gef::Quaternion rotation(sin_ * axis.x(), sin_ * axis.y(), sin_ * axis.z(), cos(angle * 0.5f));
 
 				gef::Matrix44 current;
 				current = global_pose[bonePos];

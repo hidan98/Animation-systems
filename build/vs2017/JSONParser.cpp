@@ -427,7 +427,8 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 			AnimationBoneData* temp_animation_bone_data = new AnimationBoneData;
 			temp_animation_bone_data->name = animationBone[j]["name"].GetString();
 			temp_animation_bone_data->nameId = gef::GetStringId(temp_animation_bone_data->name);
-
+			//temp_animation_bone_data->duration = animationBone[j]["duration"].GetFloat();
+			float start_time = 0;
 			if (animationBone[j].HasMember("translateFrame"))
 			{
 				const rapidjson::Value& translateFrame = animationBone[j]["translateFrame"];
@@ -436,7 +437,12 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 				{
 					translationFrameData tempFrameData ;
 					if (translateFrame[k].HasMember("duration"))
+					{
 						tempFrameData.duration = translateFrame[k]["duration"].GetFloat();
+						tempFrameData.startTime = start_time;
+						start_time += tempFrameData.duration;
+					}
+						
 
 					if (translateFrame[k].HasMember("x"))
 						tempFrameData.XY.x = translateFrame[k]["x"].GetFloat();
@@ -450,17 +456,23 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 			else
 				temp_animation_bone_data->translations.push_back(translationFrameData());
 
+
 			if (animationBone[j].HasMember("rotateFrame"))
 			{
 				const rapidjson::Value& rotateFrame = animationBone[j]["rotateFrame"];
 
-
+				start_time = 0;
 				for (int k = 0; k < (int)rotateFrame.Size(); k++)
 				{
 					rotateFrameData tempRotateData;
 
 					if (rotateFrame[k].HasMember("duration"))
+					{
 						tempRotateData.duration = rotateFrame[k]["duration"].GetFloat();
+						tempRotateData.startTime = start_time;
+						start_time += tempRotateData.duration;
+					}
+						
 
 					if (rotateFrame[k].HasMember("rotate"))
 						tempRotateData.rotate = rotateFrame[k]["rotate"].GetFloat();

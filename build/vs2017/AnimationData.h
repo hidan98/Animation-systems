@@ -75,13 +75,15 @@ struct SpriteAnimation : Animation {
 
 struct rotateFrameData
 {
-	int duration = 0;
+	float duration = 0;
+	float startTime = 0;
 	float rotate = 0;
 };
 
 struct translationFrameData {
 
-	int duration = 0;
+	float duration = 0;
+	float startTime = 0;
 	gef::Vector2 XY = gef::Vector2(0, 0);
 
 };
@@ -96,6 +98,9 @@ struct AnimationBoneData {
 	std::vector<rotateFrameData> rotations;
 	int rotationFramePos = 0;
 	float rotationFrameTime = 0;
+	float time = 0;
+
+	float duration = 0;
 };
 
 

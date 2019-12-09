@@ -32,8 +32,8 @@ private:
 
 	void spriteSetup(SubTexture* sub, gef::Vector2 screenPos, gef::Sprite* sprite);
 
-	float getRotLerp(AnimationBoneData* data, float dt);
-	gef::Vector2 getTransLerp(AnimationBoneData* data, float dt);
+	float getRotLerp(AnimationBoneData* data, float dt, float duration);
+	gef::Vector2 getTransLerp(AnimationBoneData* data, float dt, float duration);
 
 	float lerpRot(float start, float diff, float t);
 

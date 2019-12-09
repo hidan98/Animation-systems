@@ -417,7 +417,6 @@
     <ClCompile Include="OutputNodeGraph.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="RagDollNode.cpp" />
-    <ClCompile Include="RigidBodies.cpp" />
     <ClCompile Include="SkeletalAnimation2D.cpp" />
     <ClCompile Include="SpriteBasedAnimation.cpp" />
   </ItemGroup>
