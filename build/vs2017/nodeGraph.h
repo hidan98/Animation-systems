@@ -31,6 +31,7 @@ struct currentData {
 	gef::Skeleton* skel = nullptr;
 	class gef::Mesh* mesh_ = nullptr;
 	gef::SkinnedMeshInstance* skinnedMesh = nullptr;
+	int id;
 
 };
 

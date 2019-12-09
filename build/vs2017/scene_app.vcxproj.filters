@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{2e750e28-7b4e-4c2c-8587-3c451df85f04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="imgui\thirdparty">
-      <UniqueIdentifier>{59c3ec5b-4ce5-4431-b4e8-86bbd1b9e84d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Bullet">
       <UniqueIdentifier>{d5610dcd-de5d-48c0-bb01-c8ad44a10bf1}</UniqueIdentifier>
     </Filter>
@@ -82,6 +76,9 @@
     <Filter Include="Source Files\nodeThings">
       <UniqueIdentifier>{cfe84f1e-42d0-4bd0-8582-6d7f4be4328b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{8655d0bf-c835-4653-964b-25185964f3bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main_d3d11.cpp">
@@ -108,35 +105,11 @@
     <ClCompile Include="SkeletalAnimation2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Animation3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Animation_Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\motion_clip_player.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.cpp">
-      <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_demo.cpp">
-      <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_draw.cpp">
-      <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_widgets.cpp">
-      <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.cpp">
-      <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.cpp">
-      <Filter>imgui\thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp">
-      <Filter>imgui\thirdparty</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bullet3\src\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp">
       <Filter>Bullet\BulletCollision\BroadphaseCollision</Filter>
@@ -645,9 +618,6 @@
     <ClCompile Include="CustomeNode.cpp">
       <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
-    <ClCompile Include="GraphNode.cpp">
-      <Filter>Source Files\nodeThings</Filter>
-    </ClCompile>
     <ClCompile Include="LinearBlendNode.cpp">
       <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
@@ -666,22 +636,7 @@
     <ClCompile Include="ikNodeGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Drawing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LerpNode2Dgraph.cpp">
@@ -689,6 +644,30 @@
     </ClCompile>
     <ClCompile Include="TransitionNodeGraph.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\imgui.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\imgui_demo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\imgui_draw.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\imgui_widgets.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\examples\imgui_impl_dx11.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\examples\imgui_impl_win32.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp">
+      <Filter>Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,40 +713,7 @@
     <ClInclude Include="OutputNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imconfig.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_internal.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_rectpack.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_textedit.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_truetype.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui\imgui_user.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.h">
-      <Filter>imgui\thirdparty</Filter>
-    </ClInclude>
     <ClInclude Include="nodeGraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OutputNodeGraph.h">
@@ -1535,23 +1481,44 @@
     <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_extra_math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LerpNode2Dgraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TransitionNodeGraph.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imconfig.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imgui.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imgui_internal.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imgui_user.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imstb_rectpack.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imstb_textedit.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\imstb_truetype.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\examples\imgui_impl_dx11.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\examples\imgui_impl_win32.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.h">
+      <Filter>Imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1567,16 +1534,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\imgui\imgui_user.inl">
-      <Filter>imgui\thirdparty</Filter>
-    </None>
-    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_extra_math.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.inl">
-      <Filter>Header Files</Filter>
+      <Filter>Imgui</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -10,15 +10,21 @@ BlendNodeGraph::BlendNodeGraph() :CustomeNode()
 
 BlendNodeGraph::~BlendNodeGraph()
 {
-	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(Nodename);
 
-	if (it != variable_table->end())
+	//if the variable table sill exhists remove variables from it
+	if (variable_table)
 	{
-		variable_table->erase(it->first);
-		variable_table->erase(Nodename + ".blendVal");
-		
-		variable_table->erase(Nodename + ".partalBlendToggle");
+		std::map<std::string, varibaleTable>::iterator &it = variable_table->find(Nodename);
+
+		if (it != variable_table->end())
+		{
+			variable_table->erase(it->first);
+			variable_table->erase(Nodename + ".blendVal");
+
+			variable_table->erase(Nodename + ".partalBlendToggle");
+		}
 	}
+	
 }
 
 
@@ -27,6 +33,7 @@ bool BlendNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	CustomeNode* one = nullptr;
 	CustomeNode* two = nullptr;
 
+	//loop through inputs and set casted values, if an input node is not valid return false
 	for (int i = 0; i < InputsCount; i++)
 	{
 		CustomeNode* node = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, i));
@@ -39,13 +46,17 @@ bool BlendNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 			two = node;
 	}
 
+	//grab variables from table
 	blendVal = variable_table->at( Nodename + ".blendVal").floatData;
 	partalBlend = variable_table->at(Nodename + ".partalBlendToggle").toggle;
+
+	//if the partal blend has bee selected 
 	if (partalBlend)
 	{
+		//perform it
 		output_.customeLinearBlend(one->getOutput(), two->getOutput(), boneInd, blendVal);
 	}
-	else
+	else//otherwise perform normal blend
 		output_.Linear2PoseBlend(one->getOutput(), two->getOutput(), blendVal);
 	return true;
 }
@@ -57,8 +68,6 @@ BlendNodeGraph* BlendNodeGraph::create(const ImVec2& pos)
 
 	node->init("Ouput node", pos, "ch1;ch2", "out", TYPE);
 
-	node->fields.addField(&node->blendVal, 1, "Blend Value", "How much should it blend");
-	node->fields.addField(&node->partalBlend, "Partal Blend", "Activeate partal Blend");
 	node->blendVal = 0.5f;
 	node->partalBlend = false;
 
@@ -80,7 +89,7 @@ void BlendNodeGraph::setup(std::map<std::string, varibaleTable>* table, const ge
 		active = true;
 
 
-
+		//set up variables for table
 		varibaleTable name;
 		name.type = dataType::string;
 		name.name = Nodename;

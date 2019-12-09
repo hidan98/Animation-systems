@@ -26,8 +26,9 @@ void OutputNodeGraph::setup(gef::Platform* plat, const gef::SkeletonPose* bind)
 
 OutputNodeGraph* OutputNodeGraph::create(const ImVec2& pos)
 {
-	OutputNodeGraph* node = (ThisClass*)ImGui::MemAlloc(sizeof(ThisClass)); IM_PLACEMENT_NEW(node) ThisClass();
+	OutputNodeGraph* node = new OutputNodeGraph();
 
+	//set name, position,, number of inputs and type
 	node->init("Ouput node", pos, "ch1","", MNT_OUTPUT_NODE);
 
 
@@ -37,11 +38,13 @@ OutputNodeGraph* OutputNodeGraph::create(const ImVec2& pos)
 
 bool OutputNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
-	
+	//grab input node and cast
 	CustomeNode* input = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, 0));
 	if (input)
 	{
+		//if
 		output_ = input->getOutput();
+		
 		return true;
 
 	}

@@ -135,9 +135,13 @@ void SceneApp::CleanUp()
 	delete renderer_3d_;
 	renderer_3d_ = NULL;
 	
-	worldPhysics->cleanUp();
-	delete worldPhysics;
-	worldPhysics = nullptr;
+	if (worldPhysics)
+	{
+		worldPhysics->cleanUp();
+		delete worldPhysics;
+		worldPhysics = nullptr;
+	}
+	
 
 }
 

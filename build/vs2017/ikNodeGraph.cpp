@@ -11,6 +11,19 @@ ikNodeGraph::ikNodeGraph() : CustomeNode(), player_(nullptr), effector_position_
 
 ikNodeGraph::~ikNodeGraph()
 {
+	if (variable_table)
+	{
+
+		std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName);
+
+		if (it != variable_table->end())
+		{
+			variable_table->erase(it->first);
+			variable_table->erase(nodeName + ".fix");
+			//variable_table->erase(nodeName + ".looping");
+
+		}
+	}
 }
 
 ikNodeGraph* ikNodeGraph::create(const ImVec2& pos)
@@ -23,30 +36,30 @@ ikNodeGraph* ikNodeGraph::create(const ImVec2& pos)
 	node ->nodeName = "IKNode" + std::to_string(IKidNum);
 	IKidNum++;
 
-	//ikNodeID++;
-	//node->fields.addField(&node->activateRagDoll, "Turn on rag doll");
-	//node->activateRagDoll = false;
-	//node->fields.add
 	return node;
 }
 
 bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
-
+	//gef input node and cast to csutome node
 	CustomeNode* node = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, 0));
 	if (node)
 	{
+		//if the node is active
 		if (active)
 		{
+			//set the fix variable to one from variable table
 			fix = variable_table->at(nodeName + ".fix").toggle;
+			//if the ik node has not been fixed the posion of the effector can change
 			if (!fix)
 			{
 				position = *effector_position_;
 			}
+			//get the output node of the input
 			gef::SkeletonPose pose = node->getOutput();
-			//ik_pose = graph->output->getOutput();
+			//perform ik on pose 
 			CalculateCCD(pose, *player_, position, positions);
-
+			//set the output pose to the one out of the ik node
 			output_ = pose;
 			return true;
 		}
@@ -59,17 +72,14 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 
 void ikNodeGraph::setup(std::map<std::string, varibaleTable>* table ,  const gef::SkeletonPose* bind, gef::SkinnedMeshInstance* play, gef::Vector4* pos)
 {
-
+	//if the node has not been activated set data
 	if (!active)
 	{
-		
 		setBind(bind);
 		player_ = play;
 		effector_position_ = pos;
 		active = true;
-
-
-
+		//store variable table and set data
 		variable_table = table;
 
 		varibaleTable temp;

@@ -109,9 +109,6 @@ struct BoneAnimation : Animation
 	std::vector<AnimationBoneData*> animation_bone_data;
 };
 
-
-
-
 struct Bone {
 	std::string name = "";
 	gef::StringId nameStringId= 0;

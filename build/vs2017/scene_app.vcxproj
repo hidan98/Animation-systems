@@ -130,7 +130,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\..\gef_abertay;..\..\..\imgui-node-editor\ThirdParty\imgui;..\..\..\imgui-node-editor\NodeEditor\Source;..\..\..\imgui-node-editor\NodeEditor\Include;..\..\..\imgui-node-editor\ThirdParty\stb_image;..\..\..\imgui-node-editor\Examples\Common\Application\Include;..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11;..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Include;..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source;..\..\..\imgui-node-editor\Examples\Blueprints;..\..\..\imgui;..\..\..\imgui\addons\imguinodegrapheditor;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\..\gef_abertay;..\..\..\imgui;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader;..\..\..\imgui\examples;..\..\..\imgui\addons\imguinodegrapheditor</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -171,9 +171,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\..\gef_abertay</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\..\gef_abertay;..\..\..\imgui;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader;..\..\..\imgui\examples;..\..\..\imgui\addons\imguinodegrapheditor</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -363,19 +364,15 @@
     <ClCompile Include="..\..\..\bullet3\src\LinearMath\btSerializer64.cpp" />
     <ClCompile Include="..\..\..\bullet3\src\LinearMath\btThreads.cpp" />
     <ClCompile Include="..\..\..\bullet3\src\LinearMath\btVector3.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Drawing.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\Examples\Common\BlueprintUtilities\Source\ax\Widgets.cpp" />
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_api.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp" />
+    <ClCompile Include="..\..\..\imgui\examples\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\..\..\imgui\examples\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\..\..\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\..\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="..\..\ccd.cpp" />
     <ClCompile Include="..\..\gef_debug_drawer.cpp" />
     <ClCompile Include="..\..\load_json.cpp" />
@@ -399,15 +396,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\vertex_colour_unlit_shader.cpp" />
-    <ClCompile Include="Animation3D.cpp" />
     <ClCompile Include="Animation_Utils.cpp" />
     <ClCompile Include="BlendNode.cpp" />
-    <ClCompile Include="BlendNodeGraph.cpp" />
+    <ClCompile Include="BlendNodeGraph.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.;..\..;..\..\..\gef_abertay;..\..\..\imgui;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader;..\..\..\imgui\examples;..\..\..\imgui\addons\imguinodegrapheditor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.;..\..;..\..\..\gef_abertay;..\..\..\imgui;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader;..\..\..\imgui\examples;..\..\..\imgui\addons\imguinodegrapheditor</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="BlendTree.cpp" />
     <ClCompile Include="ClipNode.cpp" />
     <ClCompile Include="ClipNodeGraph.cpp" />
     <ClCompile Include="CustomeNode.cpp" />
-    <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="ikNodeGraph.cpp" />
     <ClCompile Include="JSONParser.cpp" />
     <ClCompile Include="LerpNode2Dgraph.cpp" />
@@ -660,21 +658,18 @@
     <ClInclude Include="..\..\..\bullet3\src\LinearMath\btTransformUtil.h" />
     <ClInclude Include="..\..\..\bullet3\src\LinearMath\btVector3.h" />
     <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Include\Application.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_dx11.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\Examples\Common\Application\Source\DX11\imgui_impl_win32.h" />
     <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_canvas.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_extra_math.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imconfig.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imgui_internal.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\..\..\imgui-node-editor\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.h" />
+    <ClInclude Include="..\..\..\imgui\examples\imgui_impl_dx11.h" />
+    <ClInclude Include="..\..\..\imgui\examples\imgui_impl_win32.h" />
+    <ClInclude Include="..\..\..\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\imgui\imgui_internal.h" />
     <ClInclude Include="..\..\..\imgui\imgui_user.h" />
+    <ClInclude Include="..\..\..\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\..\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\..\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\..\..\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="..\..\ccd.h" />
     <ClInclude Include="..\..\gef_debug_drawer.h" />
     <ClInclude Include="..\..\load_json.h" />
@@ -694,7 +689,6 @@
     <ClInclude Include="BlendTree.h" />
     <ClInclude Include="ClipNodeGraph.h" />
     <ClInclude Include="CustomeNode.h" />
-    <ClInclude Include="GraphNode.h" />
     <ClInclude Include="ikNodeGraph.h" />
     <ClInclude Include="JSONParser.h" />
     <ClInclude Include="LerpNode2Dgraph.h" />
@@ -711,9 +705,6 @@
     <ClInclude Include="TransitionNodeGraph.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_bezier_math.inl" />
-    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_extra_math.inl" />
-    <None Include="..\..\..\imgui-node-editor\NodeEditor\Source\imgui_node_editor_internal.inl" />
     <None Include="..\..\..\imgui\imgui_user.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -8,43 +8,34 @@ ClipNodeGraph::ClipNodeGraph() : CustomeNode(), clip_(nullptr)
 	animTime_ = 0;
 	playBackSpeed_ = 1;
 	looping = false;
-	active = false;
+	//active = false;
 }
 
 
 ClipNodeGraph::~ClipNodeGraph()
 {
-	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
-
-	if (it != variable_table->end())
+	if (variable_table)
 	{
-		variable_table->erase(it->first);
-		variable_table->erase(animation_name + ".playBackSpeed");
-		variable_table->erase(animation_name + ".looping");
+		std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
 
+		if (it != variable_table->end())
+		{
+			variable_table->erase(it->first);
+			variable_table->erase(animation_name + ".playBackSpeed");
+			variable_table->erase(animation_name + ".looping");
+
+		}
 	}
+	
 }
 
 ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 {
-	ThisClass* node = (ThisClass*)ImGui::MemAlloc(sizeof(ThisClass)); IM_PLACEMENT_NEW(node) ThisClass();
+	ClipNodeGraph* node = new ClipNodeGraph();
 
-	// 2) main init
+	//set up name pos, output and type
 	node->init("Clip node", pos, "", "clip", TYPE);
 
-	ImGui::FieldInfo* f = NULL;
-
-	//f = &node->fields.addFieldCustom();
-	// 3) init fields ( this uses the node->fields variable; otherwise we should have overridden other virtual methods (to render and serialize) )
-	node->fields.addField(&node->speed, 1, "Playback speed", "Speed of the animiation");
-	node->fields.addField(&node->active, "edit", "pop up active");
-	//node->fields.addField
-	node->speed = 1.0f;
-	//clip_ = Animation_Utils::LoadAnimation();
-	//f->editedFieldDelegate = &ThisClass::StaticEditFieldCallback;/*
-
-	// 4) set (or load) field values
-	//node->Color = ImColor(255, 255, 0, 255);
 
 	return node;
 }
@@ -52,34 +43,38 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 
 bool ClipNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 {
-	
-
 
 	bool finished = false;
+	//if we have a valid clip
 	if (clip_)
-	{
+	{//grab variables from tabe
 		std::string variable_name = this->animation_name + ".playBackSpeed";
 		playBackSpeed_ = variable_table->at(variable_name).floatData;
 
 		variable_name = this->animation_name + ".looping";
 		looping = variable_table->at(variable_name).toggle;
 
+		//update the time
 		animTime_ += dt * playBackSpeed_;
+		//if the time is greater than the duration
 		if (animTime_ > clip_->duration())
 		{
+			//reset the time  if looping
 			if (looping)
 				animTime_ = std::fmodf(animTime_, clip_->duration());
 			else
 			{
+				//set time to duration if not looping
 				animTime_ = clip_->duration();
 				finished = true;
 			}
 		}
+
 		float time = animTime_ + clip_->start_time();
 
 		output_.SetPoseFromAnim(*clip_, *bindPose, time);
 	}
-	else
+	else///if we dont have a valid animatino return bind pose
 		this->output_ = *bindPose;
 
 	return true;
@@ -87,16 +82,20 @@ bool ClipNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 
 bool ClipNodeGraph::update(float dt, ImGui::NodeGraphEditor* editor)
 {
-	if (clip_) {
+	//no need to not perform this 
+	if (active)
+	{
 		return process(dt, editor);
 	}
+	else return false;
+		
 
-	else
-		return false;
 
 }
 void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind, std::string name)
 {
+
+	//remove previous animation varables from table
 	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
 
 	if (it != variable_table->end())
@@ -106,8 +105,8 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 		variable_table->erase(animation_name + ".looping");
 
 	}
-
-
+	//reset variables for table
+	
 	animation_name = name;
 	varibaleTable temp;
 	temp.type = dataType::string;
@@ -121,6 +120,8 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 	temp.max = 100.f;
 	temp.min = 0.0f;
 	variable_table->insert({ name + ".playBackSpeed", temp });// = playBackSpeed_;
+
+	//set the clip
 	clip_ = anim;
 
 

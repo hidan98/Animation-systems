@@ -66,6 +66,7 @@ gef::Animation* Animation_Utils::LoadAnimation(const char* anim_scene_filename, 
 	return anim;
 }
 
+//read file path whinin a given file
 std::vector<std::string> Animation_Utils::ReadFiles(std::string path)
 {
 	namespace fs = std::experimental::filesystem;
