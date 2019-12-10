@@ -5,6 +5,8 @@
 #include <animation/animation.h>
 #include "ClipNode.h"
 #include"CustomeNode.h"
+
+static int clipNodeID = 0;
 class ClipNodeGraph : public CustomeNode
 {
 protected:
@@ -24,7 +26,7 @@ protected:
 	float speed;
 
 	gef::Animation* clip_;
-
+	std::string nodeName;
 	float animTime_;
 	bool looping;
 	float playBackSpeed_;

@@ -245,7 +245,7 @@ void SceneApp::Render()
 	if(anim)
 		sprite_renderer_->DrawSprite(*anim->getSprite());
 	//if(active)
-//		bone_->render(sprite_renderer_);
+		bone_->render(sprite_renderer_);
 
 	
 	
@@ -366,28 +366,29 @@ void SceneApp::ImGuiRender()
 
 		if (ImGui::BeginMenu("3D"))
 		{
-			//if (modelSelected)
-			//{
-				if (ImGui::MenuItem("Graph"))
-				{
-					active_graph = !active_graph;
-				}
-				
-			//}
+			
 			if (!Active3D)
 			{
+				if (ImGui::MenuItem("Start 3D"))
+				{
+					worldPhysics = new Physics();
+					worldPhysics->init(&platform_, renderer_3d_);
+					graph = new nodeGraph(&platform_, worldPhysics->getWorld());
+					graph->init(effector_position_, &variable_table);
 
-				worldPhysics = new Physics();
-				worldPhysics->init(&platform_, renderer_3d_);
-				graph = new nodeGraph(&platform_, worldPhysics->getWorld());
-				graph->init(effector_position_, &variable_table);
 
-
-				Active3D = true;
+					Active3D = true;
+				}
+				
 			}
 
 			if (Active3D)
 			{
+				if (ImGui::MenuItem("Graph"))
+				{
+					active_graph = !active_graph;
+				}
+
 				if (ImGui::BeginMenu("select model"))
 				{
 					for (int i = 0; i < graph->getModels().size(); i++)

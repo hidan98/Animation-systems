@@ -40,6 +40,9 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 	//set up name pos, output and type
 	node->init("Clip node", pos, "", "clip", TYPE);
 
+	node->nodeName = "ClipNode" + std::to_string(clipNodeID);
+	clipNodeID++;
+
 
 	return node;
 }
@@ -52,10 +55,10 @@ bool ClipNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	//if we have a valid clip
 	if (clip_)
 	{//grab variables from tabe
-		std::string variable_name = this->animation_name + ".playBackSpeed";
+		std::string variable_name = this->nodeName + animation_name + ".playBackSpeed";
 		playBackSpeed_ = variable_table->at(variable_name).floatData;
 
-		variable_name = this->animation_name + ".looping";
+		variable_name = this-> nodeName + animation_name + ".looping";
 		looping = variable_table->at(variable_name).toggle;
 
 		//update the time
@@ -100,13 +103,13 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 {
 
 	//remove previous animation varables from table
-	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
+	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName + animation_name);
 
 	if (it != variable_table->end())
 	{	
 		variable_table->erase(it->first);
-		variable_table->erase(animation_name + ".playBackSpeed");
-		variable_table->erase(animation_name + ".looping");
+		variable_table->erase(nodeName + animation_name + ".playBackSpeed");
+		variable_table->erase(nodeName + animation_name + ".looping");
 
 	}
 	//reset variables for table
@@ -114,16 +117,16 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 	animation_name = name;
 	varibaleTable temp;
 	temp.type = dataType::string;
-	temp.name = animation_name;
-	variable_table->insert({ animation_name, temp});// (animation_name);
+	temp.name = nodeName + animation_name;
+	variable_table->insert({ nodeName + animation_name, temp});// (animation_name);
 	temp.type = dataType::boolean;
 	temp.toggle = false;
-	variable_table->insert({ name + ".looping", temp });// = float(looping);
+	variable_table->insert({ nodeName + name + ".looping", temp });// = float(looping);
 	temp.type = dataType::Real;
 	temp.floatData = 1.0f;
 	temp.max = 100.f;
 	temp.min = 0.0f;
-	variable_table->insert({ name + ".playBackSpeed", temp });// = playBackSpeed_;
+	variable_table->insert({ nodeName +  name + ".playBackSpeed", temp });// = playBackSpeed_;
 
 	//set the clip
 	clip_ = anim;

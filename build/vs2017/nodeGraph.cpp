@@ -380,6 +380,11 @@ void nodeGraph::cleanup()
 		current.mesh_ = nullptr;
 	}
 
+	if (nodeGraphEdit)
+	{
+		nodeGraphEdit->clear();
+	}
+
 	
 	
 }
