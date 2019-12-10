@@ -30,19 +30,16 @@
 
 
 
-// Our state
-bool show_demo_window = true;
-bool show_another_window = false;
-ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 SceneApp::SceneApp(gef::Platform& platform) :
 	Application(platform),
 	sprite_renderer_(NULL),
 	input_manager_(NULL),
 	font_(NULL),
-	sprite_texture_(NULL),
 	renderer_3d_(NULL),
-	worldPhysics(nullptr)
+	worldPhysics(nullptr),
+	anim(nullptr),
+	bone_(nullptr)
 {
 }
 
@@ -58,11 +55,10 @@ void SceneApp::Init()
 	input_manager_ = gef::InputManager::Create(platform_);
 
 
-	anim = new SpriteBasedAnimation();
-	anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
+	//anim = new SpriteBasedAnimation();
+	//anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
 
-	bone_ = new SkeletalAnimation2D();
-	bone_->init("Dragon_tex.json", "Dragon_ske.json", "Dragon_tex.png", platform_);
+	
 
 	sprite_renderer_ = gef::SpriteRenderer::Create(platform_);
 	InitFont();
@@ -120,8 +116,7 @@ void SceneApp::CleanUp()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
-	delete sprite_texture_;
-	sprite_texture_ = NULL;
+
 
 	delete input_manager_;
 	input_manager_ = NULL;
@@ -142,6 +137,33 @@ void SceneApp::CleanUp()
 		worldPhysics = nullptr;
 	}
 	
+	if (anim)
+	{
+		anim->cleanUp();
+		delete anim;
+		anim = nullptr;
+	}
+
+	if (bone_)
+	{
+		bone_->cleanUp();
+		delete bone_;
+		bone_ = nullptr;
+	}
+
+	if (graph)
+	{
+		graph->cleanup();
+		delete graph;
+		graph = nullptr;
+	}
+
+	if (effector_position_)
+	{
+		delete effector_position_;
+		effector_position_ = nullptr;
+	}
+
 
 }
 
@@ -174,8 +196,6 @@ bool SceneApp::Update(float frame_time)
 
 		}
 	}
-	
-
 
 
 	gef::Vector2 mouse_pos(gef::Vector2::kZero);
@@ -200,7 +220,8 @@ bool SceneApp::Update(float frame_time)
 	if(anim)
 		anim->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
-	bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
+	if(bone_)
+		bone_->update(frame_time, gef::Vector2(platform_.width()*0.5f, platform_.height()*0.5f));
 
 	if(worldPhysics)
 		worldPhysics->update(frame_time);
@@ -244,8 +265,9 @@ void SceneApp::Render()
 
 	if(anim)
 		sprite_renderer_->DrawSprite(*anim->getSprite());
-	//if(active)
-		//bone_->render(sprite_renderer_);
+
+	if(bone_)
+		bone_->render(sprite_renderer_);
 
 	
 	
@@ -349,17 +371,46 @@ void SceneApp::ImGuiRender()
 
 				ImGui::EndMenu();
 			}
-			if (ImGui::BeginMenu("Bone Animation"))
+
+
+			if (bone_)
 			{
-				for (int i = 0; i < bone_->getData()->bone_armiture->animation.size(); i++)
+				if (ImGui::BeginMenu("Bone Animation"))
 				{
-					if (ImGui::MenuItem(bone_->getData()->bone_armiture->animation[i]->name.c_str()))
+					for (int i = 0; i < bone_->getData()->bone_armiture->animation.size(); i++)
 					{
-						bone_->setAnimationNum(i);
+						if (ImGui::MenuItem(bone_->getData()->bone_armiture->animation[i]->name.c_str()))
+						{
+							if (!bone_)
+							{
+								bone_ = new SkeletalAnimation2D();
+								bone_->init("Dragon_tex.json", "Dragon_ske.json", "Dragon_tex.png", platform_);
+							}
+							bone_->setAnimationNum(i);
+						}
 					}
+
+					if (bone_)
+					{
+						if (ImGui::MenuItem("stop Bone Animation"))
+						{
+							bone_->cleanUp();
+							delete bone_;
+							bone_ = nullptr;
+						}
+					}
+					ImGui::EndMenu();
 				}
-				ImGui::EndMenu();
 			}
+			else
+			{
+				if (ImGui::MenuItem("Begin bone 2D"))
+				{
+					bone_ = new SkeletalAnimation2D();
+					bone_->init("Dragon_tex.json", "Dragon_ske.json", "Dragon_tex.png", platform_);
+				}
+			}
+			
 			ImGui::EndMenu();
 		}
 

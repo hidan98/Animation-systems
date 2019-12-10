@@ -57,8 +57,7 @@ private:
 	gef::Font* font_;
 	gef::InputManager* input_manager_;
 
-	gef::Texture* sprite_texture_;
-	gef::Sprite sprite_;
+
 
 	SpriteBasedAnimation* anim;
 	SkeletalAnimation2D* bone_;
@@ -95,22 +94,17 @@ private:
 	bool done;
 	bool modelSelected;
 
-	gef::Scene* model_scene;
-	class gef::Mesh* mesh_;
 
-	gef::Mesh* GetFirstMesh(gef::Scene* scene);
-	gef::Skeleton* GetFirstSkeleton(gef::Scene* scene);
+
 
 
 	Physics* worldPhysics;
 
-	gef::SkeletonPose ik_pose;
 	gef::Vector4* effector_position_;
 	float ndc_zmin_;
 
 	PrimitiveRenderer* primitive_renderer_;
 
-	const gef::SkeletonPose* bind_pose;
 
 	std::map<gef::StringId, varibaleTable> variable_table;
 
