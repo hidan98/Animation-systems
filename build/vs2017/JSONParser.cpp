@@ -104,12 +104,13 @@ TextureAtlas* JSONParser::ReadTextureAtlasFromJSON(rapidjson::Document& tex_doc,
 
 }
 
+//reading in subtextures 
 SubTexture* JSONParser::ReadSubTextureFromJSON(const rapidjson::Value& subTex)
 {
 
 	SubTexture* subTexture = new SubTexture;
 
-
+	//check if memeber exhists in file and reeads it in, if not set to default
 	if (subTex.HasMember("frameX"))
 		subTexture->frameX = subTex["frameX"].GetFloat();
 	else
@@ -142,6 +143,7 @@ SubTexture* JSONParser::ReadSubTextureFromJSON(const rapidjson::Value& subTex)
 	else
 		subTexture->frameHeight = subTexture->height;
 
+	//read name and get string id
 	subTexture->name = subTex["name"].GetString();
 	subTexture->nameId = gef::GetStringId(subTexture->name);
 
@@ -174,12 +176,14 @@ Armature* JSONParser::ReadArmitureFromJSON(rapidjson::Document& ske_document)
 
 	const rapidjson::Value& arm = ske_document["armature"].GetArray();
 
-
+	//normaly only one set of armiture but would be able to read in more
 	for (int subtex_num = 0; subtex_num < (int)arm.Size(); subtex_num++)
 	{
 		std::string type = arm[subtex_num]["type"].GetString();
+		//if it is skeliton based animation
 		if (type == "Armature")
 		{
+			//call functions to read in data and store it
 			BoneArmature* armiture_struct = new BoneArmature;
 			armiture_struct->type = arm[subtex_num]["type"].GetString();
 			armiture_struct->name = arm[subtex_num]["name"].GetString();
@@ -188,18 +192,20 @@ Armature* JSONParser::ReadArmitureFromJSON(rapidjson::Document& ske_document)
 			armiture_struct->skin = ReadSkinArmitureFromJSON(arm[subtex_num]);
 			armiture_struct->slot = ReadSlotFromJSON(arm[subtex_num]);
 			armiture_struct->animation = ReadAnimationDataFromJSON(arm[subtex_num]);
+			//return all the armiture data 
 			return armiture_struct;
 		}
-		else if (type == "Sheet")
+		else if (type == "Sheet")	//if it is a sprite sheet based animation
 		{
 			SpriteArmature* armiture_struct = new SpriteArmature();
 
-			
+			//call functions to read in data
 			armiture_struct->type = arm[subtex_num]["type"].GetString();
 			armiture_struct->name = arm[subtex_num]["name"].GetString();
 			armiture_struct->frameRate = arm[subtex_num]["frameRate"].GetFloat();
 			armiture_struct->skin = ReadSkinFromJSON(arm[subtex_num], "Sheet");
 			armiture_struct->animation = ReadSpriteAnimationFromJSON(arm[subtex_num], type.c_str());
+			//return data
 			return armiture_struct;
 		}
 
@@ -212,7 +218,7 @@ Skin* JSONParser::ReadSkinFromJSON(const rapidjson::Value& arm, const char* type
 	const rapidjson::Value& skin_stuff = arm["skin"];
 	Skin* skin_struct = new Skin();
 	
-
+	
 	for (int subtex_num = 0; subtex_num < (int)skin_stuff.Size(); subtex_num++)
 	{
 		const rapidjson::Value& slot = skin_stuff[subtex_num]["slot"];
@@ -239,9 +245,10 @@ SpriteAnimation* JSONParser::ReadSpriteAnimationFromJSON(const rapidjson::Value&
 	SpriteAnimation* animiation_struct = new SpriteAnimation;
 	const rapidjson::Value& animation = arm["animation"];
 
-
+	//only one animation in each file but could read more in
 	for (int subtex_num = 0; subtex_num < (int)animation.Size(); subtex_num++)
 	{
+		//check if members are present, read then store them
 
 		if (animation[subtex_num].HasMember("duration"))
 			animiation_struct->duration = animation[subtex_num]["duration"].GetFloat();
@@ -250,13 +257,15 @@ SpriteAnimation* JSONParser::ReadSpriteAnimationFromJSON(const rapidjson::Value&
 
 		const rapidjson::Value& slot = animation[subtex_num]["slot"];
 
+		//loop through all the slot data in the animation
 		for (int i = 0; i < (int)slot.Size(); i++)
 		{
-
+			//if it is sheet data which it should be 
 			if (std::string(type) == "Sheet")
 			{				
 				const rapidjson::Value& displayFrame = slot[i]["displayFrame"];
 				
+				//loop through all display frames and store
 				for (int j = 0; j < (int)displayFrame.Size(); j++)
 				{
 					if (j == 0)
@@ -274,6 +283,7 @@ SpriteAnimation* JSONParser::ReadSpriteAnimationFromJSON(const rapidjson::Value&
 		}
 
 	}
+	//return all read in data 
 	return animiation_struct;
 }
 
@@ -413,7 +423,7 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 
 	const rapidjson::Value& animation = arm["animation"];
 
-
+	//loop through all animations
 	for (int i = 0; i < (int)animation.Size(); i++)
 	{
 		BoneAnimation* tempAnimationData = new BoneAnimation;
@@ -422,6 +432,7 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 
 		const rapidjson::Value& animationBone = animation[i]["bone"];
 
+		//loop through all bones in animation 
 		for (int j = 0; j < (int)animationBone.Size(); j++)
 		{
 			AnimationBoneData* temp_animation_bone_data = new AnimationBoneData;
@@ -429,10 +440,12 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 			temp_animation_bone_data->nameId = gef::GetStringId(temp_animation_bone_data->name);
 			//temp_animation_bone_data->duration = animationBone[j]["duration"].GetFloat();
 			float start_time = 0;
+			//if the animations manipulates the translation
 			if (animationBone[j].HasMember("translateFrame"))
 			{
 				const rapidjson::Value& translateFrame = animationBone[j]["translateFrame"];
 
+				//loop through all translation keys and store data 
 				for (int k = 0; k < (int)translateFrame.Size(); k++)
 				{
 					translationFrameData tempFrameData ;
@@ -453,15 +466,16 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 					temp_animation_bone_data->translations.push_back(tempFrameData);
 				}
 			}
-			else
+			else//if no translation data available set to default data
 				temp_animation_bone_data->translations.push_back(translationFrameData());
 
-
+			//if the animaiton manipulates the rotation of the animation
 			if (animationBone[j].HasMember("rotateFrame"))
 			{
 				const rapidjson::Value& rotateFrame = animationBone[j]["rotateFrame"];
 
 				start_time = 0;
+				//loop through all the rotation keys and store
 				for (int k = 0; k < (int)rotateFrame.Size(); k++)
 				{
 					rotateFrameData tempRotateData;
@@ -481,15 +495,15 @@ std::vector<BoneAnimation*> JSONParser::ReadAnimationDataFromJSON(const rapidjso
 					temp_animation_bone_data->rotations.push_back(tempRotateData);
 				}
 			}
-			else
+			else//if no data set ot default 
 				temp_animation_bone_data->rotations.push_back(rotateFrameData());
 
 			tempAnimationData->animation_bone_data.push_back(temp_animation_bone_data);
 		}
-
+		//store that bones animatino data 
 		animation_bone_data_vec.push_back(tempAnimationData);
 	}
 
-
+	//return all data 
 	return animation_bone_data_vec;
 }

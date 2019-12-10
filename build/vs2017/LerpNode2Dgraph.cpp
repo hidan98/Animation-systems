@@ -10,6 +10,24 @@ LerpNode2Dgraph::LerpNode2Dgraph() : CustomeNode()
 
 LerpNode2Dgraph::~LerpNode2Dgraph()
 {
+	if (variable_table)
+	{
+		if (variable_table->size() > 0)
+		{
+			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName);
+
+			if (it != variable_table->end())
+			{
+				variable_table->erase(it->first);
+				variable_table->erase(nodeName + ".blendValAB");
+				variable_table->erase(nodeName + ".blendValCD");
+				variable_table->erase(nodeName + ".blendValFinal");
+			}
+		}
+
+		
+	}
+
 }
 
 LerpNode2Dgraph* LerpNode2Dgraph::create(const ImVec2& pos)
@@ -18,15 +36,6 @@ LerpNode2Dgraph* LerpNode2Dgraph::create(const ImVec2& pos)
 	LerpNode2Dgraph* node = new LerpNode2Dgraph();
 
 	node->init("2D node lerp", pos, "clipA;clipB;clipC;clipD", "out", TYPE);
-
-	node->fields.addField(&node->blendAB, 1, "Blend Value", "How much should it blend between clip A and B");
-	node->blendAB = 0.5f;
-
-	node->fields.addField(&node->blendCD, 1, "Blend Value", "How much should it blend between clip C and D");
-	node-> blendCD = 0.5f;
-
-	node->fields.addField(&node->finalBlend, 1, "Blend Value", "How much should it blend between the resulting clips");
-	node->finalBlend = 0.5f;
 
 	node->nodeName = "2dNodeLerp" + std::to_string(NodeId2D);
 
@@ -41,6 +50,7 @@ bool LerpNode2Dgraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	CustomeNode* clipB = nullptr;
 	CustomeNode* clipC = nullptr;
 	CustomeNode* clipD = nullptr;
+	//loop through inputs setting up the custome nodes
 	for (int i = 0; i < InputsCount; i++)
 	{
 		CustomeNode* node = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, i));
@@ -62,14 +72,19 @@ bool LerpNode2Dgraph::process(float dt, ImGui::NodeGraphEditor* editor)
 
 	gef::SkeletonPose AB;
 	AB = *bindPose;
+	//get data from variable table 
 	blendAB = variable_table->at(nodeName + ".blendValAB").floatData;
 	blendCD = variable_table->at(nodeName + ".blendValCD").floatData;
 	finalBlend = variable_table->at(nodeName + ".blendValFinal").floatData;
+
+	//blend clip a and b
 	AB.Linear2PoseBlend(clipA->getOutput(), clipB->getOutput(), blendAB);
 	gef::SkeletonPose CD;
 	CD = *bindPose;
+	//blend clip c and d
 	CD.Linear2PoseBlend(clipC->getOutput(), clipD->getOutput(), blendCD);
 
+	//blend the resulting two clips 
 	output_.Linear2PoseBlend(AB, CD, finalBlend);
 	return true;
 }
@@ -81,6 +96,7 @@ void LerpNode2Dgraph::setUp(std::map<std::string, varibaleTable>* table, const g
 
 	if (!active)
 	{
+		//set up varable table
 		variable_table = table;
 
 		varibaleTable name;

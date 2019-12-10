@@ -108,9 +108,6 @@
     <ClCompile Include="Animation_Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\motion_clip_player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\bullet3\src\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp">
       <Filter>Bullet\BulletCollision\BroadphaseCollision</Filter>
     </ClCompile>
@@ -591,16 +588,7 @@
     <ClCompile Include="..\..\primitive_builder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BlendTree.cpp">
-      <Filter>Source Files\nodeThings</Filter>
-    </ClCompile>
     <ClCompile Include="BlendNodeGraph.cpp">
-      <Filter>Source Files\nodeThings</Filter>
-    </ClCompile>
-    <ClCompile Include="ClipNode.cpp">
-      <Filter>Source Files\nodeThings</Filter>
-    </ClCompile>
-    <ClCompile Include="BlendNode.cpp">
       <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
     <ClCompile Include="ClipNodeGraph.cpp">
@@ -609,22 +597,13 @@
     <ClCompile Include="nodeGraph.cpp">
       <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
-    <ClCompile Include="OutputNode.cpp">
-      <Filter>Source Files\nodeThings</Filter>
-    </ClCompile>
     <ClCompile Include="OutputNodeGraph.cpp">
       <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
     <ClCompile Include="CustomeNode.cpp">
       <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
-    <ClCompile Include="LinearBlendNode.cpp">
-      <Filter>Source Files\nodeThings</Filter>
-    </ClCompile>
     <ClCompile Include="Physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RagDollNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ccd.cpp">
@@ -633,16 +612,7 @@
     <ClCompile Include="..\..\picking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ikNodeGraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\imgui-node-editor\NodeEditor\Source\crude_json.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LerpNode2Dgraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TransitionNodeGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\imgui\imgui.cpp">
@@ -668,6 +638,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\imgui\addons\imguinodegrapheditor\imguinodegrapheditor.cpp">
       <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="LerpNode2Dgraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="RagDollNode.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionNodeGraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="ikNodeGraph.cpp">
+      <Filter>Source Files\nodeThings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -705,12 +687,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BlendTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LinearBlendNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OutputNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="nodeGraph.h">

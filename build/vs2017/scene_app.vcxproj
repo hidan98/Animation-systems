@@ -381,7 +381,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|PSVita'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|PSVita'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\motion_clip_player.cpp" />
     <ClCompile Include="..\..\picking.cpp" />
     <ClCompile Include="..\..\primitive_builder.cpp" />
     <ClCompile Include="..\..\primitive_renderer.cpp" />
@@ -397,21 +396,16 @@
     </ClCompile>
     <ClCompile Include="..\..\vertex_colour_unlit_shader.cpp" />
     <ClCompile Include="Animation_Utils.cpp" />
-    <ClCompile Include="BlendNode.cpp" />
     <ClCompile Include="BlendNodeGraph.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.;..\..;..\..\..\gef_abertay;..\..\..\imgui;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader;..\..\..\imgui\examples;..\..\..\imgui\addons\imguinodegrapheditor</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.;..\..;..\..\..\gef_abertay;..\..\..\imgui;..\..\..\bullet3\src;..\..\..\bullet3\src\LinearMath;..\..\..\bullet3\src\BulletCollision\BroadphaseCollision;..\..\..\bullet3\src\BulletCollision\CollisionDispatch;..\..\..\bullet3\src\BulletCollision\CollisionShapes;..\..\..\bullet3\src\BulletCollision\Gimpact;..\..\..\bullet3\src\BulletCollision\NarrowPhaseCollision;..\..\..\bullet3\src\BulletDynamics\Character;..\..\..\bullet3\src\BulletDynamics\ConstraintSolver;..\..\..\bullet3\src\BulletDynamics\Dynamics;..\..\..\bullet3\src\BulletDynamics\Featherstone;..\..\..\bullet3\src\BulletDynamics\MLCPSolvers;..\..\..\bullet3\src\BulletDynamics\Vehicle;..\..\..\bullet3\Extras\Serialize\BulletWorldImporter;..\..\..\bullet3\Extras\Serialize\BulletFileLoader;..\..\..\imgui\examples;..\..\..\imgui\addons\imguinodegrapheditor</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="BlendTree.cpp" />
-    <ClCompile Include="ClipNode.cpp" />
     <ClCompile Include="ClipNodeGraph.cpp" />
     <ClCompile Include="CustomeNode.cpp" />
     <ClCompile Include="ikNodeGraph.cpp" />
     <ClCompile Include="JSONParser.cpp" />
     <ClCompile Include="LerpNode2Dgraph.cpp" />
-    <ClCompile Include="LinearBlendNode.cpp" />
     <ClCompile Include="nodeGraph.cpp" />
-    <ClCompile Include="OutputNode.cpp" />
     <ClCompile Include="OutputNodeGraph.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="RagDollNode.cpp" />
@@ -692,10 +686,8 @@
     <ClInclude Include="ikNodeGraph.h" />
     <ClInclude Include="JSONParser.h" />
     <ClInclude Include="LerpNode2Dgraph.h" />
-    <ClInclude Include="LinearBlendNode.h" />
     <ClInclude Include="nodeGraph.h" />
     <ClInclude Include="NodeUtilsHeader.h" />
-    <ClInclude Include="OutputNode.h" />
     <ClInclude Include="OutputNodeGraph.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="RagDollNode.h" />

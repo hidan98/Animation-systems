@@ -16,15 +16,19 @@ ClipNodeGraph::~ClipNodeGraph()
 {
 	if (variable_table)
 	{
-		std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
-
-		if (it != variable_table->end())
+		if (variable_table->size() > 0)
 		{
-			variable_table->erase(it->first);
-			variable_table->erase(animation_name + ".playBackSpeed");
-			variable_table->erase(animation_name + ".looping");
+			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
 
+			if (it != variable_table->end())
+			{
+				variable_table->erase(it->first);
+				variable_table->erase(animation_name + ".playBackSpeed");
+				variable_table->erase(animation_name + ".looping");
+
+			}
 		}
+		
 	}
 	
 }

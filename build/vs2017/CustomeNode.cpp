@@ -2,7 +2,7 @@
 #include "imguinodegrapheditor.h"
 
 
-CustomeNode::CustomeNode() : ImGui::Node(), bindPose(nullptr)
+CustomeNode::CustomeNode() : ImGui::Node(), bindPose(nullptr), variable_table(nullptr), platform_(nullptr)
 {
 	active = false;
 }

@@ -9,19 +9,25 @@ RagDollNode::RagDollNode() : CustomeNode(), ragdoll_(nullptr), world_(nullptr)
 
 RagDollNode::~RagDollNode()
 {
+	//if the table exhists
+	if (variable_table)
+	{
+		if (variable_table->size() > 0)
+		{
+			//remove data 
+			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(ragdollNodeName);
 
-	//// remove the rigidbodies from the dynamics world and delete them
-	//for (int i = world_->getNumCollisionObjects() - 1; i >= 0; i--)
-	//{
-	//	btCollisionObject * obj = world_->getCollisionObjectArray()[i];
-	//	btRigidBody * body = btRigidBody::upcast(obj);
-	//	if (body && body->getMotionState())
-	//	{
-	//		delete body->getMotionState();
-	//	}
-	//	world_->removeCollisionObject(obj);
-	//	delete obj;
-	//}
+			if (it != variable_table->end())
+			{
+				variable_table->erase(ragdollNodeName + ".toggle");
+				variable_table->erase(it->first);
+
+			}
+		}
+		
+		
+
+	}
 
 	delete ragdoll_;
 	ragdoll_ = nullptr;
@@ -32,18 +38,25 @@ RagDollNode* RagDollNode::create(const ImVec2& pos)
 {
 	RagDollNode* node = new RagDollNode();
 
+	//set input and output
 	node->init("RagDoll node", pos, "in", "out", TYPE);
 
-	node->fields.addField(&node->activateRagDoll, "Turn on rag doll");
-	node->activateRagDoll = false;
-	//node->fields.add
+	//set name and increase count
+	node->ragdollNodeName = "RagDoll" + std::to_string(RagDollid);
+	RagDollid++;
+
+
 	return node;
 }
 bool RagDollNode::process(float dt, ImGui::NodeGraphEditor* editor)
 {
+	//get input node, if it exhists 
 	CustomeNode* node = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, 0));
 	if (node)
 	{
+		//get data 
+		activateRagDoll = variable_table->at(ragdollNodeName + ".toggle").toggle;
+		//if not activated, update ragdoll based on current pose 
 		if (!activateRagDoll)
 		{
 			ragdoll_->set_pose(node->getOutput());
@@ -52,6 +65,7 @@ bool RagDollNode::process(float dt, ImGui::NodeGraphEditor* editor)
 		}
 		else
 		{
+			//let the rag doll do its thing
 			ragdoll_->UpdatePoseFromRagdoll();
 			output_ = ragdoll_->pose();
 		}
@@ -60,15 +74,27 @@ bool RagDollNode::process(float dt, ImGui::NodeGraphEditor* editor)
 
 	return false;
 }
-void RagDollNode::setup(gef::Platform* plat, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path)
+void RagDollNode::setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path)
 {
 	if (!active)
 	{
 		if (bind->skeleton())
 		{
+			//set up ragdoll 
 			ragdoll_ = new Ragdoll();
 			ragdoll_->set_scale_factor(0.01f);
 
+			//set up variable table
+			variable_table = table;
+
+			varibaleTable data;
+			data.type = dataType::string;
+			data.name = ragdollNodeName;
+			table->insert({ ragdollNodeName ,data });
+
+			data.type = dataType::boolean;
+			data.toggle = false;
+			table->insert({ ragdollNodeName + ".toggle", data });
 
 			ragdoll_->Init(*bind, world, path.c_str());
 			setBind(bind);

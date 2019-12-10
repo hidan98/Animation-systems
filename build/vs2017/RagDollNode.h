@@ -3,6 +3,8 @@
 #include "NodeUtilsHeader.h"
 #include "ragdoll.h"
 #include "btBulletDynamicsCommon.h"
+
+static int RagDollid = 0;
 class RagDollNode: public CustomeNode
 {
 
@@ -21,12 +23,14 @@ protected:
 	Ragdoll* ragdoll_;
 	btDynamicsWorld* world_;
 
+	std::string ragdollNodeName;
+
 
 public:
 	static ThisClass* create(const ImVec2& pos);
 	//bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
-	void setup(gef::Platform* plat, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path);
+	void setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path);
 
 };
 

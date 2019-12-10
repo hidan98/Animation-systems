@@ -13,16 +13,20 @@ ikNodeGraph::~ikNodeGraph()
 {
 	if (variable_table)
 	{
-
-		std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName);
-
-		if (it != variable_table->end())
+		if (variable_table->size() > 0)
 		{
-			variable_table->erase(it->first);
-			variable_table->erase(nodeName + ".fix");
-			//variable_table->erase(nodeName + ".looping");
+			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName);
 
+			if (it != variable_table->end())
+			{
+				variable_table->erase(it->first);
+				variable_table->erase(nodeName + ".fix");
+				//variable_table->erase(nodeName + ".looping");
+
+			}
 		}
+
+		
 	}
 }
 

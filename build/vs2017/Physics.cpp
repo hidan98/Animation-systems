@@ -199,7 +199,7 @@ void Physics::CreateRigidBodies()
 
 void Physics::render(gef::Renderer3D* renderer)
 {
-
+	//draw all physics objejcts 
 	renderer->DrawMesh(floor_gfx_);
 	renderer->DrawMesh(sphere_gfx_);
 

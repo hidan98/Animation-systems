@@ -216,7 +216,7 @@ void nodeGraph::render()
 			{
 				//if a rag doll node has been selected cast it and send data
 				RagDollNode* node = static_cast<RagDollNode*>(active);
-				node->setup(platform, bind_pose, world_, modelData_[current.id].bulletPath);
+				node->setup(variabe_table, bind_pose, world_, modelData_[current.id].bulletPath);
 				break;
 			}
 			case ikNode:

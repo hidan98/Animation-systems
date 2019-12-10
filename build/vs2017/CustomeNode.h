@@ -20,8 +20,8 @@ public:
 	inline void setBind(const gef::SkeletonPose* pose) { bindPose = pose; output_ = *pose; }
 	inline void setPlatform(gef::Platform* plat) { platform_ = plat; }
 protected:
-	//gef::SkeletonPose* bind_pose;
-	//std::vector<CustomeNode*> inputs_;
+
+
 	const gef::SkeletonPose* bindPose;
 	gef::SkeletonPose output_;
 	gef::Platform* platform_;

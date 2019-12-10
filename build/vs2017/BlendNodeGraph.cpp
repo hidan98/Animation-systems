@@ -14,15 +14,21 @@ BlendNodeGraph::~BlendNodeGraph()
 	//if the variable table sill exhists remove variables from it
 	if (variable_table)
 	{
-		std::map<std::string, varibaleTable>::iterator &it = variable_table->find(Nodename);
-
-		if (it != variable_table->end())
+		if (variable_table->size() > 0)
 		{
-			variable_table->erase(it->first);
-			variable_table->erase(Nodename + ".blendVal");
+			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(Nodename);
+			if (it != variable_table->end())
+			{
 
-			variable_table->erase(Nodename + ".partalBlendToggle");
+				variable_table->erase(it->first);
+				variable_table->erase(Nodename + ".blendVal");
+
+				variable_table->erase(Nodename + ".partalBlendToggle");
+			}
 		}
+		
+
+		
 	}
 	
 }

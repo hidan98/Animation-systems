@@ -51,19 +51,24 @@ bool CalculateCCD(
 
 		if (boneIndices.size() >= 2)
 		{
+			//loop backwords
 			for (size_t it = boneIndices.size() - 1; it--;)
 			{
 				int bonePos = boneIndices[it];
 
+				//current bone trans
 				gef::Vector4 currentBone = global_pose[bonePos].GetTranslation();
 				
+				//create a directional vector from the current bone to the end effector 
 				gef::Vector4 eb;
 				eb = endEffectorPos - currentBone;// endEffectorPos;
 				eb.Normalise();
 
+				//create a diretional vector fromt he current bone to the destination 
 				gef::Vector4 db;
 				db = destPointModelSpace - currentBone;// -destPointModelSpace;
 				db.Normalise();
+
 
 				float cosTheta = eb.DotProduct(db);
 				if (cosTheta <= -1)
@@ -73,10 +78,15 @@ bool CalculateCCD(
 
 				float angle = acosf(cosTheta);
 
+				if (std::fabs(angle) < 0.1f)
+					continue;
+
+				//calculate the axis of rotation
 				gef::Vector4 axis;
 				axis = eb.CrossProduct(db);
 				axis.Normalise();
 
+				//calculate the bone rotation angle
 				float sin_ = sin(angle * 0.5f);
 				gef::Quaternion rotation(sin_ * axis.x(), sin_ * axis.y(), sin_ * axis.z(), cos(angle * 0.5f));
 
@@ -97,7 +107,7 @@ bool CalculateCCD(
 				newBoneTrans.SetTranslation(currentBone);
 				global_pose[bonePos] = newBoneTrans;
 
-
+				//loop through the bone indices starting at its current position +1 to update all of its children
 				for (int i = it + 1; i < boneIndices.size(); i++)
 				{
 					int pos = boneIndices[i];
@@ -106,8 +116,6 @@ bool CalculateCCD(
 					gef::Matrix44 inver;// = local_pose[pos];
 					inver.Inverse(current);
 					local_child = global_pose[pos] * inver;
-
-				
 
 					current = global_pose[pos];
 
@@ -119,9 +127,10 @@ bool CalculateCCD(
 					
 
 				}
-
+				//get new positoin of end effector
 				endEffectorPos = global_pose[boneIndices.back()].GetTranslation();
-//				distance = getDistance(endEffectorPos, destPointModelSpace);
+
+				//calculate the new distance
 				distance = (endEffectorPos - destPointModelSpace).Length();
 
 			}
