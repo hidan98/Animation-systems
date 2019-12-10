@@ -23,6 +23,8 @@ public:
 	void render(gef::SpriteRenderer* renderer);
 	inline void setAnimationNum(int num) { animationNum = num; }
 
+	void cleanUp();
+
 private:
 
 	void updateBoneTransform(BoneDataStruct bones);
@@ -32,8 +34,8 @@ private:
 
 	void spriteSetup(SubTexture* sub, gef::Vector2 screenPos, gef::Sprite* sprite);
 
-	float getRotLerp(AnimationBoneData* data, float dt, float duration);
-	gef::Vector2 getTransLerp(AnimationBoneData* data, float dt, float duration);
+	float getRotLerp(AnimationBoneData* data, float dt);
+	gef::Vector2 getTransLerp(AnimationBoneData* data, float dt);
 
 	float lerpRot(float start, float diff, float t);
 

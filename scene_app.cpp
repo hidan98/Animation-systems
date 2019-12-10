@@ -245,7 +245,7 @@ void SceneApp::Render()
 	if(anim)
 		sprite_renderer_->DrawSprite(*anim->getSprite());
 	//if(active)
-		bone_->render(sprite_renderer_);
+		//bone_->render(sprite_renderer_);
 
 	
 	
