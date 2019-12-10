@@ -18,13 +18,13 @@ ClipNodeGraph::~ClipNodeGraph()
 	{
 		if (variable_table->size() > 0)
 		{
-			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(animation_name);
+			std::map<gef::StringId, varibaleTable>::iterator &it = variable_table->find(nameId);
 
 			if (it != variable_table->end())
 			{
 				variable_table->erase(it->first);
-				variable_table->erase(animation_name + ".playBackSpeed");
-				variable_table->erase(animation_name + ".looping");
+				variable_table->erase(playBackID);
+				variable_table->erase(loopingId);
 
 			}
 		}
@@ -41,6 +41,11 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 	node->init("Clip node", pos, "", "clip", TYPE);
 
 	node->nodeName = "ClipNode" + std::to_string(clipNodeID);
+
+	node->nameId = gef::GetStringId(node->nodeName);
+
+	node->playBackID = gef::GetStringId(node->nodeName + ".playbackSpeed");
+	node->loopingId = gef::GetStringId(node->nodeName + ".looping");
 	clipNodeID++;
 
 
@@ -55,11 +60,11 @@ bool ClipNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	//if we have a valid clip
 	if (clip_)
 	{//grab variables from tabe
-		std::string variable_name = this->nodeName + animation_name + ".playBackSpeed";
-		playBackSpeed_ = variable_table->at(variable_name).floatData;
+		//std::string variable_name = this->nodeName + animation_name + ".playBackSpeed";
+		playBackSpeed_ = variable_table->at(playBackID).floatData;
 
-		variable_name = this-> nodeName + animation_name + ".looping";
-		looping = variable_table->at(variable_name).toggle;
+		//variable_name = this-> nodeName + animation_name + ".looping";
+		looping = variable_table->at(loopingId).toggle;
 
 		//update the time
 		animTime_ += dt * playBackSpeed_;
@@ -103,13 +108,13 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 {
 
 	//remove previous animation varables from table
-	std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName + animation_name);
+	std::map<gef::StringId, varibaleTable>::iterator &it = variable_table->find(nameId);
 
 	if (it != variable_table->end())
 	{	
 		variable_table->erase(it->first);
-		variable_table->erase(nodeName + animation_name + ".playBackSpeed");
-		variable_table->erase(nodeName + animation_name + ".looping");
+		variable_table->erase(playBackID);
+		variable_table->erase(loopingId);
 
 	}
 	//reset variables for table
@@ -118,15 +123,25 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 	varibaleTable temp;
 	temp.type = dataType::string;
 	temp.name = nodeName + animation_name;
-	variable_table->insert({ nodeName + animation_name, temp});// (animation_name);
+	nameId = gef::GetStringId(nodeName + animation_name);
+	variable_table->insert({ nameId, temp});// (animation_name);
+
+
 	temp.type = dataType::boolean;
 	temp.toggle = false;
-	variable_table->insert({ nodeName + name + ".looping", temp });// = float(looping);
+	loopingId = gef::GetStringId(nodeName + animation_name + ".looping");
+	
+	temp.name = nodeName + animation_name + ".looping";
+	variable_table->insert({ loopingId, temp });// = float(looping);
 	temp.type = dataType::Real;
 	temp.floatData = 1.0f;
 	temp.max = 100.f;
 	temp.min = 0.0f;
-	variable_table->insert({ nodeName +  name + ".playBackSpeed", temp });// = playBackSpeed_;
+
+	temp.name = nodeName + name + ".playBackSpeed";
+	playBackID = gef::GetStringId(nodeName + name + ".playBackSpeed");
+
+	variable_table->insert({ playBackID, temp });// = playBackSpeed_;
 
 	//set the clip
 	clip_ = anim;

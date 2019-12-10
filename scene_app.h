@@ -112,7 +112,7 @@ private:
 
 	const gef::SkeletonPose* bind_pose;
 
-	std::map<std::string, varibaleTable> variable_table;
+	std::map<gef::StringId, varibaleTable> variable_table;
 
 
 	bool Active3D;

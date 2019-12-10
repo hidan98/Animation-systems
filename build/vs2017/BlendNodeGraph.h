@@ -36,12 +36,16 @@ protected:
 
 	float animTime_;
 	bool partalBlend;
+	gef::StringId partalToggleId;
 	float playBackSpeed_;
 
 	float blendVal;
-
+	gef::StringId blendId;
 
 	std::string Nodename;
+	gef::StringId nameId;
+
+
 
 	std::vector<int> boneInd;
 	//void CustomBlend(const gef::SkeletonPose& start_pose, const gef::SkeletonPose& end_pose);
@@ -56,6 +60,6 @@ public:
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 
 	void setPartalBlends(std::vector<int>& bones) { boneInd.clear(); boneInd = bones; }
-	void setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind);
+	void setup(std::map<gef::StringId, varibaleTable>* table, const gef::SkeletonPose* bind);
 };
 

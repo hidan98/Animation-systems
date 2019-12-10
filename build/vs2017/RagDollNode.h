@@ -25,12 +25,15 @@ protected:
 
 	std::string ragdollNodeName;
 
+	gef::StringId nameID;
+	gef::StringId toggleID;
+
 
 public:
 	static ThisClass* create(const ImVec2& pos);
 	//bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
-	void setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path);
+	void setup(std::map<gef::StringId, varibaleTable>* table, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path);
 
 };
 

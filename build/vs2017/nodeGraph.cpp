@@ -51,7 +51,7 @@ nodeGraph::nodeGraph(gef::Platform* plat, btDiscreteDynamicsWorld* world) : outp
 
 }
 
-void nodeGraph::init(gef::Vector4* pos, std::map<std::string, varibaleTable>* table)
+void nodeGraph::init(gef::Vector4* pos, std::map<gef::StringId, varibaleTable>* table)
 {
 	effector = pos;
 	variabe_table = table;
@@ -103,6 +103,11 @@ void nodeGraph::setUpModel(int pos)
 	current.model = modelData_[pos].scene_;
 		
 	//grab new data 
+	if (current.mesh_)
+	{
+		delete current.mesh_;
+		current.mesh_ = nullptr;
+	}
 	current.mesh_= Animation_Utils::GetFirstMesh(current.model, *platform);
 
 	

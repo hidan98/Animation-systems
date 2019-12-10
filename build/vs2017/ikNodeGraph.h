@@ -23,7 +23,8 @@ protected:
 	gef::Vector4 position;
 	bool fix;
 
-
+	gef::StringId nameId;
+	gef::StringId fixId;
 	
 public:
 
@@ -32,6 +33,6 @@ public:
 	//bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
 	static int ikNodeID;
-	void setup(std::map<std::string, varibaleTable>* table,const gef::SkeletonPose* bind, gef::SkinnedMeshInstance* play, gef::Vector4* pos);
+	void setup(std::map<gef::StringId, varibaleTable>* table,const gef::SkeletonPose* bind, gef::SkinnedMeshInstance* play, gef::Vector4* pos);
 };
 

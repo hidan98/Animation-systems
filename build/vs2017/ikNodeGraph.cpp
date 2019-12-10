@@ -15,12 +15,12 @@ ikNodeGraph::~ikNodeGraph()
 	{
 		if (variable_table->size() > 0)
 		{
-			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(nodeName);
+			std::map<gef::StringId, varibaleTable>::iterator &it = variable_table->find(nameId);
 
 			if (it != variable_table->end())
 			{
 				variable_table->erase(it->first);
-				variable_table->erase(nodeName + ".fix");
+				variable_table->erase(fixId);
 				//variable_table->erase(nodeName + ".looping");
 
 			}
@@ -38,6 +38,9 @@ ikNodeGraph* ikNodeGraph::create(const ImVec2& pos)
 	node->init("Ik Node", pos, "in", "out", TYPE);
 
 	node ->nodeName = "IKNode" + std::to_string(IKidNum);
+	node->nameId = gef::GetStringId(node->nodeName);
+
+	node->fixId = gef::GetStringId(node->nodeName + ".fix");
 	IKidNum++;
 
 	return node;
@@ -53,7 +56,7 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 		if (active)
 		{
 			//set the fix variable to one from variable table
-			fix = variable_table->at(nodeName + ".fix").toggle;
+			fix = variable_table->at(fixId).toggle;
 			//if the ik node has not been fixed the posion of the effector can change
 			if (!fix)
 			{
@@ -74,7 +77,7 @@ bool ikNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 }
 
 
-void ikNodeGraph::setup(std::map<std::string, varibaleTable>* table ,  const gef::SkeletonPose* bind, gef::SkinnedMeshInstance* play, gef::Vector4* pos)
+void ikNodeGraph::setup(std::map<gef::StringId, varibaleTable>* table ,  const gef::SkeletonPose* bind, gef::SkinnedMeshInstance* play, gef::Vector4* pos)
 {
 	//if the node has not been activated set data
 	if (!active)
@@ -89,10 +92,11 @@ void ikNodeGraph::setup(std::map<std::string, varibaleTable>* table ,  const gef
 		varibaleTable temp;
 		temp.type = dataType::string;
 		temp.name = nodeName;
-		variable_table->insert({ nodeName, temp });// (animation_name);
+		variable_table->insert({ nameId, temp });// (animation_name);
 		temp.type = dataType::boolean;
 		temp.toggle = false;
-		variable_table->insert({ nodeName + ".fix", temp });// = float(looping);
+		temp.name = nodeName + ".fix";
+		variable_table->insert({ fixId, temp });// = float(looping);
 
 
 	}

@@ -20,6 +20,8 @@ protected:
 	virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
 
 	float blendAB, blendCD, finalBlend;
+	gef::StringId blendABId, blendCDId, finalBlendId;
+	gef::StringId nameId;
 
 	std::string nodeName;
 
@@ -27,7 +29,7 @@ public:
 	static ThisClass* create(const ImVec2& pos);
 	//bool update(float dt, ImGui::NodeGraphEditor* editor);
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
-	void setUp(std::map<std::string, varibaleTable>* tabel, const gef::SkeletonPose* bind);
+	void setUp(std::map<gef::StringId, varibaleTable>* tabel, const gef::SkeletonPose* bind);
 	// casts:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }

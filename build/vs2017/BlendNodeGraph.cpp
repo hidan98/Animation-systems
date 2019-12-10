@@ -16,14 +16,14 @@ BlendNodeGraph::~BlendNodeGraph()
 	{
 		if (variable_table->size() > 0)
 		{
-			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(Nodename);
+			std::map<gef::StringId, varibaleTable>::iterator &it = variable_table->find(nameId);
 			if (it != variable_table->end())
 			{
 
 				variable_table->erase(it->first);
-				variable_table->erase(Nodename + ".blendVal");
+				variable_table->erase(blendId);
 
-				variable_table->erase(Nodename + ".partalBlendToggle");
+				variable_table->erase(partalToggleId);
 			}
 		}
 		
@@ -53,8 +53,8 @@ bool BlendNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	}
 
 	//grab variables from table
-	blendVal = variable_table->at( Nodename + ".blendVal").floatData;
-	partalBlend = variable_table->at(Nodename + ".partalBlendToggle").toggle;
+	blendVal = variable_table->at( blendId).floatData;
+	partalBlend = variable_table->at(partalToggleId).toggle;
 
 	//if the partal blend has bee selected 
 	if (partalBlend)
@@ -80,13 +80,16 @@ BlendNodeGraph* BlendNodeGraph::create(const ImVec2& pos)
 	node->Nodename = "blendNode" + std::to_string(idCount);
 	idCount++;
 
+	node->nameId = gef::GetStringId(node->Nodename);
+	node->blendId = gef::GetStringId(node->Nodename + ".blendVal");
+	node->partalToggleId = gef::GetStringId(node->Nodename + ".partalBlendToggle");
 	
 
 	//node->fields.add
 	return node;
 }
 
-void BlendNodeGraph::setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind)
+void BlendNodeGraph::setup(std::map<gef::StringId, varibaleTable>* table, const gef::SkeletonPose* bind)
 {
 	if (!active)
 	{
@@ -99,21 +102,21 @@ void BlendNodeGraph::setup(std::map<std::string, varibaleTable>* table, const ge
 		varibaleTable name;
 		name.type = dataType::string;
 		name.name = Nodename;
-		variable_table->insert({ Nodename, name });
+		variable_table->insert({ nameId, name });
 
 		varibaleTable blendVal;
 		blendVal.type = dataType::Real;
 		blendVal.floatData = 0.5f;
 		blendVal.max = 1.0f;
 		blendVal.min = 0.0f;
-
-		variable_table->insert({Nodename + ".blendVal", blendVal });
+		blendVal.name = Nodename + ".blendVal";
+		variable_table->insert({blendId, blendVal });
 
 		varibaleTable toggle;
 		toggle.type = dataType::boolean;
 		toggle.toggle = false;
-
-		variable_table->insert({ Nodename + ".partalBlendToggle", toggle });
+		toggle.name = Nodename + ".partalBlendToggle";
+		variable_table->insert({ partalToggleId, toggle });
 	}
 
 	

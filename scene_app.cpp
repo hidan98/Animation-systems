@@ -445,9 +445,9 @@ void SceneApp::ImGuiRender()
 	for (auto& it : variable_table)
 	{
 		if (it.second.type == dataType::Real)
-			ImGui::SliderFloat(it.first.c_str(), &it.second.floatData, it.second.min, it.second.max);
+			ImGui::SliderFloat(it.second.name.c_str(), &it.second.floatData, it.second.min, it.second.max);
 		else if (it.second.type == dataType::boolean)
-			ImGui::Checkbox(it.first.c_str(), &it.second.toggle);
+			ImGui::Checkbox(it.second.name.c_str(), &it.second.toggle);
 		
 	}
 

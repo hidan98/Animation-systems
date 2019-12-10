@@ -50,10 +50,16 @@ void SkeletalAnimation2D::cleanUp()
 
 			if (json_data_->bone_armiture->animation[i])
 			{
+				for (int j = 0; j < json_data_->bone_armiture->animation[i]->animation_bone_data.size(); j++)
+				{
+					delete json_data_->bone_armiture->animation[i]->animation_bone_data[j];
+					json_data_->bone_armiture->animation[i]->animation_bone_data[j] = nullptr;
+				}
+				json_data_->bone_armiture->animation[i]->animation_bone_data.clear();
 				delete json_data_->bone_armiture->animation[i];
 				json_data_->bone_armiture->animation[i] = nullptr;
+				
 			}
-
 		}
 		json_data_->bone_armiture->animation.clear();
 		
@@ -80,13 +86,25 @@ void SkeletalAnimation2D::cleanUp()
 			}
 		}
 
+		for (auto it : json_data_->bone_armiture->skin)
+		{
+			if (it.second)
+			{
+				delete it.second;
+				it.second = nullptr;
+			}
+		}
+
+
+		delete json_data_;
+		json_data_ = nullptr;
 	}
 }
 
 void SkeletalAnimation2D::init(const char* tex, const char* ske, const char* image, gef::Platform& plat)
 {
 	animationNum = 0;
-	json_data_ = JSONParser::setUpBoneAnimation(tex, ske, gef::Vector2(plat.width() / 2, plat.height() / 2));
+	json_data_ = JSONParser::setUpBoneAnimation(tex, ske, gef::Vector2(plat.width() * 0.5f, plat.height() * 0.5f));
 
 	updateBoneTransform(json_data_->bone_armiture->boneData);
 	updateFinalTransform(json_data_->bone_armiture->slot);
@@ -191,18 +209,13 @@ void SkeletalAnimation2D::spriteSetup(SubTexture* sub, gef::Vector2 screenPos, g
 
 	float posX = screenPos.x + (sub->width * 0.5f - (sub->frameWidth * 0.5f + sub->frameX));
 	float posY = screenPos.y + sub->height * 0.5f - (sub->frameHeight * 0.5f + sub->frameY);
-
-
-
+	   
 	sprite->set_position(gef::Vector4(posX, posY, 0.0f));
-
-
-	sprite->set_uv_position(gef::Vector2(sub->x / json_data_->texture_atlas->width, sub->y / json_data_->texture_atlas->height));
-	sprite->set_uv_width(sub->width / json_data_->texture_atlas->width);
-	sprite->set_uv_height(sub->height / json_data_->texture_atlas->height);
-
-
-
+	
+	sprite->set_uv_position(gef::Vector2(sub->x * json_data_->texture_atlas->devideWidth, sub->y * json_data_->texture_atlas->devideHeight));
+	sprite->set_uv_width(sub->width * json_data_->texture_atlas->devideWidth);
+	sprite->set_uv_height(sub->height *  json_data_->texture_atlas->devideHeight);
+	   
 
 	sprite->set_width(sub->width);
 	sprite->set_height(sub->height);

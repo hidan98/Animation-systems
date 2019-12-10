@@ -17,13 +17,17 @@ struct SubTexture {
 	gef::StringId nameId;
 	float x;
 	gef::Matrix33 subtextureTransform;
+
+	float devideValX, devideValY;
 };
 
 struct TextureAtlas
 {
 	float width;
+	float devideWidth;
 	std::string imagePath;
 	float height;
+	float devideHeight;
 	std::string name;
 	//change from string
 	std::unordered_map<gef::StringId, SubTexture*> sub_textures;

@@ -15,12 +15,12 @@ RagDollNode::~RagDollNode()
 		if (variable_table->size() > 0)
 		{
 			//remove data 
-			std::map<std::string, varibaleTable>::iterator &it = variable_table->find(ragdollNodeName);
+			std::map<gef::StringId, varibaleTable>::iterator &it = variable_table->find(nameID);
 
 			if (it != variable_table->end())
 			{
-				variable_table->erase(ragdollNodeName + ".toggle");
-				variable_table->erase(it->first);
+				variable_table->erase(nameID);
+				variable_table->erase(toggleID);
 
 			}
 		}
@@ -43,6 +43,9 @@ RagDollNode* RagDollNode::create(const ImVec2& pos)
 
 	//set name and increase count
 	node->ragdollNodeName = "RagDoll" + std::to_string(RagDollid);
+	node->nameID = gef::GetStringId(node->ragdollNodeName);
+	node->toggleID = gef::GetStringId(node->nameID + ".toggle");
+
 	RagDollid++;
 
 
@@ -55,7 +58,7 @@ bool RagDollNode::process(float dt, ImGui::NodeGraphEditor* editor)
 	if (node)
 	{
 		//get data 
-		activateRagDoll = variable_table->at(ragdollNodeName + ".toggle").toggle;
+		activateRagDoll = variable_table->at(toggleID).toggle;
 		//if not activated, update ragdoll based on current pose 
 		if (!activateRagDoll)
 		{
@@ -74,7 +77,7 @@ bool RagDollNode::process(float dt, ImGui::NodeGraphEditor* editor)
 
 	return false;
 }
-void RagDollNode::setup(std::map<std::string, varibaleTable>* table, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path)
+void RagDollNode::setup(std::map<gef::StringId, varibaleTable>* table, const gef::SkeletonPose* bind, btDiscreteDynamicsWorld* world, std::string path)
 {
 	if (!active)
 	{
@@ -90,11 +93,12 @@ void RagDollNode::setup(std::map<std::string, varibaleTable>* table, const gef::
 			varibaleTable data;
 			data.type = dataType::string;
 			data.name = ragdollNodeName;
-			table->insert({ ragdollNodeName ,data });
+			table->insert({ nameID ,data });
 
 			data.type = dataType::boolean;
 			data.toggle = false;
-			table->insert({ ragdollNodeName + ".toggle", data });
+			data.name = ragdollNodeName + ".toggle";
+			table->insert({ toggleID, data });
 
 			ragdoll_->Init(*bind, world, path.c_str());
 			setBind(bind);

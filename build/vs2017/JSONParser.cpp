@@ -71,10 +71,18 @@ TextureAtlas* JSONParser::ReadTextureAtlasFromJSON(rapidjson::Document& tex_doc,
 	TextureAtlas* texture_atlas = new TextureAtlas();
 	if(tex_doc.HasMember("name"))
 		texture_atlas->name = tex_doc["name"].GetString();
-	if(tex_doc.HasMember("height"))
+	if (tex_doc.HasMember("height"))
+	{
 		texture_atlas->height = tex_doc["height"].GetFloat();
-	if(tex_doc.HasMember("width"))
+		texture_atlas->devideHeight = 1.0f / texture_atlas->height;
+	}
+		
+	if (tex_doc.HasMember("width"))
+	{
 		texture_atlas->width = tex_doc["width"].GetFloat();
+		texture_atlas->devideWidth = 1.0f / texture_atlas->width;
+	}
+		
 	if(tex_doc.HasMember("imagePath"))
 		texture_atlas->imagePath = tex_doc["imagePath"].GetString();
 
@@ -149,6 +157,9 @@ SubTexture* JSONParser::ReadSubTextureFromJSON(const rapidjson::Value& subTex)
 
 	subTexture->x = subTex["x"].GetFloat();
 	subTexture->y = subTex["y"].GetFloat();
+
+	subTexture->devideValX = 1 / subTexture->width;
+	subTexture->devideValY = 1 / subTexture->height;
 
 	subTexture->subtextureTransform = calculateTransform(*subTexture);
 	return subTexture;

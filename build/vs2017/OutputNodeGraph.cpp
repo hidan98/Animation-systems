@@ -42,13 +42,13 @@ bool OutputNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	CustomeNode* input = static_cast<CustomeNode*>(editor->getInputNodeForNodeAndSlot(this, 0));
 	if (input)
 	{
-		//if
+		//if the input is valud get the ouput from the input node and set it to thte output
 		output_ = input->getOutput();
 		
 		return true;
 
 	}
-	else
+	else//if we dont have an input set the output to the bind pose
 		output_ = *bindPose;
 	return false;
 

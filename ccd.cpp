@@ -93,7 +93,6 @@ bool CalculateCCD(
 				gef::Matrix44 current;
 				current = global_pose[bonePos];
 
-
 				gef::Quaternion currentBoneRot;
 				currentBoneRot.SetFromMatrix(global_pose[bonePos]);
 

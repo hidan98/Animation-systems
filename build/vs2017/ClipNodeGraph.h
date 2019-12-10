@@ -31,6 +31,11 @@ protected:
 	bool looping;
 	float playBackSpeed_;
 
+
+	gef::StringId loopingId;
+	gef::StringId playBackID;
+	gef::StringId nameId;
+
 	//bool active;
 
 	//void setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table);

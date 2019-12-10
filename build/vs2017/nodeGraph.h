@@ -42,7 +42,7 @@ public:
 	~nodeGraph();
 
 	//CustomeNode* getNode() { return static_cast<CustomeNode*>(nge.getNode(0)); }
-	void init(gef::Vector4* pos, std::map<std::string, varibaleTable>* table);
+	void init(gef::Vector4* pos, std::map<gef::StringId, varibaleTable>* table);
 	void update(float dt);
 
 	CustomeNode* output;
@@ -80,7 +80,10 @@ private:
 
 	std::map<gef::StringId, std::string> stringTable;
 
-	std::map<std::string, varibaleTable>* variabe_table;
+	std::map<gef::StringId, varibaleTable>* variabe_table;
+	
+
+
 	std::vector<std::string> modelNames;
 	gef::Scene* current_model;
 	int bonePos;

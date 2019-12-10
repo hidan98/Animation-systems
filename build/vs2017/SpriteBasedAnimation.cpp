@@ -78,9 +78,9 @@ void SpriteBasedAnimation::spriteSetup(SubTexture* sub, gef::Vector2 screenPos)
 	sprite->set_position(gef::Vector4(posX, posY, 0.0f));
 
 	//get the right parts of the texture for the sprite
-	sprite->set_uv_position(gef::Vector2(sub->x / json_data_->texture_atlas->width, sub->y / json_data_->texture_atlas->height));
-	sprite->set_uv_width(sub->width / json_data_->texture_atlas->width);
-	sprite->set_uv_height(sub->height / json_data_->texture_atlas->height);
+	sprite->set_uv_position(gef::Vector2(sub->x * json_data_->texture_atlas->devideWidth, sub->y * json_data_->texture_atlas->devideHeight));
+	sprite->set_uv_width(sub->width * json_data_->texture_atlas->devideWidth);
+	sprite->set_uv_height(sub->height * json_data_->texture_atlas->devideHeight);
 
 
 
