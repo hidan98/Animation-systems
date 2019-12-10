@@ -54,12 +54,6 @@ void SceneApp::Init()
 	// initialise input manager
 	input_manager_ = gef::InputManager::Create(platform_);
 
-
-	//anim = new SpriteBasedAnimation();
-	//anim->init("boy-attack_tex.json", "boy-attack_ske.json", "boy-attack_tex.png", platform_);
-
-	
-
 	sprite_renderer_ = gef::SpriteRenderer::Create(platform_);
 	InitFont();
 
@@ -72,8 +66,6 @@ void SceneApp::Init()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -99,10 +91,6 @@ void SceneApp::Init()
 	modelSelected = false;
 	effector_position_ = new gef::Vector4(0, 0, 0);
 
-	
-
-
-	
 
 	Active3D = false;
 }
@@ -164,7 +152,11 @@ void SceneApp::CleanUp()
 		effector_position_ = nullptr;
 	}
 
-
+	if (primitive_renderer_)
+	{
+		delete primitive_renderer_;
+		primitive_renderer_ = nullptr;
+	}
 }
 
 bool SceneApp::Update(float frame_time)
