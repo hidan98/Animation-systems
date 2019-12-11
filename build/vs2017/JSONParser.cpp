@@ -300,7 +300,7 @@ SpriteAnimation* JSONParser::ReadSpriteAnimationFromJSON(const rapidjson::Value&
 
 BoneDataStruct JSONParser::ReadBoneFromJSON(const rapidjson::Value& val)
 {
-	std::unordered_map<gef::StringId, Bone*> bone_map;
+	std::map<gef::StringId, Bone*> bone_map;
 	std::vector<Bone*> bone_vec;
 
 	const rapidjson::Value& bones = val["bone"];
@@ -366,9 +366,9 @@ gef::Matrix33 JSONParser::calculateSkinSlotMatrix(Trans transform_)
 	return rotate * pos;
 
 }
-std::unordered_map<gef::StringId, SkinSlot*> JSONParser::ReadSkinArmitureFromJSON(const rapidjson::Value& arm)
+std::map<gef::StringId, SkinSlot*> JSONParser::ReadSkinArmitureFromJSON(const rapidjson::Value& arm)
 {
-	std::unordered_map<gef::StringId, SkinSlot*>  skinSlotMap;
+	std::map<gef::StringId, SkinSlot*>  skinSlotMap;
 
 	const rapidjson::Value& skin_data = arm["skin"];
 

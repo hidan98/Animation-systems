@@ -30,7 +30,7 @@ private:
 	void updateBoneTransform(BoneDataStruct bones);
 	void updateFinalTransform(std::vector<Slot*> slot);
 
-	void updateBones(std::vector<BoneAnimation*> animation, std::unordered_map<gef::StringId, Bone*> bones, float dt);
+	void updateBones(std::vector<BoneAnimation*> animation, std::map<gef::StringId, Bone*> bones, float dt);
 
 	void spriteSetup(SubTexture* sub, gef::Vector2 screenPos, gef::Sprite* sprite);
 

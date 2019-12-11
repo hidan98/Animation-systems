@@ -27,7 +27,7 @@ private:
 	static BoneDataStruct ReadBoneFromJSON(const rapidjson::Value& arm);
 	static Trans ReadTransformFromJSON(const rapidjson::Value& trans);
 	static gef::Matrix33 calculateSkinSlotMatrix(Trans transform_);
-	static std::unordered_map<gef::StringId, SkinSlot*> ReadSkinArmitureFromJSON(const rapidjson::Value& arm);
+	static std::map<gef::StringId, SkinSlot*> ReadSkinArmitureFromJSON(const rapidjson::Value& arm);
 	static std::vector<Slot*> ReadSlotFromJSON(const rapidjson::Value& arm);
 	static std::vector<BoneAnimation*> ReadAnimationDataFromJSON(const rapidjson::Value& arm);
 

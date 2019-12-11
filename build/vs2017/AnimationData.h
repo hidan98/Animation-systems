@@ -3,7 +3,7 @@
 #include "maths/matrix44.h"
 #include "maths/matrix33.h"
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include "system/string_id.h"
 struct SubTexture {
 	float frameY;
@@ -30,7 +30,7 @@ struct TextureAtlas
 	float devideHeight;
 	std::string name;
 	//change from string
-	std::unordered_map<gef::StringId, SubTexture*> sub_textures;
+	std::map<gef::StringId, SubTexture*> sub_textures;
 	gef::Matrix33 baseTransform;
 };
 
@@ -152,15 +152,14 @@ struct SpriteArmature : Armature {
 };
 
 struct BoneDataStruct {
-	std::unordered_map<gef::StringId, Bone*> bonesMap;
+	std::map<gef::StringId, Bone*> bonesMap;
 	std::vector<Bone*> bonesVec;
 };
 
 struct BoneArmature : Armature {
 	BoneDataStruct boneData;
 	//std::vector<Bone*> bones;
-	std::unordered_map <gef::StringId, SkinSlot*> skin;
-	//std::vector<SkinSlot*> skin;
+	std::map <gef::StringId, SkinSlot*> skin;
 	std::vector<Slot*> slot;
 	std::vector<BoneAnimation*> animation;
 

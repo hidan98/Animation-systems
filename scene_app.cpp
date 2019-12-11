@@ -417,7 +417,7 @@ void SceneApp::ImGuiRender()
 					worldPhysics = new Physics();
 					worldPhysics->init(&platform_, renderer_3d_);
 					graph = new nodeGraph(&platform_, worldPhysics->getWorld());
-					graph->init(effector_position_, &variable_table);
+					graph->init(effector_position_, variable_table);
 
 
 					Active3D = true;

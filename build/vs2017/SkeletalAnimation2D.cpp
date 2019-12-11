@@ -223,7 +223,7 @@ void SkeletalAnimation2D::spriteSetup(SubTexture* sub, gef::Vector2 screenPos, g
 }
 
 
-void SkeletalAnimation2D::updateBones(std::vector<BoneAnimation*> animation, std::unordered_map<gef::StringId, Bone*> bones, float dt)
+void SkeletalAnimation2D::updateBones(std::vector<BoneAnimation*> animation, std::map<gef::StringId, Bone*> bones, float dt)
 {
 
 	for (unsigned i = 0; i < animation[animationNum]->animation_bone_data.size(); i++)

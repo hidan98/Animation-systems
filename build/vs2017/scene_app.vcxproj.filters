@@ -93,18 +93,6 @@
     <ClCompile Include="..\..\load_texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JSONParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\load_json.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteBasedAnimation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SkeletalAnimation2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Animation_Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -650,6 +638,18 @@
     </ClCompile>
     <ClCompile Include="ikNodeGraph.cpp">
       <Filter>Source Files\nodeThings</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalAnimation2D.cpp">
+      <Filter>Source Files\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteBasedAnimation.cpp">
+      <Filter>Source Files\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONParser.cpp">
+      <Filter>Source Files\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\load_json.cpp">
+      <Filter>Source Files\2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1512,5 +1512,6 @@
     <None Include="..\..\..\imgui\imgui_user.inl">
       <Filter>Source Files\Imgui</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

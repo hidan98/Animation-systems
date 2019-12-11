@@ -107,11 +107,13 @@ void Ragdoll::UpdatePoseFromRagdoll()
 			// BASED ON THE RIGID BODY WORLD TRANSFORM
 			gef::Matrix44 rb_offInverse = bone_rb_offset_matrices_[bone_num];
 			rb_offInverse.Inverse(rb_offInverse);
+
 			gef::Matrix44 pw_inverse;
 			if (joint.parent != -1)
 				pw_inverse = bone_world_matrices_[joint.parent];
 			else
 				pw_inverse.SetIdentity();
+
 			pw_inverse.Inverse(pw_inverse);
 			pw_inverse.SetTranslation(pw_inverse.GetTranslation() * 0.01);
 

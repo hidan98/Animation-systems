@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="SpriteBasedAnimation">
+    <Position X="12.75" Y="2.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QAABAAAAAQAAAAAAABAAIAAAABAAQAIAAEgAQAAEAAA=</HashCode>
+      <FileName>SpriteBasedAnimation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClipNodeGraph" Collapsed="true">
+    <Position X="17.75" Y="5.5" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="ClipNodeGraph::Base" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ClipNodeGraph.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="ClipNodeGraph::ThisClass" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ClipNodeGraph.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAIgUCAABABIAABAIAAAAIA4CAAAQEAAEBAAAEEgAQ=</HashCode>
+      <FileName>ClipNodeGraph.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomeNode">
+    <Position X="17.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgAACAAAAgACAAAQAIggAAAAAAAAAIAIAgEAEA=</HashCode>
+      <FileName>CustomeNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SubTexture" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAQAQIAAAAAAAAAEQAAgAABgAQQAAIA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TextureAtlas" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQABQAwAAAAAAAAAAEAAAAABAAAAgAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Trans" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgABAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SkinSlot" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAACgEAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Display" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Skin" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Animation" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SpriteAnimation" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="rotateFrameData" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="translationFrameData" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AnimationBoneData" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAKAACIBAAAAAICAQAAAgAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BoneAnimation" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Bone" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAIAAARAAAQAAAAAAAgEAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Slot" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAARAAAAAAAAAAAAEAAAAAAAAAIAAACA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Armature" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAFIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SpriteArmature" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BoneDataStruct" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BoneArmature" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAIAAAAAAAAAABAACAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SpriteJSONData" Collapsed="true">
+    <Position X="9.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BoneJSONData" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>AnimationData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
