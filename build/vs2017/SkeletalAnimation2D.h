@@ -21,7 +21,7 @@ public:
 
 	inline BoneJSONData* getData() { return json_data_; }
 	void render(gef::SpriteRenderer* renderer);
-	inline void setAnimationNum(int num) { animationNum = num; }
+	void setAnimationNum(int num);// { animationNum = num; }
 
 	void cleanUp();
 

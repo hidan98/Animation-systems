@@ -123,16 +123,16 @@ void SkeletalAnimation2D::init(const char* tex, const char* ske, const char* ima
 
 void SkeletalAnimation2D::updateBoneTransform(BoneDataStruct bones)
 {
-	for (auto it : bones.bonesVec)
+	for (int i = 0; i< bones.bonesVec.size(); i++)
 	{
-		if (it->parentStringId != 0)
+		if (bones.bonesVec[i]->parentStringId != 0)
 		{
-			gef::Matrix33 temp = bones.bonesMap[it->parentStringId]->worldBoneMatrix;
-			it->worldBoneMatrix = it->local_transform * temp;
+			gef::Matrix33 temp = bones.bonesMap[bones.bonesVec[i]->parentStringId]->worldBoneMatrix;
+			bones.bonesVec[i]->worldBoneMatrix = bones.bonesVec[i]->local_transform * temp;
 
 		}
 		else
-			it->worldBoneMatrix = it->local_transform;
+			bones.bonesVec[i]->worldBoneMatrix = bones.bonesVec[i]->local_transform;
 	}
 }
 
@@ -157,24 +157,8 @@ void SkeletalAnimation2D::updateFinalTransform(std::vector<Slot*> slot)
 
 
 
-		/*for (unsigned j = 0; j < armature_->skinBone->size(); j++)
-		{
-			if (slot[i].parent == armature_->skinBone->at(j).name)
-			{
-				sprite_offset = armature_->skinBone->at(j).transformMatrix;
-				break;
-			}
-		}*/
 		boneTrans = json_data_->bone_armiture->boneData.bonesMap[slot[i]->parentStringId]->worldBoneMatrix;
 
-		/*for (unsigned j = 0; j < armature_->bones->size(); j++)
-		{
-			if (slot[i].parent == armature_->bones->at(j).name)
-			{
-				boneTrans = armature_->bones->at(j).worldBoneMatrix;
-				break;
-			}
-		}*/
 
 		slot[i]->finalTransform = subTexTrans * sprite_offset * boneTrans * json_data_->texture_atlas->baseTransform;
 	}
@@ -261,7 +245,7 @@ gef::Vector2 SkeletalAnimation2D::getTransLerp(AnimationBoneData* data, float dt
 	if (data->translations.size() > 1)
 	{
 		if (data->translations[transPos].duration > 0)
-			data->translationFrameTime = data->translationFrameTime + 1 % (int)data->translations[transPos].duration;
+			data->translationFrameTime = data->translationFrameTime + 1 % (int)data->translations[transPos].duration * dt * 24.f;
 		else
 			data->translationFrameTime = 0;
 
@@ -322,7 +306,7 @@ float SkeletalAnimation2D::getRotLerp(AnimationBoneData* data, float dt)
 		//check to see if the current animation duration is grater than 0, i its 0 its the end of the animation and reset time
 		if (data->rotations[rotatePos].duration > 0)
 		{
-			data->rotationFrameTime = data->rotationFrameTime + 1 % (int)data->rotations[rotatePos].duration;
+			data->rotationFrameTime = data->rotationFrameTime + 1 % (int)data->rotations[rotatePos].duration * dt* 24.f;
 		}
 		else
 			data->rotationFrameTime = 0;
@@ -393,3 +377,22 @@ void SkeletalAnimation2D::render(gef::SpriteRenderer* renderer)
 
 }
 
+void SkeletalAnimation2D::setAnimationNum(int num)
+{
+	animationNum =  num;
+	for (unsigned i = 0; i < json_data_->bone_armiture->boneData.bonesVec.size(); i++)
+	{
+		
+		Bone* bone = json_data_->bone_armiture->boneData.bonesVec[i];
+
+	
+
+		bone->local_transform.Rotate(gef::DegToRad(bone->transform.sk));
+
+
+		bone->local_transform.SetTranslation(gef::Vector2(bone->transform.x, bone->transform.y));
+	}
+
+	updateBoneTransform(json_data_->bone_armiture->boneData);
+
+}

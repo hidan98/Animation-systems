@@ -98,11 +98,15 @@ bool CalculateCCD(
 
 				gef::Quaternion newBoneRot;
 
+				//add ik bone rotation to current bone rotation 
 				newBoneRot = currentBoneRot * rotation;
 				newBoneRot.Normalise();
 
+				//convert new bone rotation to a matrix
 				gef::Matrix44 newBoneTrans;
 				newBoneTrans.Rotation(newBoneRot);
+
+				//set the position to previouse positino as we are only rotatiting
 				newBoneTrans.SetTranslation(currentBone);
 				global_pose[bonePos] = newBoneTrans;
 
@@ -112,15 +116,19 @@ bool CalculateCCD(
 					int pos = boneIndices[i];
 					gef::Matrix44 local_child;
 
-					gef::Matrix44 inver;// = local_pose[pos];
+					//calculate local child bone transform
+					gef::Matrix44 inver;
 					inver.Inverse(current);
 					local_child = global_pose[pos] * inver;
 
+					//set current parent trans to the current world child trans 
 					current = global_pose[pos];
 
+					//new world child bone trans
 					gef::Matrix44 worldChild;
 					worldChild = local_child* newBoneTrans;
 					
+					//set new parent trans to new worldchild bone trans
 					newBoneTrans = worldChild;
 					global_pose[pos] = worldChild;
 					

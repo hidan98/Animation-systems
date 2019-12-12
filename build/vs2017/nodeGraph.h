@@ -20,8 +20,6 @@ struct modelData
 	std::string name;
 	gef::Scene* scene_ = nullptr;
 	std::map<gef::StringId, gef::Animation*> animations_;
-	// std::vector<gef::Animation*> animations_;
-	//gef::Animation* animation_;
 	std::string bulletPath;
 
 };
@@ -59,16 +57,11 @@ public:
 
 	void setUpModel(int pos);
 private:
-	//:MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGraphEditor&);
-
-	void getParent(int pos);
-
-	//void setUpAnimations();
+	
 	const gef::SkeletonPose* bind_pose;	
 	ImGui::NodeGraphEditor* nodeGraphEdit;
 	
 	gef::Platform* platform;
-
 
 	std::vector<modelData> modelData_;
 
@@ -84,7 +77,7 @@ private:
 	
 
 
-	std::vector<std::string> modelNames;
+	
 	gef::Scene* current_model;
 	int bonePos;
 	

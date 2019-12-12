@@ -30,9 +30,7 @@ static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGr
 	case ikNode: return ikNodeGraph::create(pos);
 	case BledNode2D: return LerpNode2Dgraph::create(pos);
 		//case transNode: return TransitionNodeGraph::create(pos);
-#   ifdef IMGUI_USE_AUTO_BINDING
-	case MNT_TEXTURE_NODE: return TextureNode::Create(pos);
-#   endif //IMGUI_USE_AUTO_BINDING
+
 	default:
 		IM_ASSERT(true);    // Missing node type creation
 		return NULL;
@@ -55,7 +53,7 @@ void nodeGraph::init(gef::Vector4* pos, std::map<gef::StringId, varibaleTable>* 
 {
 	effector = pos;
 	variabe_table = table;
-	modelNames = Animation_Utils::ReadFiles("3DModels");
+	std::vector<std::string> modelNames = Animation_Utils::ReadFiles("3DModels");
 	//loop through all founds paths
 	for (int i = 0; i < modelNames.size(); i++)
 	{
@@ -94,12 +92,15 @@ void nodeGraph::init(gef::Vector4* pos, std::map<gef::StringId, varibaleTable>* 
 }
 static ImGui::NodeGraphEditor nge;
 
+
 void nodeGraph::setUpModel(int pos)
 {
+	
 	current.id = pos;
 	bind_pose = nullptr;
 	nodeGraphEdit = &nge;
 
+	//select the model from the imported model files
 	current.model = modelData_[pos].scene_;
 		
 	//grab new data 
@@ -108,22 +109,24 @@ void nodeGraph::setUpModel(int pos)
 		delete current.mesh_;
 		current.mesh_ = nullptr;
 	}
-	current.mesh_= Animation_Utils::GetFirstMesh(current.model, *platform);
 
-	
+	current.mesh_= Animation_Utils::GetFirstMesh(current.model, *platform);	
 	current.skel = Animation_Utils::GetFirstSkeleton(current.model);
 	
+	//if a skeliton exhists clean it up
 	if (current.skel)
 	{
 		if (current.skinnedMesh)
 		{
 			delete current.skinnedMesh;
 			current.skinnedMesh = nullptr;
+
 			//clear previous nodes
 			nodeGraphEdit->clear();
 		}
 		current.skinnedMesh = nullptr;
-		
+
+		//set up a new skinned mesh 
 		current.skinnedMesh = new gef::SkinnedMeshInstance(*current.skel);
 		current.skinnedMesh->set_mesh(current.mesh_);
 		current.skinnedMesh->UpdateBoneMatrices(current.skinnedMesh->bind_pose());
@@ -141,9 +144,9 @@ void nodeGraph::setUpModel(int pos)
 	if (nodeGraphEdit->isInited())
 	{
 
-		nge.registerNodeTypes(MyNodeTypeNames, MNT_COUNT, MyNodeFactory, NULL, -1);
+		nodeGraphEdit->registerNodeTypes(MyNodeTypeNames, MNT_COUNT, MyNodeFactory, NULL, -1);
 
-		nge.registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
+		nodeGraphEdit->registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
 
 	}
 	//set up outut
@@ -162,16 +165,9 @@ void nodeGraph::update(float dt)
 {	
 	ImVector<ImGui::Node*> out;
 
-
-	//if the node edditotr has not been set up 
-	if (nodeGraphEdit->isInited())
-	{
-		//create a new output node
-		nge.registerNodeTypes(MyNodeTypeNames, MNT_COUNT, MyNodeFactory, NULL, -1);
-		nge.registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
-	}
-
+	//get and store the ouput node every frame 
 	nodeGraphEdit->getAllNodesOfType(MNT_OUTPUT_NODE, &out);
+	//convert it to our custome type
 	CustomeNode* temp = static_cast<CustomeNode*>(out[0]);
 	output = temp;
 	
@@ -182,6 +178,8 @@ void nodeGraph::render()
 	nge;
 	nodeGraphEdit = &nge;
 
+	//if the node edditotr has not been set up 
+	
 
 	//if we have a model
 	if (current.skinnedMesh)
@@ -342,7 +340,7 @@ void nodeGraph::render()
 	}
 	
 
-	nge.render();
+	nodeGraphEdit->render();
 }
 
 void nodeGraph::cleanup()

@@ -93,6 +93,7 @@ void SpriteBasedAnimation::spriteSetup(SubTexture* sub, gef::Vector2 screenPos)
 
 void SpriteBasedAnimation::cleanUp()
 {
+
 	for (auto& it : json_data_->texture_atlas->sub_textures)
 	{
 		delete it.second;
