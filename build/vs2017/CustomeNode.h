@@ -16,7 +16,7 @@ public:
 	inline virtual void setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<gef::StringId, varibaleTable>* table) { if (!active) { platform_ = plat; bindPose = bind; output_ = *bind; variable_table = table; active = true; } }
 
 	gef::SkeletonPose getOutput() { return output_; }
-	void SetOutput(gef::SkeletonPose* pose) { output_ = *pose; }
+	inline void SetOutput(gef::SkeletonPose* pose) { output_ = *pose; }
 	inline void setBind(const gef::SkeletonPose* pose) { bindPose = pose; output_ = *pose; }
 	inline void setPlatform(gef::Platform* plat) { platform_ = plat; }
 protected:

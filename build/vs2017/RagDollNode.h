@@ -18,8 +18,8 @@ protected:
 	static const int TYPE = ragDoll;
 	bool activateRagDoll;
 
-	virtual const char* getTooltip() const { return "Clip Node tooltip."; }
-	virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
+	inline virtual const char* getTooltip() const { return "Clip Node tooltip."; }
+	inline virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
 	Ragdoll* ragdoll_;
 	btDynamicsWorld* world_;
 

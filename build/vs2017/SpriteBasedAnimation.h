@@ -12,7 +12,7 @@ public:
 
 	void update(float dt, gef::Vector2 screenPos);
 
-	gef::Sprite* getSprite() { return sprite; }
+	inline gef::Sprite* getSprite() { return sprite; }
 
 	void cleanUp();
 

@@ -203,6 +203,6 @@ void Physics::render(gef::Renderer3D* renderer)
 	renderer->DrawMesh(floor_gfx_);
 	renderer->DrawMesh(sphere_gfx_);
 
-	if (dynamics_world_)
-		dynamics_world_->debugDrawWorld();
+	//if (dynamics_world_)
+		//dynamics_world_->debugDrawWorld();
 }

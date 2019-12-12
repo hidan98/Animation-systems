@@ -38,9 +38,10 @@ ClipNodeGraph* ClipNodeGraph::create(const ImVec2& pos)
 	ClipNodeGraph* node = new ClipNodeGraph();
 
 	//set up name pos, output and type
-	node->init("Clip node", pos, "", "clip", TYPE);
+	
 
 	node->nodeName = "ClipNode" + std::to_string(clipNodeID);
+	node->init(node->nodeName.c_str(), pos, "", "clip", TYPE);
 
 	node->nameId = gef::GetStringId(node->nodeName);
 

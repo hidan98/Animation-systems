@@ -35,7 +35,7 @@ ikNodeGraph* ikNodeGraph::create(const ImVec2& pos)
 	ikNodeGraph* node = new ikNodeGraph();
 
 	node->nodeName = "IKNode";// +std::to_string(ikNodeID);
-	node->init("Ik Node", pos, "in", "out", TYPE);
+	node->init(node->nodeName.c_str(), pos, "in", "out", TYPE);
 
 	node ->nodeName = "IKNode" + std::to_string(IKidNum);
 	node->nameId = gef::GetStringId(node->nodeName);

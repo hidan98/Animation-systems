@@ -46,8 +46,8 @@ public:
 	void update(float dt);
 
 	CustomeNode* output;
-	void updateOut(float dt) { output->update(dt, nodeGraphEdit); }
-	currentData* getCurrent() { return &current; }
+	inline void updateOut(float dt) { output->update(dt, nodeGraphEdit); }
+	inline currentData* getCurrent() { return &current; }
 
 	currentData current;
 
@@ -55,7 +55,7 @@ public:
 
 	void render();
 
-	std::vector<std::string>& getModels() { return modelNames; }
+	inline std::vector<std::string>& getModels() { return modelNames; }
 
 	void setUpModel(int pos);
 private:

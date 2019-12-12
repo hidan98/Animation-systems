@@ -39,7 +39,8 @@ SceneApp::SceneApp(gef::Platform& platform) :
 	renderer_3d_(NULL),
 	worldPhysics(nullptr),
 	anim(nullptr),
-	bone_(nullptr)
+	bone_(nullptr),
+	graph(nullptr)
 {
 }
 
@@ -174,18 +175,18 @@ bool SceneApp::Update(float frame_time)
 		if (graph->output)
 		{
 			graph->updateOut(frame_time);
-			if (done)
-			{
-				graph->update(time);
-				gef::Matrix44 player_trans;
-				player_trans.SetIdentity();
+			
+			
+			graph->update(time);
+			gef::Matrix44 player_trans;
+			player_trans.SetIdentity();
 
-				gef::Matrix44 scale;
-				scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
-				graph->getCurrent()->skinnedMesh->UpdateBoneMatrices(graph->output->getOutput());				
+			gef::Matrix44 scale;
+			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+			graph->getCurrent()->skinnedMesh->UpdateBoneMatrices(graph->output->getOutput());		
 
-				graph->getCurrent()->skinnedMesh->set_transform(scale * player_trans);
-			}
+			graph->getCurrent()->skinnedMesh->set_transform(scale * player_trans);
+			
 
 		}
 	}
@@ -246,11 +247,11 @@ void SceneApp::Render()
 	}
 	
 
-	primitive_renderer_->Reset();
+	//primitive_renderer_->Reset();
 
 	//RenderEndEffector();
 
-	primitive_renderer_->Render(*renderer_3d_);
+	//primitive_renderer_->Render(*renderer_3d_);
 
 	renderer_3d_->End();
 	sprite_renderer_->Begin(false);
@@ -464,7 +465,7 @@ void SceneApp::ImGuiRender()
 
 				graph->render();
 
-				done = true;
+			
 
 			}
 			ImGui::End();

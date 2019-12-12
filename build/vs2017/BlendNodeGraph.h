@@ -21,15 +21,11 @@ protected:
 
 	static const int TYPE = LinearBlendNode;
 
-	virtual const char* getTooltip() const { return "Clip Node tooltip."; }
-	virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
-	/*virtual void getDefaultTitleBarColors(ImU32& defaultTitleTextColorOut, ImU32& defaultTitleBgColorOut, float& defaultTitleBgColorGradientOut) const {
-		// [Optional Override] customize Node Title Colors [default values: 0,0,-1.f => do not override == use default values from the Style()]
-		defaultTitleTextColorOut = IM_COL32(230, 180, 180, 255); defaultTitleBgColorOut = IM_COL32(40, 55, 55, 200); defaultTitleBgColorGradientOut = 0.025f;
-	}*/
-	//virtual bool canBeCopied() const { return false; }
+	inline virtual const char* getTooltip() const { return "Clip Node tooltip."; }
+	inline virtual const char* getInfo() const { return "Clip Node info.\n\nThis is supposed to display some info about this node."; }
 
-	virtual void onEdited() {}
+
+	//virtual void onEdited() {}
 	float speed;
 
 	bool render(float);
@@ -59,7 +55,7 @@ public:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 
-	void setPartalBlends(std::vector<int>& bones) { boneInd.clear(); boneInd = bones; }
+	inline void setPartalBlends(std::vector<int>& bones) { boneInd.clear(); boneInd = bones; }
 	void setup(std::map<gef::StringId, varibaleTable>* table, const gef::SkeletonPose* bind);
 };
 
