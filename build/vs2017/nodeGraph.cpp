@@ -13,9 +13,7 @@
 
 //based on example
 static const char* MyNodeTypeNames[MNT_COUNT] = { "IKNode", "Linear Blend","2D Blend", "Rag doll","Clip"
-#						ifdef IMGUI_USE_AUTO_BINDING
-,"Texture"
-#						endif
+
 ,"Output"
 };
 
@@ -53,7 +51,7 @@ void nodeGraph::init(gef::Vector4* pos, std::map<gef::StringId, varibaleTable>* 
 {
 	effector = pos;
 	variabe_table = table;
-	std::vector<std::string> modelNames = Animation_Utils::ReadFiles("3DModels");
+	modelNames = Animation_Utils::ReadFiles("3DModels");
 	//loop through all founds paths
 	for (int i = 0; i < modelNames.size(); i++)
 	{

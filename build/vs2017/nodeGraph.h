@@ -68,7 +68,7 @@ private:
 	btDiscreteDynamicsWorld* world_;
 	std::string bulletPath;
 
-
+	std::vector<std::string> modelNames;
 	gef::Vector4* effector;
 
 	std::map<gef::StringId, std::string> stringTable;
