@@ -40,6 +40,8 @@ protected:
 
 	//void setup(gef::Platform* plat, const gef::SkeletonPose* bind, std::map<std::string, float>* table);
 	std::string animation_name;
+
+	bool render(float);
 	
 
 public:

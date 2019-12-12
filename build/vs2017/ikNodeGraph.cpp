@@ -101,3 +101,9 @@ void ikNodeGraph::setup(std::map<gef::StringId, varibaleTable>* table ,  const g
 
 	}
 }
+
+bool ikNodeGraph::render(float)
+{
+	ImGui::Text("Requires one input\nProvides one output\nUse ImGui window to sellect the bones to be used for ik chain\nUse Variable table to fix bones in place");
+	return false;
+}

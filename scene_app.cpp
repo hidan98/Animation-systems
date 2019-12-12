@@ -91,6 +91,7 @@ void SceneApp::Init()
 	modelSelected = false;
 	effector_position_ = new gef::Vector4(0, 0, 0);
 
+	sprites = Animation_Utils::ReadSprites();
 
 	Active3D = false;
 }
@@ -324,32 +325,17 @@ void SceneApp::ImGuiRender()
 		{
 			if (ImGui::BeginMenu("Sprite based animation"))
 			{
-				for (auto it : sprites)
+				for (int i =0; i < sprites.size(); i++)
 				{
-					if (ImGui::MenuItem(lookUp[it.first].c_str()))
+					if (ImGui::MenuItem(sprites[i].name.c_str()))
 					{
-						std::string png, tex, ske;
-						for (int i = 0; i < it.second.size(); i++)
-						{
-							if (it.second[i].find(".png") != std::string::npos)
-							{
-								png = it.second[i];
-							}
-							else if (it.second[i].find("ske.json") != std::string::npos)
-							{
-								ske = it.second[i];
-							}
-							else if (it.second[i].find("tex.json") != std::string::npos)
-							{
-								tex = it.second[i];
-							}
-						}
+						
 						if (anim)
 							anim->cleanUp();
 						else
 							anim = new SpriteBasedAnimation();
 
-						anim->init(tex.c_str(), ske.c_str(), png.c_str(), platform());
+						anim->init(sprites[i].tex.c_str(), sprites[i].ske.c_str(), sprites[i].png.c_str(), platform());
 					}
 				}
 
@@ -417,7 +403,7 @@ void SceneApp::ImGuiRender()
 					worldPhysics = new Physics();
 					worldPhysics->init(&platform_, renderer_3d_);
 					graph = new nodeGraph(&platform_, worldPhysics->getWorld());
-					graph->init(effector_position_, variable_table);
+					graph->init(effector_position_, &variable_table);
 
 
 					Active3D = true;
@@ -427,10 +413,14 @@ void SceneApp::ImGuiRender()
 
 			if (Active3D)
 			{
-				if (ImGui::MenuItem("Graph"))
+				if (modelSelected)
 				{
-					active_graph = !active_graph;
+					if (ImGui::MenuItem("Graph"))
+					{
+						active_graph = !active_graph;
+					}
 				}
+				
 
 				if (ImGui::BeginMenu("select model"))
 				{
@@ -482,19 +472,22 @@ void SceneApp::ImGuiRender()
 	}
 
 
-	ImGui::Begin("variable table");
-
-
-	for (auto& it : variable_table)
+	if (Active3D)
 	{
-		if (it.second.type == dataType::Real)
-			ImGui::SliderFloat(it.second.name.c_str(), &it.second.floatData, it.second.min, it.second.max);
-		else if (it.second.type == dataType::boolean)
-			ImGui::Checkbox(it.second.name.c_str(), &it.second.toggle);
-		
-	}
+		ImGui::Begin("variable table");
 
-	ImGui::End();
+
+		for (auto& it : variable_table)
+		{
+			if (it.second.type == dataType::Real)
+				ImGui::SliderFloat(it.second.name.c_str(), &it.second.floatData, it.second.min, it.second.max);
+			else if (it.second.type == dataType::boolean)
+				ImGui::Checkbox(it.second.name.c_str(), &it.second.toggle);
+
+		}
+
+		ImGui::End();
+	}
 
 	//Application_Frame();
 
@@ -539,46 +532,7 @@ void SceneApp::UpdateImGuiIO()
 
 void SceneApp::getSpiteFile()
 {
-	namespace fs = std::experimental::filesystem;
-	std::vector<std::string> tempStrings;
-
-	for (auto entry : fs::directory_iterator("Sprite"))
-	{
-		std::string temp = entry.path().string();
-		for (int i = 0; i < temp.size(); i++)
-		{
-			if (temp[i] == '\\')
-			{
-				temp[i] = '/';
-			}
-		}
-		tempStrings.push_back(temp);
-
-	}
-		//tempStrings.push_back();
 	
-
-	for (int i = 0; i < tempStrings.size(); i++)
-	{
-		std::vector<std::string> folder;
-		for (auto entry : fs::directory_iterator(tempStrings[i]))
-		{
-			std::string tempString = entry.path().string();
-			for (int i = 0; i < tempString.size(); i++)
-			{
-				if (tempString[i] == '\\')
-				{
-					tempString[i] = '/';
-				}
-			}
-			folder.push_back(tempString);
-			
-		}
-		lookUp.insert({ gef::GetStringId(tempStrings[i]), tempStrings[i] });
-		sprites.insert({ gef::GetStringId(tempStrings[i]), folder });
-
-
-	}
 
 }
 

@@ -65,9 +65,6 @@ private:
 	void getSpiteFile();
 
 
-	std::map<gef::StringId, std::vector<std::string>> sprites;
-
-	std::map<gef::StringId, std::string> lookUp;
 
 
 	bool active_graph;
@@ -107,7 +104,7 @@ private:
 
 
 	std::map<gef::StringId, varibaleTable> variable_table;
-
+	std::vector<spritePath> sprites;
 
 	bool Active3D;
 };

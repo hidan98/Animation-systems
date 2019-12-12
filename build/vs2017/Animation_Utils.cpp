@@ -1,7 +1,7 @@
 #include "Animation_Utils.h"
 #include <experimental/filesystem>
-
-
+#include <algorithm>
+namespace fs = std::experimental::filesystem;
 Animation_Utils::Animation_Utils()
 {
 }
@@ -69,7 +69,7 @@ gef::Animation* Animation_Utils::LoadAnimation(const char* anim_scene_filename, 
 //read file path whinin a given file
 std::vector<std::string> Animation_Utils::ReadFiles(std::string path)
 {
-	namespace fs = std::experimental::filesystem;
+	
 	std::vector<std::string> files;
 	for (auto entry : fs::directory_iterator(path))
 	{
@@ -79,4 +79,56 @@ std::vector<std::string> Animation_Utils::ReadFiles(std::string path)
 	}
 	return files;
 
+}
+
+std::vector<spritePath> Animation_Utils::ReadSprites()
+{
+
+	std::vector<std::string> tempStrings;
+
+	for (auto entry : fs::directory_iterator("Sprite"))
+	{
+		std::string temp = entry.path().string();
+		for (int i = 0; i < temp.size(); i++)
+		{
+			std::replace(temp.begin(), temp.end(), '\\', '/');
+		}
+		tempStrings.push_back(temp);
+
+	}
+
+	std::vector<spritePath> folder;
+
+	for (int i = 0; i < tempStrings.size(); i++)
+	{
+		
+		spritePath pathStruct;
+		pathStruct.name = tempStrings[i];
+		for (auto& entry : fs::directory_iterator(tempStrings[i]))
+		{
+			std::string path = entry.path().string();
+						
+			std::replace(path.begin(), path.end(), '\\', '/');
+								
+				
+			if (path.find(".png") != std::string::npos)
+			{
+				pathStruct.png = path;
+			}
+			else if (path.find("ske.json") != std::string::npos)
+			{
+				pathStruct.ske = path;
+			}
+			else if (path.find("tex.json") != std::string::npos)
+			{
+				pathStruct.tex = path;
+			}
+				
+
+		}
+		folder.push_back(pathStruct);
+
+		
+	}
+	return folder;
 }

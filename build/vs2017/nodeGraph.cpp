@@ -163,6 +163,14 @@ void nodeGraph::update(float dt)
 	ImVector<ImGui::Node*> out;
 
 
+	//if the node edditotr has not been set up 
+	if (nodeGraphEdit->isInited())
+	{
+		//create a new output node
+		nge.registerNodeTypes(MyNodeTypeNames, MNT_COUNT, MyNodeFactory, NULL, -1);
+		nge.registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
+	}
+
 	nodeGraphEdit->getAllNodesOfType(MNT_OUTPUT_NODE, &out);
 	CustomeNode* temp = static_cast<CustomeNode*>(out[0]);
 	output = temp;
@@ -174,13 +182,6 @@ void nodeGraph::render()
 	nge;
 	nodeGraphEdit = &nge;
 
-	//if the node edditotr has not been set up 
-	if (nodeGraphEdit->isInited())
-	{
-		//create a new output node
-		nge.registerNodeTypes(MyNodeTypeNames, MNT_COUNT, MyNodeFactory, NULL, -1);
-		nge.registerNodeTypeMaxAllowedInstances(MNT_OUTPUT_NODE, 1);
-	}
 
 	//if we have a model
 	if (current.skinnedMesh)

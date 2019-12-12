@@ -53,3 +53,9 @@ bool OutputNodeGraph::process(float dt, ImGui::NodeGraphEditor* editor)
 	return false;
 
 }
+
+bool OutputNodeGraph::render(float)
+{
+	ImGui::Text("Only one output instance can exhist,\n require only one input");
+	return false;
+}

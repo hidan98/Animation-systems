@@ -24,6 +24,15 @@ struct varibaleTable
 	std::string name;
 };
 
+
+struct spritePath{
+
+	std::string name;
+	std::string tex;
+	std::string ske;
+	std::string png;
+};
+
 class Animation_Utils
 {
 public:
@@ -35,5 +44,6 @@ public:
 	static gef::Animation* LoadAnimation(const char* anim_scene_filename, const char* anim_name, gef::Platform* platform_);
 
 	static std::vector<std::string> ReadFiles(std::string path);
+	static std::vector<spritePath> ReadSprites();
 };
 

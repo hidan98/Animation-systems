@@ -32,7 +32,7 @@ protected:
 	virtual void onEdited() {}
 	float speed;
 
-	
+	bool render(float);
 
 	float animTime_;
 	bool partalBlend;

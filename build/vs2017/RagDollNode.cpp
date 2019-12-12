@@ -39,12 +39,17 @@ RagDollNode* RagDollNode::create(const ImVec2& pos)
 	RagDollNode* node = new RagDollNode();
 
 	//set input and output
-	node->init("RagDoll node", pos, "in", "out", TYPE);
+
 
 	//set name and increase count
 	node->ragdollNodeName = "RagDoll" + std::to_string(RagDollid);
+
+
+	node->init(node->ragdollNodeName.c_str(), pos, "in", "out", TYPE);
+
+
 	node->nameID = gef::GetStringId(node->ragdollNodeName);
-	node->toggleID = gef::GetStringId(node->nameID + ".toggle");
+	node->toggleID = gef::GetStringId(node->ragdollNodeName + ".toggle");
 
 	RagDollid++;
 
@@ -109,4 +114,15 @@ void RagDollNode::setup(std::map<gef::StringId, varibaleTable>* table, const gef
 		
 	}
 }
+
+
+bool RagDollNode::render(float)
+{
+
+
+	ImGui::Text("Requires one input\nProvides one output\nUse Variable table to to active\nShould be used right before the output node.");
+	return false;
+}
+
+
 

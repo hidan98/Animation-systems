@@ -25,6 +25,8 @@ protected:
 
 	std::string nodeName;
 
+	bool render(float);
+
 public:
 	static ThisClass* create(const ImVec2& pos);
 	//bool update(float dt, ImGui::NodeGraphEditor* editor);

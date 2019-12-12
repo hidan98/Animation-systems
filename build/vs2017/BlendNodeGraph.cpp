@@ -72,13 +72,15 @@ BlendNodeGraph* BlendNodeGraph::create(const ImVec2& pos)
 {
 	BlendNodeGraph* node = new BlendNodeGraph();
 
-	node->init("Ouput node", pos, "ch1;ch2", "out", TYPE);
+	
 
 	node->blendVal = 0.5f;
 	node->partalBlend = false;
 
 	node->Nodename = "blendNode" + std::to_string(idCount);
 	idCount++;
+
+	node->init(node->Nodename.c_str(), pos, "ch1;ch2", "out", TYPE);
 
 	node->nameId = gef::GetStringId(node->Nodename);
 	node->blendId = gef::GetStringId(node->Nodename + ".blendVal");
@@ -119,11 +121,12 @@ void BlendNodeGraph::setup(std::map<gef::StringId, varibaleTable>* table, const 
 		variable_table->insert({ partalToggleId, toggle });
 	}
 
-	
+}
 
-	
-
-	
+bool BlendNodeGraph::render(float)
+{
+	ImGui::Text("Requires 2 inputs.\nProvides one output\nUse variable tabel to edit values");
+	return false;
 
 }
 

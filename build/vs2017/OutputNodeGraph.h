@@ -25,6 +25,8 @@ protected:
 
 	bool process(float dt, ImGui::NodeGraphEditor* editor);
 
+	bool render(float /*nodeWidth*/);
+
 	bool temp;
 
 	void setup(gef::Platform* plat, const  gef::SkeletonPose* bind);
@@ -37,10 +39,7 @@ public:
 	inline static ThisClass* Cast(Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 	inline static const ThisClass* Cast(const Node* n) { return Node::Cast<ThisClass>(n, TYPE); }
 protected:
-	bool render(float /*nodeWidth*/) {
-		ImGui::Text("There can be a single\ninstance of this class.\nTry and see if it's true!");
-		return false;
-	}
+	
 
 };
 

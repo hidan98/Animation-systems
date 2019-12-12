@@ -25,6 +25,8 @@ protected:
 
 	gef::StringId nameId;
 	gef::StringId fixId;
+
+	bool render(float);
 	
 public:
 

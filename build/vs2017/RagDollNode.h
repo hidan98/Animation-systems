@@ -28,6 +28,8 @@ protected:
 	gef::StringId nameID;
 	gef::StringId toggleID;
 
+	bool render(float);
+
 
 public:
 	static ThisClass* create(const ImVec2& pos);

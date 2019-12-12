@@ -152,3 +152,10 @@ void ClipNodeGraph::setClip(gef::Animation* anim, const gef::SkeletonPose* bind,
 }
 
 
+bool ClipNodeGraph::render(float)
+{
+
+	ImGui::Text("Provides one output\nUse ImGui window to sellect aniation\nUse Variable table to edit playback");
+	return false;
+}
+

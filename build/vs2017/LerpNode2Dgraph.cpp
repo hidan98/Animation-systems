@@ -35,10 +35,12 @@ LerpNode2Dgraph* LerpNode2Dgraph::create(const ImVec2& pos)
 
 	LerpNode2Dgraph* node = new LerpNode2Dgraph();
 
-	node->init("2D node lerp", pos, "clipA;clipB;clipC;clipD", "out", TYPE);
+	
 
 	node->nodeName = "2dNodeLerp" + std::to_string(NodeId2D);
 	node->nameId = gef::GetStringId(node->nodeName);
+
+	node->init(node->nodeName.c_str(), pos, "clipA;clipB;clipC;clipD", "out", TYPE);
 
 	node->blendABId = gef::GetStringId(node->nodeName + ".blendValAB");
 	node->blendCDId = gef::GetStringId(node->nodeName + ".blendValCD");
@@ -125,4 +127,10 @@ void LerpNode2Dgraph::setUp(std::map<gef::StringId, varibaleTable>* table, const
 		setBind(bind);
 		active = true;
 	}
+}
+
+bool LerpNode2Dgraph::render(float)
+{
+	ImGui::Text("Requires four input\nProvides one output\nUse Variable table to to set blend values");
+	return false;
 }
