@@ -178,14 +178,12 @@ bool SceneApp::Update(float frame_time)
 			
 			
 			graph->update(time);
-			gef::Matrix44 player_trans;
-			player_trans.SetIdentity();
+			
 
-			gef::Matrix44 scale;
-			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+		
 			graph->getCurrent()->skinnedMesh->UpdateBoneMatrices(graph->output->getOutput());		
 
-			graph->getCurrent()->skinnedMesh->set_transform(scale * player_trans);
+		
 			
 
 		}
@@ -242,6 +240,11 @@ void SceneApp::Render()
 	{
 		if (graph->getCurrent()->skinnedMesh)
 		{
+			gef::Matrix44 player_trans;
+			player_trans.SetIdentity();
+			gef::Matrix44 scale;
+			scale.Scale(gef::Vector4(0.01f, 0.01f, 0.01f));
+			graph->getCurrent()->skinnedMesh->set_transform(scale * player_trans);
 			renderer_3d_->DrawSkinnedMesh(*graph->getCurrent()->skinnedMesh, graph->getCurrent()->skinnedMesh->bone_matrices());
 		}
 	}

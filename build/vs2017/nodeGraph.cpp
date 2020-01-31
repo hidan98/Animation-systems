@@ -38,7 +38,7 @@ static ImGui::Node* MyNodeFactory(int nt, const ImVec2& pos, const ImGui::NodeGr
 }
 
 
-nodeGraph::nodeGraph(gef::Platform* plat, btDiscreteDynamicsWorld* world) : output(NULL),  platform(nullptr)
+nodeGraph::nodeGraph(gef::Platform* plat, btDiscreteDynamicsWorld* world) : output(NULL),  platform(nullptr), nodeGraphEdit(nullptr)
 {
 
 	platform = plat;
